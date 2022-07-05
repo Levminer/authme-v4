@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.button {
+		@apply flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border-2 bg-white py-4 px-6 text-xl font-medium text-black outline-none duration-200 ease-linear hover:bg-transparent hover:text-white focus-visible:ring-4 focus-visible:ring-popup-magenta;
+	}
+
+	.buttonm {
+		@apply flex w-60 transform cursor-pointer items-center gap-2 rounded-2xl border-2 border-transparent px-8 py-[16.5px] text-left text-xl font-medium text-white duration-200 ease-in hover:!border-gray-700 hover:!bg-gray-700 motion-reduce:transform-none motion-reduce:transition-none;
+	}
+
+	.select {
+		@apply form-select cursor-pointer rounded-2xl !border-white py-4 text-xl font-medium text-black !ring-transparent duration-200 ease-linear hover:bg-gray-200 focus-visible:!ring-4 focus-visible:!ring-popup-magenta;
+	}
+
+	.input {
+		@apply rounded-2xl border-2 border-white bg-transparent py-4 px-6 text-xl text-white outline-none;
+	}
+}
+
+/* body */
+body {
+	color: white;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background: url(https://fluent-svelte.vercel.app/bloom-mica-dark.png);
+	line-height: normal;
+	font-family: system-ui, Arial;
+	accent-color: red;
+}
+
+/* headings */
+h1 {
+	font-size: 64px;
+	font-weight: 700;
+}
+
+/* main card */
+h2 {
+	font-size: 32px;
+	font-weight: 700;
+}
+
+h3 {
+	font-size: 24px;
+	color: #d3cfcf;
+}
+
+/* secondary card */
+h4 {
+	font-size: 24px;
+	font-weight: 500;
+}
+
+h5 {
+	font-size: 18px;
+	color: #d3cfcf;
+}
+
+.transparent-900 {
+	background-color: hsla(0, 0%, 100%, 5.12%);
+}
+
+.transparent-800 {
+	background-color: hsla(0, 0%, 100%, 3.26%);
+}
+
+.transparentHover:hover {
+	background-color: hsla(0, 0%, 100%, 1.86%);
+}
+
+/* selection */
+::selection {
+	color: white;
+	background: gray;
+}
+
+.progress {
+	top: -30px;
+	position: relative;
+	width: 73%;
+	height: 15px;
+	border-radius: 30px;
+	overflow: hidden;
+}
+
+.progress__fill {
+	width: 0%;
+	height: 100%;
+	background: white;
+	transition: all 0.2s;
+}
+
