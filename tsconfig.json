@@ -11,6 +11,6 @@
 		"checkJs": true,
 		"isolatedModules": true
 	},
-	"include": ["interface/**/*.d.ts", "interface/**/*.ts", "interface/**/*.js", "interface/**/*.svelte", "interface/vite.config.js", "interface/svelte.config.js"],
+	"include": ["interface/**/*.d.ts", "interface/**/*.ts", "interface/**/*.js", "interface/**/*.svelte", "libraries/**/*.d.ts"],
 	"exclude": ["dist", "interface/svelte.config.js", "interface/vite.config.js"]
 }
