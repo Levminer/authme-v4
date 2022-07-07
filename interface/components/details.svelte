@@ -5,7 +5,9 @@
 			<ChevronUpIcon class={`${open ? "rotate-180 transform" : ""} h-5 w-5 text-white`} />
 		</DisclosureButton>
 		<Transition enter="transition duration-200 ease-out" enterFrom="transform scale-95 opacity-0" enterTo="transform scale-100 opacity-100" leave="transition duration-200 ease-out" leaveFrom="transform scale-100 opacity-100" leaveTo="transform scale-95 opacity-0">
-			<DisclosurePanel class="px-4 pt-4 pb-2 text-left text-lg text-gray-200">If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked.</DisclosurePanel>
+			<DisclosurePanel class="px-4 pt-4 pb-2 text-left text-lg text-gray-200">
+				<slot />
+			</DisclosurePanel>
 		</Transition>
 	</Disclosure>
 </div>

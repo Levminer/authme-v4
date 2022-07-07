@@ -8,7 +8,7 @@
 	}
 
 	.buttonm {
-		@apply flex w-60 transform cursor-pointer items-center gap-2 rounded-2xl border-2 border-transparent px-8 py-[16.5px] text-left text-xl font-medium text-white duration-200 ease-in hover:!border-gray-700 hover:!bg-gray-700 motion-reduce:transform-none motion-reduce:transition-none;
+		@apply transparentHover flex w-60 transform cursor-pointer items-center gap-2 rounded-2xl border-2 border-transparent px-8 py-[16.5px] text-left text-xl font-medium text-white duration-200 ease-in motion-reduce:transform-none motion-reduce:transition-none;
 	}
 
 	.select {
@@ -80,18 +80,17 @@ h5 {
 }
 
 .progress {
-	top: -30px;
 	position: relative;
-	width: 73%;
+	width: 95%;
 	height: 15px;
+	background: hsla(0, 0%, 100%, 5.12%);
 	border-radius: 30px;
 	overflow: hidden;
 }
 
-.progress__fill {
+.progressFill {
 	width: 0%;
 	height: 100%;
 	background: white;
 	transition: all 0.2s;
 }
-

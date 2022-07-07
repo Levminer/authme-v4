@@ -35,5 +35,6 @@ module.exports = {
 		"no-var": ["error"],
 		"no-unused-vars": ["warn"],
 		"no-use-before-define": ["off"],
+		"svelte/valid-compile": ["off"],
 	},
 }
