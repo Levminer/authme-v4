@@ -4,11 +4,15 @@
 
 @layer components {
 	.button {
-		@apply flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border-2 bg-white py-4 px-6 text-xl font-medium text-black outline-none duration-200 ease-linear hover:bg-transparent hover:text-white focus-visible:ring-4 focus-visible:ring-popup-magenta;
+		@apply flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border-2 border-white bg-white py-4 px-6 text-xl font-medium text-black outline-none duration-200 ease-linear hover:bg-transparent hover:text-white focus-visible:ring-4 focus-visible:ring-popup-magenta;
 	}
 
-	.buttonm {
-		@apply transparentHover flex w-60 transform cursor-pointer items-center gap-2 rounded-2xl border-2 border-transparent px-8 py-[16.5px] text-left text-xl font-medium text-white duration-200 ease-in motion-reduce:transform-none motion-reduce:transition-none;
+	.menuButton {
+		@apply transparent-900-hover mx-3 mt-0 mb-3 flex h-20 w-20 flex-col items-center justify-center rounded-xl font-medium duration-200 ease-linear hover:text-gray-200;
+	}
+
+	.selectedMenuButton {
+		@apply mx-3 mb-3 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-white font-medium text-black duration-200 ease-linear hover:bg-gray-200;
 	}
 
 	.select {
@@ -67,6 +71,10 @@ h5 {
 
 .transparent-800 {
 	background-color: hsla(0, 0%, 100%, 3.26%);
+}
+
+.transparent-900-hover:hover {
+	background-color: hsla(0, 0%, 100%, 4.8%);
 }
 
 .transparentHover:hover {
