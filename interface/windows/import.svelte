@@ -1,39 +1,47 @@
-<div class="transparent-900 m-auto mt-40 mb-60 w-3/5 rounded-2xl p-10 text-center">
-	<h1>Supported QR codes</h1>
-	<div class="mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
-			<h2>Available options</h2>
-			<h3>List of the currently supported QR codes. You can import from more types at the same time.</h3>
+<div class="transparent-900 m-auto my-20 w-4/5 rounded-2xl p-10 text-left">
+	<h1 class="px-10">Supported QR codes</h1>
+	<div class="mx-auto flex flex-col items-center justify-center rounded-2xl p-10">
+		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
+			<div>
+				<h2>TOTP 2FA QR code</h2>
+				<h3>A TOTP QR code is that you find mostly everywhere, if you want to setup 2FA. Consist of 6 digits which are changing every 30 seconds.</h3>
+			</div>
+			<div class="ml-20 flex gap-3">
+				<button class="button requirePassword">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+					More information
+				</button>
+			</div>
 		</div>
 
-		<div class="mb-10 flex w-full flex-row justify-center gap-2 sm:flex-wrap">
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
-				<h4 class="mb-3">TOTP 2FA QR code</h4>
-				<h5 class="mb-3">A TOTP QR code is that you find mostly everywhere, if you want to setup 2FA. Consist of 6 digits which are changing every 30 seconds.</h5>
-				<a class="link" href="http://">More info</a>
+		<div class="transparent-800 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
+			<div>
+				<h2>Google Authenticator QR code</h2>
+				<h3>A Google Authenticator code is what you can export, and contains all of your already imported codes.</h3>
 			</div>
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
-				<h4 class="mb-3">Google Authenticator QR code</h4>
-				<h5 class="mb-3">A Google Authenticator code is what you can export, and contains all of your already imported codes.</h5>
-				<a class="link" href="http://">More info</a>
+			<div class="ml-20 flex gap-3">
+				<button class="button requirePassword">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+					More information
+				</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="transparent-900 m-auto mt-40 mb-60 w-3/5 rounded-2xl p-10 text-center">
-	<h1>Import codes</h1>
-	<div class="mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
-			<h2>Choose method</h2>
-			<h3>You can import your 2FA codes many way. Choose the most convenient way for you.</h3>
-		</div>
-
-		<div class="mb-10 flex w-full flex-row justify-center gap-2 sm:flex-wrap">
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
-				<h4 class="mb-3">Import from images</h4>
-				<h5 class="mb-3">Choose images that contain a 2FA QR code.</h5>
-
+<div class="transparent-900 m-auto mb-20 w-4/5 rounded-2xl p-10 text-left">
+	<h1 class="px-10">Choose import method</h1>
+	<div class="mx-auto flex flex-col items-center justify-center rounded-2xl p-10">
+		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
+			<div>
+				<h2>Import from images</h2>
+				<h3>Choose images that contain a 2FA QR code.</h3>
+			</div>
+			<div class="ml-10 flex gap-3">
 				<button class="button requirePassword">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -42,13 +50,17 @@
 						<path d="M4 15l4 -4a3 5 0 0 1 3 0l5 5" />
 						<path d="M14 14l1 -1a3 5 0 0 1 3 0l2 2" />
 					</svg>
-					<span>Choose images</span>
+					Choose images
 				</button>
 			</div>
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
-				<h4 class="mb-3">Enter secret manually</h4>
-				<h5 class="mb-3">Enter a TOTP secret key and name manually.</h5>
+		</div>
 
+		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
+			<div>
+				<h2>Enter secret manually</h2>
+				<h3>Enter a TOTP secret key and name manually.</h3>
+			</div>
+			<div class="ml-10 flex gap-3">
 				<button class="button">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -65,5 +77,47 @@
 				</button>
 			</div>
 		</div>
+
+		<Details>
+			<div class="flex justify-between">
+				<div>
+					<h4>Webcam</h4>
+					<h5>Use your webcam to scan a 2FA QR code.</h5>
+				</div>
+				<div>
+					<button class="smallButton">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<circle cx="12" cy="10" r="7" />
+							<circle cx="12" cy="10" r="3" />
+							<path d="M8 16l-2.091 3.486a1 1 0 0 0 .857 1.514h10.468a1 1 0 0 0 .857 -1.514l-2.091 -3.486" />
+						</svg>
+						Use webcam
+					</button>
+				</div>
+			</div>
+			<div class="mt-5 flex justify-between">
+				<div>
+					<h4>Screen capture</h4>
+					<h5>Capture a 2FA QR code from your screen.</h5>
+				</div>
+				<div>
+					<button class="smallButton">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+							<rect x="3" y="4" width="18" height="12" rx="1" />
+							<line x1="7" y1="20" x2="17" y2="20" />
+							<line x1="9" y1="16" x2="9" y2="20" />
+							<line x1="15" y1="16" x2="15" y2="20" />
+						</svg>
+						Capture screen
+					</button>
+				</div>
+			</div>
+		</Details>
 	</div>
 </div>
+
+<script>
+	import Details from "../components/details.svelte"
+</script>
