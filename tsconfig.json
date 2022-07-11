@@ -1,7 +1,7 @@
 {
-	"extends": "@tsconfig/svelte/tsconfig.json",
 	"compilerOptions": {
-		"target": "esnext",
+		"lib": ["ESNext"],
+		"target": "es2017",
 		"useDefineForClassFields": true,
 		"module": "esnext",
 		"moduleResolution": "Node",
@@ -9,8 +9,15 @@
 		"baseUrl": ".",
 		"allowJs": true,
 		"checkJs": true,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"importsNotUsedAsValues": "error",
+		"preserveValueImports": true,
+		"sourceMap": true,
+		"strict": false,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["interface/**/*.d.ts", "interface/**/*.ts", "interface/**/*.js", "interface/**/*.svelte", "libraries/**/*.d.ts"],
-	"exclude": ["dist", "interface/svelte.config.js", "interface/vite.config.js"]
+	"exclude": ["dist"]
 }
