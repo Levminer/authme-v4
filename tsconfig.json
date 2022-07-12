@@ -9,7 +9,6 @@
 		"baseUrl": ".",
 		"allowJs": true,
 		"checkJs": true,
-		"isolatedModules": true,
 		"importsNotUsedAsValues": "error",
 		"preserveValueImports": true,
 		"sourceMap": true,
@@ -18,6 +17,6 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["interface/**/*.d.ts", "interface/**/*.ts", "interface/**/*.js", "interface/**/*.svelte", "libraries/**/*.d.ts"],
+	"include": ["interface/**/*.d.ts", "interface/**/*.ts", "interface/**/*.js", "interface/**/*.svelte", "libraries/**/*.d.ts", "libraries/**/*.ts"],
 	"exclude": ["dist"]
 }
