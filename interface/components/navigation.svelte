@@ -10,8 +10,8 @@
 		</Link>
 
 		<Link to="/import">
-			<button on:click={() => changeClasses("codes")} class="import menuButton mx-3 mt-0">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+			<button on:click={() => changeClasses("import")} class="import menuButton mx-3 mt-0">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 					<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 					<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 					<path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3" />
@@ -21,8 +21,8 @@
 		</Link>
 
 		<Link to="/export">
-			<button class="menuButton">
-				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-export" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+			<button on:click={() => changeClasses("export")} class="menuButton export">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 					<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 					<path d="M14 3v4a1 1 0 0 0 1 1h4" />
 					<path d="M11.5 21h-4.5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v5m-5 6h7m-3 -3l3 3l-3 3" />
@@ -32,7 +32,7 @@
 		</Link>
 
 		<Link to="/edit">
-			<button class="menuButton">
+			<button on:click={() => changeClasses("edit")} class="menuButton edit">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
 				</svg>
@@ -62,7 +62,7 @@
 </div>
 
 <script lang="ts">
-	import { Link } from "svelte-navigator"
+	import { Link } from "svelte-routing"
 
 	let currentRoute = "codes"
 
