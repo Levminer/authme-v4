@@ -7,6 +7,10 @@
 		@apply flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border-2 border-white bg-white py-4 px-6 text-xl font-medium text-black outline-none duration-200 ease-linear hover:bg-transparent hover:text-white focus-visible:ring-4 focus-visible:ring-popup-magenta;
 	}
 
+	.smallButton {
+		@apply flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border-2 border-white bg-white py-2 px-3 text-lg font-medium text-black outline-none duration-200 ease-linear hover:bg-transparent hover:text-white focus-visible:ring-4 focus-visible:ring-popup-magenta;
+	}
+
 	.menuButton {
 		@apply transparent-900-hover mx-3 mt-0 mb-3 flex h-20 w-20 flex-col items-center justify-center rounded-xl font-medium duration-200 ease-linear hover:text-gray-200;
 	}
@@ -20,7 +24,15 @@
 	}
 
 	.input {
-		@apply rounded-2xl border-2 border-white bg-transparent py-4 px-6 text-xl text-white outline-none;
+		@apply transparent-900 transparent-input rounded-xl p-4 text-xl text-white outline-none duration-200 ease-linear;
+	}
+
+	.link {
+		@apply transparent-900-hover rounded-lg p-1 text-lg font-medium text-popup-blue duration-200 ease-linear hover:text-gray-200;
+	}
+
+	.code {
+		@apply transparent-800 mb-10 flex w-full flex-col rounded-2xl p-3;
 	}
 }
 
@@ -31,10 +43,9 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	background: url(https://fluent-svelte.vercel.app/bloom-mica-dark.png);
+	background: url("../../images/mica.png");
 	line-height: normal;
 	font-family: system-ui, Arial;
-	accent-color: red;
 }
 
 /* headings */
@@ -73,12 +84,20 @@ h5 {
 	background-color: hsla(0, 0%, 100%, 3.26%);
 }
 
+.transparent-input:hover {
+	background-color: hsla(0, 0%, 100%, 15%);
+}
+
+.transparent-input:focus {
+	background-color: hsla(0, 0%, 100%, 15%);
+}
+
 .transparent-900-hover:hover {
-	background-color: hsla(0, 0%, 100%, 4.8%);
+	background-color: hsla(0, 0%, 100%, 5%);
 }
 
 .transparentHover:hover {
-	background-color: hsla(0, 0%, 100%, 1.86%);
+	background-color: hsla(0, 0%, 100%, 5%);
 }
 
 /* selection */

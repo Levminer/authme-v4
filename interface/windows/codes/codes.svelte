@@ -1,7 +1,7 @@
 <div class="transparent-900 m-auto my-20 w-3/5 rounded-2xl p-10 text-center sm:w-4/5">
 	<h1>Authme</h1>
 	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="importCodes transparent-800 mb-10 w-full rounded-2xl p-5">
 			<h2>Import your codes</h2>
 			<h3>Import your 2FA codes, or if you have an import file choose it.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -20,7 +20,7 @@
 			</div>
 		</div>
 
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="saveCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Save codes</h2>
 			<h3>Save your currently imported codes.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center">
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="importingCodes transparent-800 mb-10 w-full rounded-2xl p-5">
 			<h2>Importing codes</h2>
 			<h3>Need help importing codes? Read the short tutorial or download a sample file.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -59,7 +59,7 @@
 			</div>
 		</div>
 
-		<div class="transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="gettingStarted transparent-800 mb-10 w-full rounded-2xl p-5">
 			<h2>Getting started</h2>
 			<h3>In the mean time you can check out the settings or visit the GitHub page.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -79,41 +79,18 @@
 				</button>
 			</div>
 		</div>
-
-		<div class="transparent-800 mb-10 flex w-full flex-col rounded-2xl p-3">
-			<div class="mt-5 flex flex-row px-5">
-				<div class="flex flex-1 justify-start">
-					<h3 tabindex="0" class="mt-3 text-3xl font-normal">Google</h3>
-				</div>
-				<div class="flex flex-1 justify-center">
-					<p tabindex="0" class="transparent-900 relative mt-1.5 w-32 select-all rounded-2xl py-3 px-5 text-2xl">888888</p>
-				</div>
-				<div class="flex flex-1 justify-end">
-					<h3 tabindex="0" class="mt-3 text-3xl font-normal">15</h3>
-				</div>
-			</div>
-			<div class="my-5 flex flex-col items-center justify-center">
-				<div class="progress">
-					<div class="progressFill" style="width: 80%;" />
-				</div>
-			</div>
-			<div class="mb-5 flex items-center justify-center">
-				<button class="button w-32 py-3 px-5">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-					</svg>
-					Copy
-				</button>
-			</div>
-		</div>
 	</div>
 </div>
 
 <script lang="ts">
-	import { onMount } from "svelte"
-	import { test } from "./index"
+	import { onMount, onDestroy } from "svelte"
+	import { test, stopCodesRefresher } from "./index"
 
 	onMount(() => {
 		test()
+	})
+
+	onDestroy(() => {
+		stopCodesRefresher()
 	})
 </script>

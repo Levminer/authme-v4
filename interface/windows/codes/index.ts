@@ -1,6 +1,8 @@
 import { textConverter } from "../../../libraries/convert"
 import { TOTP } from "otpauth"
 
+let codesRefresher
+
 export const test = () => {
 	const text = `
 Name:   Google:leventelorik92@gmail.com 
@@ -24,6 +26,10 @@ export const generateCodeElements = (data: LibImportFile) => {
 	const names = data.names
 	const secrets = data.secrets
 	const issuers = data.issuers
+
+	document.querySelector(".importCodes").style.display = "none"
+	document.querySelector(".importingCodes").style.display = "none"
+	document.querySelector(".gettingStarted").style.display = "none"
 
 	const generate = () => {
 		for (let i = 0; i < names.length; i++) {
@@ -88,12 +94,14 @@ export const generateCodeElements = (data: LibImportFile) => {
 			button.addEventListener("click", () => {
 				navigator.clipboard.writeText(code.textContent)
 			})
+
+			console.log("yo")
 		}
 	}
 
 	generate()
 
-	setInterval(() => {
+	codesRefresher = setInterval(() => {
 		try {
 			refreshCodes(secrets)
 		} catch (error) {
@@ -124,4 +132,8 @@ const refreshCodes = (secrets: string[]) => {
 		code.textContent = token
 		time.textContent = remainingTime.toString()
 	}
+}
+
+export const stopCodesRefresher = () => {
+	clearInterval(codesRefresher)
 }

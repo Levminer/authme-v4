@@ -1,6 +1,31 @@
 /* eslint-disable no-unused-vars */
 
 declare global {
+	/* Authme Import file structure  */
+	interface LibImportFile {
+		names: string[]
+		secrets: string[]
+		issuers: string[]
+		types?: string[]
+	}
+
+	/** Authme JSON import file options */
+	interface LibAuthmeFile {
+		role: "codes" | "import" | "export"
+		encrypted: boolean
+		codes: string
+		date: string
+		version: 3
+	}
+
+	/** 2FA codes format */
+	interface LibCodesFormat {
+		name: string
+		secret: string
+		issuer: string
+		type?: string
+	}
+
 	/** Query selector element types */
 	interface Element {
 		/** Element styles */
