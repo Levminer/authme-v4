@@ -1,7 +1,8 @@
 import { textConverter } from "../../../libraries/convert"
 import { TOTP } from "otpauth"
 
-let codesRefresher
+let codesRefresher: NodeJS.Timer
+const searchQuery: string[] = []
 
 export const test = () => {
 	const text = `
@@ -30,6 +31,7 @@ export const generateCodeElements = (data: LibImportFile) => {
 	document.querySelector(".importCodes").style.display = "none"
 	document.querySelector(".importingCodes").style.display = "none"
 	document.querySelector(".gettingStarted").style.display = "none"
+	document.querySelector(".searchContainer").style.display = "flex"
 
 	const generate = () => {
 		for (let i = 0; i < names.length; i++) {
@@ -43,7 +45,7 @@ export const generateCodeElements = (data: LibImportFile) => {
 					<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal">-</h3>
 				</div>
 				<div class="flex flex-1 justify-center">
-					<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-32 select-all rounded-2xl py-3 px-5 text-2xl">-</p>
+					<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl">-</p>
 				</div>
 				<div class="flex flex-1 justify-end">
 					<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal">-</h3>
@@ -55,7 +57,7 @@ export const generateCodeElements = (data: LibImportFile) => {
 				</div>
 			</div>
 			<div class="mb-5 mt-5 flex items-center justify-center">
-				<button id="button${i}" class="button w-32 py-3 px-5">
+				<button id="button${i}" class="button w-[140px] py-3 px-5">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
 					</svg>
@@ -65,6 +67,8 @@ export const generateCodeElements = (data: LibImportFile) => {
 
 			// add div
 			element.classList.add("code")
+			element.setAttribute("id", `codes${i}`)
+
 			document.querySelector(".content").appendChild(element)
 
 			// get elements
@@ -74,6 +78,9 @@ export const generateCodeElements = (data: LibImportFile) => {
 			const description = document.querySelector(`#description${i}`)
 			const progress = document.querySelector(`#progress${i}`)
 			const button = document.querySelector(`#button${i}`)
+
+			// add to query
+			searchQuery.push(`${issuers[i].toLowerCase().trim()}`)
 
 			// generate token
 			const token = new TOTP({
@@ -93,9 +100,23 @@ export const generateCodeElements = (data: LibImportFile) => {
 
 			button.addEventListener("click", () => {
 				navigator.clipboard.writeText(code.textContent)
-			})
 
-			console.log("yo")
+				button.innerHTML = `
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+				</svg>
+				Copied
+				`
+
+				setTimeout(() => {
+					button.innerHTML = `
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+					</svg>
+					Copy
+					`
+				}, 800)
+			})
 		}
 	}
 
@@ -136,4 +157,36 @@ const refreshCodes = (secrets: string[]) => {
 
 export const stopCodesRefresher = () => {
 	clearInterval(codesRefresher)
+}
+
+export const search = () => {
+	const searchBar: HTMLInputElement = document.querySelector(".search")
+	const input = searchBar.value.toLowerCase()
+	let noResults = 0
+
+	// restart
+	for (let i = 0; i < searchQuery.length; i++) {
+		const div = document.querySelector(`#codes${[i]}`)
+		div.style.display = "flex"
+	}
+
+	document.querySelector(".noSearchResults").style.display = "none"
+
+	// search algorithm
+	for (let i = 0; i < searchQuery.length; i++) {
+		if (!searchQuery[i].startsWith(input)) {
+			const div = document.querySelector(`#codes${[i]}`)
+			div.style.display = "none"
+
+			if (div.style.display === "none") {
+				noResults++
+			}
+		}
+	}
+
+	// no search results
+	if (searchQuery.length === noResults) {
+		document.querySelector(".noSearchResults").style.display = "block"
+		document.querySelector(".searchResult").textContent = input
+	}
 }
