@@ -2,24 +2,26 @@
 	<title>hi</title>
 </svelte:head>
 
-<Router>
-	<div class="flex h-screen">
-		<Navigation />
+<div class="flex h-screen">
+	<Navigation />
 
-		<div class="w-full overflow-hidden overflow-y-scroll">
-			<Route path="/" component={Landing} />
-			<Route path="/settings" component={Settings} />
-			<Route path="/codes" component={Codes} />
-			<Route path="/import" component={Import} />
-			<Route path="/export" component={Export} />
-			<Route path="/edit" component={Edit} />
-			<Route path="/confirm" component={Confirm} />
-		</div>
+	<div class="w-full overflow-hidden overflow-y-scroll">
+		<div class="top" />
+
+		<Route path="/"><Landing /></Route>
+		<Route path="/confirm"><Confirm /></Route>
+
+		<Route path="/codes"><Codes /></Route>
+		<Route path="/import"><Import /></Route>
+		<Route path="/export"><Export /></Route>
+		<Route path="/edit"><Edit /></Route>
+		<Route path="/settings"><Settings /></Route>
 	</div>
-</Router>
+</div>
 
 <script lang="ts">
-	import { Router, Route } from "svelte-routing"
+	import { Route, router } from "tinro"
+	import { onMount } from "svelte"
 
 	import UpdateAlert from "../components/updateAlert.svelte"
 
@@ -31,4 +33,10 @@
 	import Confirm from "../windows/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"
 	import Edit from "../windows/edit.svelte"
+
+	onMount(() => {
+		router.subscribe(() => {
+			document.querySelector(".top").scrollIntoView()
+		})
+	})
 </script>
