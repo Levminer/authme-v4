@@ -8,10 +8,13 @@
 	"type": "module",
 	"scripts": {
 		"dev": "parcel ./interface/layout/index.html --port 3000",
-		"build": "parcel build ./interface/layout/index.html"
+		"build": "parcel build ./interface/layout/index.html",
+		"start": "tauri dev"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",
+		"@tauri-apps/api": "^1.0.2",
+		"@tauri-apps/cli": "^1.0.3",
 		"@types/node": "^18.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.30.5",
 		"@typescript-eslint/parser": "^5.30.5",

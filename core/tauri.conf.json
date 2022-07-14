@@ -1,0 +1,64 @@
+{
+	"build": {
+		"beforeBuildCommand": "npm run build",
+		"beforeDevCommand": "npm run dev",
+		"devPath": "http://localhost:3000",
+		"distDir": "../dist"
+	},
+	"package": {
+		"productName": "Authme",
+		"version": "4.0.0"
+	},
+	"tauri": {
+		"allowlist": {
+			"all": true
+		},
+		"bundle": {
+			"active": true,
+			"category": "Utility",
+			"copyright": "GPL-3.0",
+			"deb": {
+				"depends": []
+			},
+			"externalBin": [],
+			"icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+			"identifier": "com.levminer.authme-v4",
+			"longDescription": "Simple cross-platform two-factor (2FA) authenticator app for desktop.",
+			"macOS": {
+				"entitlements": null,
+				"exceptionDomain": "",
+				"frameworks": [],
+				"providerShortName": null,
+				"signingIdentity": null
+			},
+			"resources": [],
+			"shortDescription": "",
+			"targets": "all",
+			"windows": {
+				"certificateThumbprint": null,
+				"digestAlgorithm": "sha256",
+				"timestampUrl": ""
+			}
+		},
+		"security": {
+			"csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+		},
+		"updater": {
+			"active": false
+		},
+		"windows": [
+			{
+				"title": "Authme",
+				"x": 0,
+				"y": 0,
+				"width": 1900,
+				"height": 1000,
+				"minWidth": 1000,
+				"minHeight": 600,
+				"maximized": true,
+				"transparent": true,
+				"decorations": false
+			}
+		]
+	}
+}
