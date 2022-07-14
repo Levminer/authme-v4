@@ -1,27 +1,9 @@
 import { textConverter } from "../../../libraries/convert"
 import { TOTP } from "otpauth"
+import { dialog, fs } from "@tauri-apps/api"
 
 let codesRefresher: NodeJS.Timer
 const searchQuery: string[] = []
-
-export const test = () => {
-	const text = `
-Name:   Google:leventelorik92@gmail.com 
-Secret: BVPK3JHAZO5AF6XUYS6AYMB3Y5KDR6R2 
-Issuer: Google 
-Type:   OTP_TOTP 
-	
-Name:   Levminer@leventelorik92@gmail.com 
-Secret: HVV3CUZC6RRGFK5L 
-Issuer: GitHub 
-Type:   OTP_TOTP `
-
-	let arr = textConverter(text, 0)
-
-	console.log(arr)
-
-	generateCodeElements(arr)
-}
 
 export const generateCodeElements = (data: LibImportFile) => {
 	const names = data.names
@@ -188,5 +170,18 @@ export const search = () => {
 	if (searchQuery.length === noResults) {
 		document.querySelector(".noSearchResults").style.display = "block"
 		document.querySelector(".searchResult").textContent = input
+	}
+}
+
+export const chooseImportFile = async () => {
+	const filePath = await dialog.open({ filters: [{ name: "Authme file", extensions: ["authme"] }] })
+
+	if (filePath !== null) {
+		const loadedFile = await fs.readTextFile(filePath.toString())
+		const file: LibAuthmeFile = JSON.parse(loadedFile)
+
+		const codes = textConverter(Buffer.from(file.codes, "base64").toString(), 0)
+
+		generateCodeElements(codes)
 	}
 }
