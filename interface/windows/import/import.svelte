@@ -119,5 +119,17 @@
 </div>
 
 <script>
-	import Details from "../components/details.svelte"
+	import { onDestroy } from "svelte"
+	import Details from "../../components/details.svelte"
+	import { state } from "../../stores/state"
+
+	const stateSubscriber = state.subscribe((value) => {
+		console.log(value)
+	})
+
+	state.set({ importData: "asd" })
+
+	onDestroy(() => {
+		stateSubscriber()
+	})
 </script>

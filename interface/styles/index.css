@@ -16,7 +16,7 @@
 	}
 
 	.selectedMenuButton {
-		@apply mx-3 mb-3 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-white font-medium text-black duration-200 ease-linear hover:bg-gray-200;
+		@apply mx-3 mb-3 flex h-20 w-20 flex-col items-center justify-center rounded-xl bg-white font-medium !text-black duration-200 ease-linear hover:bg-gray-200;
 	}
 
 	.select {

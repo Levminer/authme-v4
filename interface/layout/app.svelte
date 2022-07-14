@@ -28,7 +28,7 @@
 	import Landing from "../windows/landing.svelte"
 	import Codes from "../windows/codes/codes.svelte"
 	import Settings from "../windows/settings.svelte"
-	import Import from "../windows/import.svelte"
+	import Import from "../windows/import/import.svelte"
 	import Export from "../windows/export.svelte"
 	import Confirm from "../windows/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"

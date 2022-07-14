@@ -7,8 +7,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "parcel ./interface/index.html --port 3000",
-		"build": "parcel build ./interface/index.html"
+		"dev": "parcel ./interface/layout/index.html --port 3000",
+		"build": "parcel build ./interface/layout/index.html"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",
