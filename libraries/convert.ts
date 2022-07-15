@@ -171,3 +171,59 @@ export const textConverter = (text: string, sortNumber: number): LibImportFile =
 		types,
 	}
 }
+
+/**
+ * Convert TOTP QR code pictures to string
+ * @param {string} data
+ * @return {string} string
+ */
+export const totpImageConverter = (data: string): string => {
+	// get url
+	let url = data.replaceAll(/\s/g, "")
+	url = url.slice(15)
+
+	// get name
+	const nameIndex = url.match(/[?]/)
+	const name = url.slice(0, nameIndex.index)
+	url = url.slice(name.length + 1)
+
+	// get secret
+	const secretIndex = url.match(/[&]/)
+	const secret = url.slice(7, secretIndex.index)
+	url = url.slice(secret.length + 14 + 1)
+
+	// get issuer
+	let issuer = url
+
+	// check if issuer is empty
+	if (issuer === "") {
+		issuer = name
+	}
+
+	// add to final string
+	return `\nName:   ${name} \nSecret: ${secret} \nIssuer: ${issuer} \nType:   OTP_TOTP\n`
+}
+
+/**
+ * Convert Migration QR code pictures to string
+ * @param {string} data
+ * @return {string} string
+ */
+export const migrationImageConverter = (data: string): string => {
+	// return string
+	let returnString = ""
+
+	// split string
+	const uri = data.split("=")
+
+	// decode data
+	const decoded = googleAuthenticatorConverter(uri[1])
+
+	// make a string
+	decoded.forEach((element) => {
+		const tempString = `\nName:   ${element.name} \nSecret: ${element.secret} \nIssuer: ${element.issuer} \nType:   OTP_TOTP\n`
+		returnString += tempString
+	})
+
+	return returnString
+}

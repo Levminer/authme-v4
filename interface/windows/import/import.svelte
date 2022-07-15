@@ -42,7 +42,7 @@
 				<h3>Choose images that contain a 2FA QR code.</h3>
 			</div>
 			<div class="ml-10 flex gap-3">
-				<button class="button requirePassword">
+				<button class="button requirePassword" on:click={chooseImages}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<line x1="15" y1="8" x2="15.01" y2="8" />
@@ -120,10 +120,11 @@
 
 <script>
 	import { onDestroy } from "svelte"
+	import { chooseImages } from "./index"
 	import Details from "../../components/details.svelte"
 	import { state } from "../../stores/state"
 
-	const stateSubscriber = state.subscribe((value) => {
+	/* const stateSubscriber = state.subscribe((value) => {
 		console.log(value)
 	})
 
@@ -131,5 +132,5 @@
 
 	onDestroy(() => {
 		stateSubscriber()
-	})
+	}) */
 </script>
