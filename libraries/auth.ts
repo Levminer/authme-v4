@@ -1,4 +1,5 @@
 import crypto from "crypto"
+import { scrypt } from "scrypt-js"
 
 const ALGORITHM = {
 	BLOCK_CIPHER: "aes-256-gcm",
@@ -21,9 +22,9 @@ export const generateSalt = (): Buffer => {
  * @param {Buffer|string} salt
  * @return {Buffer} key
  */
-export const generateRandomKey = (salt: Buffer | string): Buffer => {
+export const generateRandomKey = async (salt: Buffer): Promise<Buffer> => {
 	const key = crypto.randomBytes(ALGORITHM.KEY_BYTE_LEN)
-	return crypto.scryptSync(key, salt, ALGORITHM.KEY_BYTE_LEN)
+	return Buffer.from(await scrypt(key, salt, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
 }
 
 /**
@@ -32,8 +33,8 @@ export const generateRandomKey = (salt: Buffer | string): Buffer => {
  * @param {Buffer} salt
  * @return {Buffer} key
  */
-export const generateKey = (password: Buffer, salt: Buffer): Buffer => {
-	return crypto.scryptSync(password, salt, ALGORITHM.KEY_BYTE_LEN)
+export const generateKey = async (password: Buffer, salt: Buffer): Promise<Buffer> => {
+	return Buffer.from(await scrypt(password, salt, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
 }
 
 /**

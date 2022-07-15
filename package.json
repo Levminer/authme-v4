@@ -47,6 +47,7 @@
 		"otpauth": "^8.0.1",
 		"protocol-buffers": "^5.0.0",
 		"qrcode-decoder": "^0.2.2",
+		"scrypt-js": "^3.0.1",
 		"svelte": "^3.49.0"
 	}
 }

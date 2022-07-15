@@ -23,7 +23,7 @@
 				<h4 data-loc class="mb-3">No password</h4>
 				<h5 data-loc class="mb-3">If you don't want to type in your password every time you launch Authme.</h5>
 
-				<button class="button">
+				<button class="button" on:click={noPassword}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<div class="transparent-900 m-auto mt-40 mb-60 w-3/5 rounded-2xl p-10 text-center">
+<div class="transparent-900 m-auto mt-40 mb-60 hidden w-3/5 rounded-2xl p-10 text-center">
 	<h1>Require password</h1>
 
 	<div class="mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
@@ -158,7 +158,9 @@
 </div>
 
 <script lang="ts">
-	import Details from "../components/details.svelte"
+	import { noPassword } from "./index"
+
+	import Details from "../../components/details.svelte"
 
 	const showPassword = (id: number) => {
 		const inputState = document.querySelector(`.passwordInput${id}`).getAttribute("type")

@@ -26,6 +26,19 @@ declare global {
 		type?: string
 	}
 
+	interface LibState {
+		authenticated: boolean
+		importData: null | boolean
+	}
+
+	interface LibSettings {
+		security: {
+			requireAuthentication: null | boolean
+			password: null | string
+			key: null | string
+		}
+	}
+
 	/** Query selector element types */
 	interface Element {
 		/** Element styles */
