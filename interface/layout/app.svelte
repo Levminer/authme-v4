@@ -3,7 +3,9 @@
 </svelte:head>
 
 <div class="flex h-screen">
-	<Navigation />
+	{#if $state.authenticated}
+		<Navigation />
+	{/if}
 
 	<div class="w-full overflow-hidden overflow-y-scroll">
 		<div class="top" />
@@ -22,10 +24,14 @@
 <script lang="ts">
 	import { Route, router } from "tinro"
 	import { onMount } from "svelte"
+	import { getSettings } from "../stores/settings"
+	import { navigate } from "../../libraries/navigate"
 
-	import UpdateAlert from "../components/updateAlert.svelte"
+	import { state } from "../stores/state"
 
-	import Landing from "../windows/landing.svelte"
+	// import UpdateAlert from "../components/updateAlert.svelte"
+
+	import Landing from "../windows/landing/landing.svelte"
 	import Codes from "../windows/codes/codes.svelte"
 	import Settings from "../windows/settings.svelte"
 	import Import from "../windows/import/import.svelte"
@@ -38,5 +44,18 @@
 		router.subscribe(() => {
 			document.querySelector(".top").scrollIntoView()
 		})
+
+		const settings = getSettings()
+
+		if (settings.security.requireAuthentication === false) {
+			// eslint-disable-next-line no-undef
+			state.update((data: LibState) => {
+				data.authenticated = true
+
+				return data
+			})
+
+			navigate("codes")
+		}
 	})
 </script>
