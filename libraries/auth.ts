@@ -30,47 +30,76 @@ export const generateRandomKey = async (salt: Buffer): Promise<Buffer> => {
 /**
  * Generate key from password and salt
  * @param {Buffer} password
- * @param {Buffer} salt
- * @return {Buffer} key
+ * @param {Buffer} key
+ * @return {Buffer} masterKey
  */
-export const generateKey = async (password: Buffer, salt: Buffer): Promise<Buffer> => {
-	return Buffer.from(await scrypt(password, salt, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
+export const generateMasterKey = async (password: Buffer, key: Buffer) => {
+	// return Buffer.from(await scrypt(password, key, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
+	const keyMaterial = await window.crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits", "deriveKey"])
+
+	return window.crypto.subtle.deriveKey(
+		{
+			name: "PBKDF2",
+			salt: key,
+			iterations: 100000,
+			hash: "SHA-256",
+		},
+		keyMaterial,
+		{ name: "AES-GCM", length: 256 },
+		true,
+		["encrypt", "decrypt"]
+	)
 }
 
 /**
  * Encrypt a string
  * @param {string} text
- * @param {Buffer} key
+ * @param {Buffer} masterKey
  * @return {Buffer} encrypted text
  */
-export const encrypt = (text: string, key: Buffer): Buffer => {
-	const iv = crypto.randomBytes(ALGORITHM.IV_BYTE_LEN)
-	const cipher = crypto.createCipheriv(ALGORITHM.BLOCK_CIPHER, key, iv, {
-		// @ts-ignore
-		authTagLength: ALGORITHM.AUTH_TAG_BYTE_LEN,
-	})
-	let encryptedMessage = cipher.update(text)
-	encryptedMessage = Buffer.concat([encryptedMessage, cipher.final()])
-	return Buffer.concat([iv, encryptedMessage, cipher.getAuthTag()])
+export const encrypt = async (text: string, masterKey) => {
+	const iv = window.crypto.getRandomValues(new Uint8Array(12))
+	let encoder = new TextEncoder()
+
+	const encrypted = await window.crypto.subtle.encrypt(
+		{
+			name: "AES-GCM",
+			iv: iv,
+		},
+		masterKey,
+		encoder.encode(text)
+	)
+
+	let value = Buffer.from(encrypted).toString("base64")
+	value += `@${Buffer.from(iv).toString("base64")}`
+
+	return value
 }
 
 /**
  * Decrypt a string
  * @param {Buffer} text
- * @param {Buffer} key
+ * @param {Buffer} masterKey
  * @returns {Buffer} decrypted text
  */
-export const decrypt = (text: Buffer, key: Buffer): Buffer => {
-	const authTag = text.slice(-16)
-	const iv = text.slice(0, 12)
-	const encryptedMessage = text.slice(12, -16)
-	const decipher = crypto.createDecipheriv(ALGORITHM.BLOCK_CIPHER, key, iv, {
-		// @ts-ignore
-		authTagLength: ALGORITHM.AUTH_TAG_BYTE_LEN,
-	})
-	decipher.setAuthTag(authTag)
-	const messageText = decipher.update(encryptedMessage)
-	return Buffer.concat([messageText, decipher.final()])
+export const decrypt = async (text: string, masterKey) => {
+	let value = text.split("@")
+
+	let ciphertext = Buffer.from(value[0], "base64")
+	let iv = Buffer.from(value[1], "base64")
+
+	let decrypted = await window.crypto.subtle.decrypt(
+		{
+			name: "AES-GCM",
+			iv: iv,
+		},
+		masterKey,
+		ciphertext
+	)
+
+	let dec = new TextDecoder()
+
+	return dec.decode(decrypted)
 }
 
 /**
