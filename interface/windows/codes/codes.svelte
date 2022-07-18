@@ -14,11 +14,11 @@
 		</div>
 	</div>
 	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
-		<div class="importCodes transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="importCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Import your codes</h2>
 			<h3>Import your 2FA codes, or if you have an import file choose it.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
-				<button class="button">
+				<button class="button" on:click={() => navigate("import")}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
 					</svg>
@@ -37,7 +37,7 @@
 			<h2>Save codes</h2>
 			<h3>Save your currently imported codes.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center">
-				<button class="button">
+				<button class="button" on:click={saveCodes}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
@@ -49,7 +49,7 @@
 			</div>
 		</div>
 
-		<div class="importingCodes transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="importingCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Importing codes</h2>
 			<h3>Need help importing codes? Read the short tutorial or download a sample file.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -72,7 +72,7 @@
 			</div>
 		</div>
 
-		<div class="gettingStarted transparent-800 mb-10 w-full rounded-2xl p-5">
+		<div class="gettingStarted transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Getting started</h2>
 			<h3>In the mean time you can check out the settings or visit the GitHub page.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -102,17 +102,11 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from "svelte"
-	import { textConverter } from "../../../libraries/convert"
-	import { stopCodesRefresher, search, chooseImportFile, generateCodeElements } from "./index"
-	import { navigate } from "../../../libraries/navigate"
-	import { state } from "../../stores/state"
+	import { stopCodesRefresher, search, chooseImportFile, saveCodes, loadCodes } from "./index"
+	import { navigate } from "../../libraries/navigate"
 
-	const stateSubscriber = state.subscribe((data) => {
-		if (data.importData !== null) {
-			onMount(() => {
-				generateCodeElements(textConverter(data.importData, 0))
-			})
-		}
+	onMount(() => {
+		loadCodes()
 	})
 
 	onDestroy(() => {

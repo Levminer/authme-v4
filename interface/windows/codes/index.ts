@@ -1,9 +1,15 @@
-import { textConverter } from "../../../libraries/convert"
+import { textConverter } from "../../libraries/convert"
+import { encrypt, decrypt, generateMasterKey } from "../../libraries/auth"
 import { TOTP } from "otpauth"
-import { dialog, fs } from "@tauri-apps/api"
+import { dialog, fs, path } from "@tauri-apps/api"
+import { getSettings, setSettings } from "../../stores/settings"
+import { generateTimestamp } from "../../libraries/time"
+import { getState, setState } from "../../stores/state"
 
 let codesRefresher: NodeJS.Timer
-const searchQuery: string[] = []
+let searchQuery: string[] = []
+let saveText: string = ""
+let savedCodes = false
 
 export const generateCodeElements = (data: LibImportFile) => {
 	const names = data.names
@@ -14,6 +20,10 @@ export const generateCodeElements = (data: LibImportFile) => {
 	document.querySelector(".importingCodes").style.display = "none"
 	document.querySelector(".gettingStarted").style.display = "none"
 	document.querySelector(".searchContainer").style.display = "flex"
+
+	if (savedCodes === false) {
+		document.querySelector(".saveCodes").style.display = "block"
+	}
 
 	const generate = () => {
 		for (let i = 0; i < names.length; i++) {
@@ -174,14 +184,93 @@ export const search = () => {
 }
 
 export const chooseImportFile = async () => {
+	const state = getState()
 	const filePath = await dialog.open({ filters: [{ name: "Authme file", extensions: ["authme"] }] })
 
 	if (filePath !== null) {
 		const loadedFile = await fs.readTextFile(filePath.toString())
 		const file: LibAuthmeFile = JSON.parse(loadedFile)
+		const text = Buffer.from(file.codes, "base64").toString()
 
-		const codes = textConverter(Buffer.from(file.codes, "base64").toString(), 0)
+		saveText = text
 
-		generateCodeElements(codes)
+		state.importData = text
+		setState(state)
+
+		generateCodeElements(textConverter(text, 0))
+	}
+}
+
+export const saveCodes = async () => {
+	const settings = getSettings()
+
+	const password = Buffer.from(settings.security.password, "base64")
+	const key = Buffer.from(settings.security.key, "base64")
+
+	const masterKey = await generateMasterKey(password, key)
+
+	const encrypted = await encrypt(saveText, masterKey)
+
+	const state = getState()
+
+	state.importData = null
+
+	setState(state)
+
+	const fileContents: LibAuthmeFile = {
+		codes: encrypted,
+		encrypted: true,
+		version: 3,
+		role: "codes",
+		date: generateTimestamp(),
+	}
+	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
+
+	await fs.writeTextFile(filePath, JSON.stringify(fileContents, null, "\t"))
+
+	document.querySelector(".saveCodes").style.display = "none"
+}
+
+export const loadCodes = async () => {
+	const settings = getSettings()
+	const state = getState()
+	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
+
+	let file: LibAuthmeFile
+	searchQuery = []
+
+	try {
+		file = JSON.parse(await fs.readTextFile(filePath))
+
+		savedCodes = true
+	} catch (error) {
+		document.querySelector(".importCodes").style.display = "block"
+		document.querySelector(".importingCodes").style.display = "block"
+		document.querySelector(".gettingStarted").style.display = "block"
+	}
+
+	if (savedCodes === true) {
+		const password = Buffer.from(settings.security.password, "base64")
+		const key = Buffer.from(settings.security.key, "base64")
+
+		const masterKey = await generateMasterKey(password, key)
+
+		const decrypted = await decrypt(file.codes, masterKey)
+
+		if (state.importData !== null) {
+			savedCodes = false
+
+			generateCodeElements(textConverter(state.importData + decrypted, 0))
+
+			saveText = state.importData + decrypted
+		} else {
+			generateCodeElements(textConverter(decrypted, 0))
+		}
+	} else {
+		if (state.importData !== null) {
+			generateCodeElements(textConverter(state.importData, 0))
+
+			saveText = state.importData
+		}
 	}
 }
