@@ -15,10 +15,6 @@ const getSettingsPath = async () => {
 
 getSettingsPath()
 
-const mainWindow = new window.WindowManager("Authme")
-
-console.log(mainWindow)
-
 const app = new App({
 	target: document.body,
 })

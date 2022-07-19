@@ -28,7 +28,7 @@ declare global {
 
 	interface LibState {
 		authenticated: boolean
-		importData: null | boolean
+		importData: null | string
 	}
 
 	interface LibSettings {
@@ -43,6 +43,9 @@ declare global {
 	interface Element {
 		/** Element styles */
 		style: CSSStyleDeclaration
+
+		/* value */
+		value: string
 	}
 
 	/** HTML dialog element types */

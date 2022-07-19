@@ -24,9 +24,6 @@
 <script lang="ts">
 	import { Route, router } from "tinro"
 	import { onMount } from "svelte"
-	import { getSettings } from "../stores/settings"
-	import { navigate } from "../../libraries/navigate"
-
 	import { state } from "../stores/state"
 
 	// import UpdateAlert from "../components/updateAlert.svelte"
@@ -35,7 +32,7 @@
 	import Codes from "../windows/codes/codes.svelte"
 	import Settings from "../windows/settings.svelte"
 	import Import from "../windows/import/import.svelte"
-	import Export from "../windows/export.svelte"
+	import Export from "../windows/export/export.svelte"
 	import Confirm from "../windows/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"
 	import Edit from "../windows/edit.svelte"
@@ -44,18 +41,5 @@
 		router.subscribe(() => {
 			document.querySelector(".top").scrollIntoView()
 		})
-
-		const settings = getSettings()
-
-		if (settings.security.requireAuthentication === false) {
-			// eslint-disable-next-line no-undef
-			state.update((data: LibState) => {
-				data.authenticated = true
-
-				return data
-			})
-
-			navigate("codes")
-		}
 	})
 </script>
