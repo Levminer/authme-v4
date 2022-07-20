@@ -61,7 +61,7 @@
 				<h3>Enter a TOTP secret key and name manually.</h3>
 			</div>
 			<div class="ml-10 flex gap-3">
-				<button class="button">
+				<button class="button" on:click={showManualEntry}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<rect x="2" y="6" width="20" height="12" rx="2" />
@@ -118,19 +118,53 @@
 	</div>
 </div>
 
+<dialog class="dialog dialog0 w-2/3">
+	<h2>Manual entry</h2>
+	<h3>Please enter the 2FA secret and name!</h3>
+
+	<div class="mt-10 flex flex-row space-x-5">
+		<div>
+			<h5>Name (Required)</h5>
+			<input class="input name mt-1" type="text" placeholder="Google" />
+		</div>
+		<div>
+			<h5>Secret (Required)</h5>
+			<input class="input secret mt-1 " type="text" placeholder="JBSWY3DPEHPK3PXP" />
+		</div>
+		<div>
+			<h5>Description</h5>
+			<input class="input description mt-1" type="text" placeholder="example@mail.com" />
+		</div>
+	</div>
+
+	<div class="mt-10 flex justify-end space-x-5">
+		<button class="button dialog0Close">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+			Cancel
+		</button>
+		<button class="button" on:click={manualEntry}>
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+			Confirm
+		</button>
+	</div>
+</dialog>
+
 <script>
-	import { onDestroy } from "svelte"
-	import { chooseImages } from "./index"
+	import { chooseImages, manualEntry } from "./index"
 	import Details from "../../components/details.svelte"
-	import { state } from "../../stores/state"
 
-	/* const stateSubscriber = state.subscribe((value) => {
-		console.log(value)
-	})
+	const showManualEntry = () => {
+		const /** @type{LibDialogElement} */ dialog = document.querySelector(".dialog0")
+		const closeDialog = document.querySelector(".dialog0Close")
 
-	state.set({ importData: "asd" })
+		closeDialog.addEventListener("click", () => {
+			dialog.close()
+		})
 
-	onDestroy(() => {
-		stateSubscriber()
-	}) */
+		dialog.showModal()
+	}
 </script>

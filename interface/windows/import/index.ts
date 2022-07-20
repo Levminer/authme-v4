@@ -1,8 +1,8 @@
 import QrcodeDecoder from "qrcode-decoder"
 import { fs, dialog } from "@tauri-apps/api"
-import { state } from "../../stores/state"
-import { totpImageConverter, migrationImageConverter } from "../../../libraries/convert"
-import { navigate } from "../../../libraries/navigate"
+import { getState, setState } from "../../stores/state"
+import { totpImageConverter, migrationImageConverter } from "../../libraries/convert"
+import { navigate } from "../../libraries/navigate"
 
 export const chooseImages = async () => {
 	const filePaths = await dialog.open({ multiple: true, filters: [{ name: "Image file", extensions: ["jpg", "jpeg", "png", "bmp"] }] })
@@ -44,11 +44,11 @@ export const chooseImages = async () => {
 				if (images.length === i + 1) {
 					// invoke("info", { invokeMessage: "QR code(s) found!" })
 
-					console.log(string)
+					const state = getState()
+					state.importData += string
+					setState(state)
 
-					state.set({ importData: string })
-
-					navigate("/codes")
+					navigate("codes")
 				}
 			} else {
 				// no qr code found
@@ -58,4 +58,34 @@ export const chooseImages = async () => {
 
 		processImages()
 	}
+}
+
+export const manualEntry = () => {
+	const issuer = document.querySelector(".name").value
+	const secret = document.querySelector(".secret").value
+	let name = document.querySelector(".description").value
+
+	if (issuer === "") {
+		return dialog.message("The name field is required. \n\nPlease try again!", { type: "error" })
+	}
+
+	if (secret === "") {
+		return dialog.message("The secret field is required. \n\nPlease try again!", { type: "error" })
+	}
+
+	if (name === "") {
+		name = issuer
+	}
+
+	const string = `\nName:   ${name} \nSecret: ${secret} \nIssuer: ${issuer} \nType:   OTP_TOTP\n`
+
+	const state = getState()
+	state.importData += string
+	setState(state)
+
+	navigate("codes")
+
+	document.querySelector(".name").value = ""
+	document.querySelector(".secret").value = ""
+	document.querySelector(".description").value = ""
 }
