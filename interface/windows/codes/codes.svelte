@@ -33,22 +33,6 @@
 			</div>
 		</div>
 
-		<div class="saveCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
-			<h2>Save codes</h2>
-			<h3>Save your currently imported codes.</h3>
-			<div class="mx-auto mt-6 flex flex-row items-center justify-center">
-				<button class="button" on:click={saveCodes}>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-						<path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-						<circle cx="12" cy="14" r="2" />
-						<polyline points="14 4 14 8 8 8 8 4" />
-					</svg>
-					Save codes
-				</button>
-			</div>
-		</div>
-
 		<div class="importingCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Importing codes</h2>
 			<h3>Need help importing codes? Read the short tutorial or download a sample file.</h3>
@@ -76,14 +60,14 @@
 			<h2>Getting started</h2>
 			<h3>In the mean time you can check out the settings or visit the GitHub page.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
-				<button class="button">
+				<button class="button" on:click={() => navigate("settings")}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
 						<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 					</svg>
 					Settings
 				</button>
-				<button class="button">
+				<button class="button" on:click={() => open("https://github.com/levminer/authme")}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
@@ -102,8 +86,8 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from "svelte"
-	import { stopCodesRefresher, search, chooseImportFile, saveCodes, loadCodes } from "./index"
-	import { navigate } from "../../libraries/navigate"
+	import { stopCodesRefresher, search, chooseImportFile, loadCodes } from "./index"
+	import { navigate, open } from "../../libraries/navigate"
 
 	onMount(() => {
 		loadCodes()

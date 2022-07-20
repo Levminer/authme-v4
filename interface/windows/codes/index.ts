@@ -21,10 +21,6 @@ export const generateCodeElements = (data: LibImportFile) => {
 	document.querySelector(".gettingStarted").style.display = "none"
 	document.querySelector(".searchContainer").style.display = "flex"
 
-	if (savedCodes === false) {
-		document.querySelector(".saveCodes").style.display = "block"
-	}
-
 	const generate = () => {
 		for (let i = 0; i < names.length; i++) {
 			// create div
@@ -114,6 +110,12 @@ export const generateCodeElements = (data: LibImportFile) => {
 
 	generate()
 
+	const state = getState()
+
+	if (state.importData !== null) {
+		saveCodes()
+	}
+
 	codesRefresher = setInterval(() => {
 		try {
 			refreshCodes(secrets)
@@ -201,7 +203,9 @@ export const chooseImportFile = async () => {
 	}
 }
 
-export const saveCodes = async () => {
+const saveCodes = async () => {
+	console.log("codes saved")
+
 	const settings = getSettings()
 
 	const password = Buffer.from(settings.security.password, "base64")
@@ -227,8 +231,6 @@ export const saveCodes = async () => {
 	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
 
 	await fs.writeTextFile(filePath, JSON.stringify(fileContents, null, "\t"))
-
-	document.querySelector(".saveCodes").style.display = "none"
 }
 
 export const loadCodes = async () => {
