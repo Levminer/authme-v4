@@ -8,8 +8,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "parcel ./interface/layout/index.html --port 3000",
-		"build": "parcel build ./interface/layout/index.html",
-		"start": "tauri dev"
+		"build:bundle": "parcel build ./interface/layout/index.html --no-content-hash --no-source-maps",
+		"build": "node scripts/build.cjs alpha && tauri build",
+		"start": "node scripts/build.cjs alpha && tauri dev"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",

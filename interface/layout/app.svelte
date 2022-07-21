@@ -8,6 +8,7 @@
 	{/if}
 
 	<div class="w-full overflow-hidden overflow-y-scroll">
+		<BuildNumber />
 		<div class="top" />
 
 		<Route path="/"><Landing /></Route>
@@ -27,6 +28,7 @@
 	import { state } from "../stores/state"
 
 	// import UpdateAlert from "../components/updateAlert.svelte"
+	import BuildNumber from "../components/buildNumber.svelte"
 
 	import Landing from "../windows/landing/landing.svelte"
 	import Codes from "../windows/codes/codes.svelte"
@@ -35,7 +37,7 @@
 	import Export from "../windows/export/export.svelte"
 	import Confirm from "../windows/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"
-	import Edit from "../windows/edit.svelte"
+	import Edit from "../windows/edit/edit.svelte"
 
 	onMount(() => {
 		router.subscribe(() => {
