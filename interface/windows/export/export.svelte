@@ -1,4 +1,4 @@
-<div class="transparent-900 m-auto my-20 w-4/5 rounded-2xl p-10 text-left">
+<div class="transparent-900 exportCodes m-auto my-20 w-4/5 rounded-2xl p-10 text-left">
 	<h1 class="px-10">Export codes</h1>
 	<div class="mx-auto flex flex-col items-center justify-center rounded-2xl p-10">
 		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
@@ -44,7 +44,7 @@
 				<h3>Ideal for scanning the QR codes or for security backup.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<button class="button">
+				<button class="button" on:click={exportHtmlFile}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -58,5 +58,5 @@
 </div>
 
 <script lang="ts">
-	import { exportCodes, exportAuthmeFile } from "./index"
+	import { exportCodes, exportAuthmeFile, exportHtmlFile } from "./index"
 </script>
