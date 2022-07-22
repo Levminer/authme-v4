@@ -1,15 +1,18 @@
 {
 	"build": {
-		"beforeBuildCommand": "npm run build",
+		"beforeBuildCommand": "npm run build:bundle",
 		"beforeDevCommand": "npm run dev",
 		"devPath": "http://localhost:3000",
 		"distDir": "../dist"
 	},
 	"package": {
 		"productName": "Authme",
-		"version": "4.0.0"
+		"version": "../package.json"
 	},
 	"tauri": {
+		"systemTray": {
+			"iconPath": "icons/32x32.png"
+		},
 		"allowlist": {
 			"all": true,
 			"fs": {
