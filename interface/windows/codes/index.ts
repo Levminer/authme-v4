@@ -204,8 +204,6 @@ export const chooseImportFile = async () => {
 }
 
 const saveCodes = async () => {
-	console.log("codes saved")
-
 	const settings = getSettings()
 
 	const password = Buffer.from(settings.security.password, "base64")

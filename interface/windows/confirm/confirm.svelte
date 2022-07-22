@@ -24,7 +24,7 @@
 				</div>
 			</div>
 
-			<button class="button mx-auto mt-10">
+			<button class="button mx-auto mt-10" on:click={confirmPassword}>
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 				</svg>
@@ -52,21 +52,6 @@
 </div>
 
 <script>
-	import Details from "../components/details.svelte"
-
-	const showPassword = () => {
-		const inputState = document.querySelector(".passwordInput").getAttribute("type")
-
-		if (inputState === "password") {
-			document.querySelector(".showPassword").style.display = "none"
-			document.querySelector(".hidePassword").style.display = "block"
-
-			document.querySelector(".passwordInput").setAttribute("type", "text")
-		} else {
-			document.querySelector(".showPassword").style.display = "block"
-			document.querySelector(".hidePassword").style.display = "none"
-
-			document.querySelector(".passwordInput").setAttribute("type", "password")
-		}
-	}
+	import Details from "../../components/details.svelte"
+	import { confirmPassword, showPassword } from "./index"
 </script>

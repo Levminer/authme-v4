@@ -27,7 +27,7 @@ export const exportCodes = async () => {
 		codesArray = textConverter(decrypted, 0)
 		codesText = decrypted
 	} catch (error) {
-		dialog.message("No save file found. \n\nGo back to the codes page and save your codes!", { type: "error" })
+		return dialog.message("No save file found. \n\nGo to the codes or the import page and import your codes!", { type: "error" })
 	}
 }
 

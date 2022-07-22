@@ -1,5 +1,4 @@
-import crypto from "crypto"
-import { scrypt } from "scrypt-js"
+import WebCrypto from "easy-web-crypto"
 
 const ALGORITHM = {
 	BLOCK_CIPHER: "aes-256-gcm",
@@ -13,8 +12,8 @@ const ALGORITHM = {
  * Generate salt
  * @return {Buffer} salt
  */
-export const generateSalt = (): Buffer => {
-	return crypto.randomBytes(ALGORITHM.SALT_BYTE_LEN)
+export const generateSalt = () => {
+	return Buffer.from(window.crypto.getRandomValues(new Uint8Array(16)))
 }
 
 /**
@@ -22,9 +21,8 @@ export const generateSalt = (): Buffer => {
  * @param {Buffer|string} salt
  * @return {Buffer} key
  */
-export const generateRandomKey = async (salt: Buffer): Promise<Buffer> => {
-	const key = crypto.randomBytes(ALGORITHM.KEY_BYTE_LEN)
-	return Buffer.from(await scrypt(key, salt, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
+export const generateRandomKey = async (salt: Buffer) => {
+	return Buffer.from(window.crypto.getRandomValues(new Uint8Array(32)))
 }
 
 /**
@@ -34,7 +32,6 @@ export const generateRandomKey = async (salt: Buffer): Promise<Buffer> => {
  * @return {Buffer} masterKey
  */
 export const generateMasterKey = async (password: Buffer, key: Buffer) => {
-	// return Buffer.from(await scrypt(password, key, 16384, 8, 1, ALGORITHM.KEY_BYTE_LEN))
 	const keyMaterial = await window.crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits", "deriveKey"])
 
 	return window.crypto.subtle.deriveKey(
@@ -57,14 +54,14 @@ export const generateMasterKey = async (password: Buffer, key: Buffer) => {
  * @param {Buffer} masterKey
  * @return {Buffer} encrypted text
  */
-export const encrypt = async (text: string, masterKey) => {
+export const encrypt = async (text: string, masterKey: CryptoKey) => {
 	const iv = window.crypto.getRandomValues(new Uint8Array(12))
-	let encoder = new TextEncoder()
+	const encoder = new TextEncoder()
 
 	const encrypted = await window.crypto.subtle.encrypt(
 		{
 			name: "AES-GCM",
-			iv: iv,
+			iv,
 		},
 		masterKey,
 		encoder.encode(text)
@@ -82,22 +79,22 @@ export const encrypt = async (text: string, masterKey) => {
  * @param {Buffer} masterKey
  * @returns {Buffer} decrypted text
  */
-export const decrypt = async (text: string, masterKey) => {
-	let value = text.split("@")
+export const decrypt = async (text: string, masterKey: CryptoKey) => {
+	const value = text.split("@")
 
-	let ciphertext = Buffer.from(value[0], "base64")
-	let iv = Buffer.from(value[1], "base64")
+	const ciphertext = Buffer.from(value[0], "base64")
+	const iv = Buffer.from(value[1], "base64")
 
-	let decrypted = await window.crypto.subtle.decrypt(
+	const decrypted = await window.crypto.subtle.decrypt(
 		{
 			name: "AES-GCM",
-			iv: iv,
+			iv,
 		},
 		masterKey,
 		ciphertext
 	)
 
-	let dec = new TextDecoder()
+	const dec = new TextDecoder()
 
 	return dec.decode(decrypted)
 }
@@ -107,6 +104,6 @@ export const decrypt = async (text: string, masterKey) => {
  * @param {string|Buffer} text
  * @returns {string} sha512 text
  */
-export const hash = (text: string | Buffer): string => {
+/* export const hash = (text: string | Buffer): string => {
 	return crypto.createHash("sha512").update(text).digest("base64")
-}
+} */

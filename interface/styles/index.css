@@ -34,6 +34,14 @@
 	.code {
 		@apply transparent-800 mb-10 flex w-full flex-col rounded-2xl p-3;
 	}
+
+	.dialog {
+		@apply mx-auto rounded-2xl bg-gray-700 p-10 text-white;
+	}
+
+	.edit {
+		@apply transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left;
+	}
 }
 
 /* body */
@@ -43,9 +51,10 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	background: url("../../images/mica.png");
+	/* background: url("../../images/mica.png"); */
 	line-height: normal;
 	font-family: system-ui, Arial;
+	user-select: none;
 }
 
 /* headings */
@@ -76,6 +85,7 @@ h5 {
 	color: #d3cfcf;
 }
 
+/* backdrops */
 .transparent-900 {
 	background-color: hsla(0, 0%, 100%, 5.12%);
 }
@@ -106,6 +116,11 @@ h5 {
 	background: gray;
 }
 
+::-ms-reveal {
+	display: none;
+}
+
+/* progress bar */
 .progress {
 	position: relative;
 	width: 95%;
@@ -120,4 +135,46 @@ h5 {
 	height: 100%;
 	background: white;
 	transition: all 0.2s;
+}
+
+/* scrollbar */
+::-webkit-scrollbar-track {
+	background-color: #000000;
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+	background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgb(40, 40, 40);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgb(50, 50, 50);
+}
+
+::-webkit-scrollbar-corner {
+	background-color: #000000;
+}
+
+/* dialog */
+.dialog::backdrop {
+	background: rgb(0 0 0 / 0.9);
+}
+
+dialog[open] {
+	animation: fadeEffect 0.5s;
+}
+
+/* input */
+.input::placeholder {
+	color: gray;
+	font-weight: normal;
+}
+
+.input:read-only {
+	background-color: hsla(0, 0%, 100%, 5.12%);
+	cursor: default;
 }

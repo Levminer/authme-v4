@@ -32,10 +32,10 @@
 
 	import Landing from "../windows/landing/landing.svelte"
 	import Codes from "../windows/codes/codes.svelte"
-	import Settings from "../windows/settings.svelte"
+	import Settings from "../windows/settings/settings.svelte"
 	import Import from "../windows/import/import.svelte"
 	import Export from "../windows/export/export.svelte"
-	import Confirm from "../windows/confirm.svelte"
+	import Confirm from "../windows/confirm/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"
 	import Edit from "../windows/edit/edit.svelte"
 
