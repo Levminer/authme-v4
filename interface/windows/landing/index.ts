@@ -1,5 +1,5 @@
-import { navigate } from "../../../libraries/navigate"
-import { generateRandomKey, generateSalt } from "../../../libraries/auth"
+import { navigate } from "../../libraries/navigate"
+import { generateRandomKey, generateSalt } from "../../libraries/auth"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 

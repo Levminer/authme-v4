@@ -7,10 +7,11 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"start": "node scripts/build.cjs alpha && tauri dev",
 		"dev": "parcel ./interface/layout/index.html --port 3000",
-		"build:bundle": "parcel build ./interface/layout/index.html --no-content-hash --no-source-maps",
 		"build": "node scripts/build.cjs alpha && tauri build",
-		"start": "node scripts/build.cjs alpha && tauri dev"
+		"build:alpha": "node scripts/build.cjs alpha && tauri build",
+		"build:bundle": "parcel build ./interface/layout/index.html --no-content-hash --no-source-maps"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.2",
