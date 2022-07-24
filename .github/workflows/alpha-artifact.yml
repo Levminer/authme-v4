@@ -31,7 +31,7 @@ jobs:
         run: >
           sudo apt-get update
 
-          sudo apt-get install -y webkit2gtk-4.0 libayatana-appindicator
+          sudo apt-get install -y webkit2gtk-4.0 libayatana-appindicator-dev
       - name: Install app dependencies and build it
         run: npm ci && npm run build:alpha
       - uses: tauri-apps/tauri-action@v0
