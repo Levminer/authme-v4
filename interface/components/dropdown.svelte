@@ -50,7 +50,7 @@
 	const classNames = (...classes: (string | false | null | undefined)[]) => {
 		return classes.filter(Boolean).join(" ")
 	}
-	const people = ["English (US)", "Magyar (HU)"]
+	const people = ["Default", "A-Z", "Z-A"]
 	let active: string | undefined
 	if (active === undefined) {
 		active = people[Math.floor(Math.random() * people.length)]

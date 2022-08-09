@@ -12,7 +12,7 @@
 		<div class="top" />
 
 		<Route path="/"><Landing /></Route>
-		<!-- <Route path="/confirm"><Confirm /></Route> -->
+		<Route path="/confirm"><Confirm /></Route>
 
 		<Route path="/codes"><Codes /></Route>
 		<Route path="/import"><Import /></Route>
@@ -35,7 +35,7 @@
 	import Settings from "../windows/settings/settings.svelte"
 	import Import from "../windows/import/import.svelte"
 	import Export from "../windows/export/export.svelte"
-	// import Confirm from "../windows/confirm/confirm.svelte"
+	import Confirm from "../windows/confirm/confirm.svelte"
 	import Navigation from "../components/navigation.svelte"
 	import Edit from "../windows/edit/edit.svelte"
 

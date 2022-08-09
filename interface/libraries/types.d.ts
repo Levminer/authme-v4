@@ -32,10 +32,26 @@ declare global {
 	}
 
 	interface LibSettings {
+		info: {
+			version: string
+			build: string
+			date: string
+		}
+
 		security: {
 			requireAuthentication: null | boolean
 			password: null | string
 			key: null | string
+		}
+
+		settings: {
+			launchOnStartup: boolean
+			minimizeToTray: boolean
+			optionalAnalytics: boolean
+			codesDescription: boolean
+			blurCodes: boolean
+			searchHistory: boolean
+			sortCodes: null | number
 		}
 	}
 

@@ -8,7 +8,7 @@
 				<h3>Start Authme after your computer started. Authme will start on the system tray.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.launchOnStartup} />
 			</div>
 		</div>
 
@@ -18,7 +18,7 @@
 				<h3>When closeing the app Authme will not quit. You can open Authme from the system tray.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.minimizeToTray} />
 			</div>
 		</div>
 
@@ -28,7 +28,7 @@
 				<h3>Send optional analytics, the sent data is completely anonymous. This includes your Authme version and your OS version.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.optionalAnalytics} />
 			</div>
 		</div>
 
@@ -59,7 +59,7 @@
 				<h3>The saved codes description will be visible. You can copy it after clicking it.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.codesDescription} />
 			</div>
 		</div>
 
@@ -69,7 +69,7 @@
 				<h3>Blur the saved codes. You can still copy the codes or hover over the codes to show them.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.blurCodes} />
 			</div>
 		</div>
 
@@ -79,7 +79,7 @@
 				<h3>Save the latest code you searched for. Works even after restart.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle />
+				<Toggle bind:checked={$settings.settings.searchHistory} />
 			</div>
 		</div>
 
@@ -151,6 +151,7 @@
 	import Dropdown from "../../components/dropdown.svelte"
 	import Toggle from "../../components/toggle.svelte"
 	import { about, clearData } from "./index"
+	import { settings } from "../../stores/settings"
 
 	const handleMessage = (event) => {
 		console.log(event.detail.value)
