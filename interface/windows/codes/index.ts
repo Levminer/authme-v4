@@ -30,13 +30,13 @@ export const generateCodeElements = (data: LibImportFile) => {
 			element.innerHTML = `
 			<div class="mt-5 flex flex-row px-5">
 				<div class="flex flex-1 justify-start">
-					<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal">-</h3>
+					<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
 				</div>
 				<div class="flex flex-1 justify-center">
-					<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl">-</p>
+					<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
 				</div>
 				<div class="flex flex-1 justify-end">
-					<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal">-</h3>
+					<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
 				</div>
 			</div>
 			<div class="mt-5 flex flex-col items-center justify-center">
@@ -66,6 +66,11 @@ export const generateCodeElements = (data: LibImportFile) => {
 			const description = document.querySelector(`#description${i}`)
 			const progress = document.querySelector(`#progress${i}`)
 			const button = document.querySelector(`#button${i}`)
+
+			// blur codes
+			if (settings.settings.blurCodes === true) {
+				code.classList.add("blurCodes")
+			}
 
 			// add to query
 			searchQuery.push(`${issuers[i].toLowerCase().trim()}`)

@@ -89,7 +89,7 @@
 				<h3>You can choose how to sort the codes. By default codes are sorted by importing order.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Dropdown on:message={handleMessage} />
+				<Dropdown />
 			</div>
 		</div>
 	</div>
@@ -152,8 +152,4 @@
 	import Toggle from "../../components/toggle.svelte"
 	import { about, clearData } from "./index"
 	import { settings } from "../../stores/settings"
-
-	const handleMessage = (event) => {
-		console.log(event.detail.value)
-	}
 </script>
