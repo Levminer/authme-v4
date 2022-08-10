@@ -45,7 +45,7 @@
 				<h3>You can revert the current changes you made.</h3>
 			</div>
 			<div class="ml-10 flex gap-3">
-				<button class="button">
+				<button class="button" on:click={revertChanges}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
@@ -81,5 +81,5 @@
 </div>
 
 <script lang="ts">
-	import { deleteCodes, loadSavedCodes, saveChanges } from "./index"
+	import { deleteCodes, loadSavedCodes, revertChanges, saveChanges } from "./index"
 </script>

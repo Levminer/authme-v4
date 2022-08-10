@@ -93,6 +93,12 @@ export const loadSavedCodes = async () => {
 }
 
 export const saveChanges = async () => {
+	const confirm = await dialog.ask("Are you sure you want to save the changes? \n\nThis will overwrite your saved codes!", { type: "warning" })
+
+	if (confirm === false) {
+		return
+	}
+
 	const settings = getSettings()
 
 	let saveText = ""
@@ -119,13 +125,25 @@ export const saveChanges = async () => {
 	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
 
 	await fs.writeTextFile(filePath, JSON.stringify(fileContents, null, "\t"))
+
+	navigate("codes")
+}
+
+export const revertChanges = async () => {
+	const confirm = await dialog.ask("Are you sure you want to revert all changes? \n\nYou will lose all current changes!", { type: "warning" })
+
+	if (confirm === false) {
+		return
+	}
+
+	location.reload()
 }
 
 /**
  * Delete all imported codes
  */
 export const deleteCodes = async () => {
-	const confirm0 = await dialog.ask("Are you sure you want to delete all codes? \n\nYou can not revert this.", { type: "warning" })
+	const confirm0 = await dialog.ask("Are you sure you want to delete all codes? \n\nYou can not revert this!", { type: "warning" })
 
 	if (confirm0 === false) {
 		return
@@ -137,7 +155,7 @@ export const deleteCodes = async () => {
 		const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
 		await fs.removeFile(filePath)
 
-		navigate("/")
+		navigate("codes")
 	}
 }
 
@@ -152,20 +170,28 @@ export const editCode = (id: number) => {
 	if (issuer.readOnly === true) {
 		issuer.readOnly = false
 		name.readOnly = false
+
+		issuer.style.color = "#28A443"
+		name.style.color = "#28A443"
 	} else {
 		issuer.readOnly = true
 		name.readOnly = true
+
+		issuer.style.color = "white"
+		name.style.color = "white"
 
 		const newIssuer = document.querySelector(`#issuer${id}`).value
 		const newName = document.querySelector(`#name${id}`).value
 
 		issuers[id] = newIssuer
 		names[id] = newName
+
+		dialog.message("Code edited. \n\nYou can save or revert this change at the top of the page.")
 	}
 }
 
 export const deleteCode = async (id: number) => {
-	const res = await dialog.ask("Are you sure?")
+	const res = await dialog.ask("Are you sure you want to delete this code? \n\nYou can save or revert this change at the top of the page.", { type: "warning" })
 
 	if (res === true) {
 		names.splice(id, 1)
