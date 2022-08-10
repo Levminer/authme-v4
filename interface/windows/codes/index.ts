@@ -6,6 +6,7 @@ import { getSettings, setSettings } from "../../stores/settings"
 import { generateTimestamp } from "../../libraries/time"
 import { getState, setState } from "../../stores/state"
 
+const settings = getSettings()
 let codesRefresher: NodeJS.Timer
 let searchQuery: string[] = []
 let saveText: string = ""
@@ -27,31 +28,60 @@ export const generateCodeElements = (data: LibImportFile) => {
 			const element = document.createElement("div")
 
 			// set div content
-			element.innerHTML = `
-			<div class="mt-5 flex flex-row px-5">
-				<div class="flex flex-1 justify-start">
-					<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+			if (settings.settings.codesDescription === false) {
+				element.innerHTML = `
+				<div class="mt-5 flex flex-row px-5">
+					<div class="flex flex-1 justify-start">
+						<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+					</div>
+					<div class="flex flex-1 justify-center">
+						<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
+					</div>
+					<div class="flex flex-1 justify-end">
+						<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+					</div>
 				</div>
-				<div class="flex flex-1 justify-center">
-					<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
+				<div class="mt-5 flex flex-col items-center justify-center">
+					<div class="progress">
+						<div id="progress${i}" class="progressFill" />
+					</div>
 				</div>
-				<div class="flex flex-1 justify-end">
-					<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+				<div class="mb-5 mt-5 flex items-center justify-center">
+					<button id="button${i}" class="button w-[140px] py-3 px-5">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+						</svg>
+						Copy
+					</button>
+				</div>`
+			} else {
+				element.innerHTML = `
+				<div class="mt-5 flex flex-row px-5">
+					<div class="flex flex-1 justify-start">
+						<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+					</div>
+					<div class="flex flex-1 justify-center">
+						<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
+					</div>
+					<div class="flex flex-1 justify-end">
+						<h3 id="time${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+					</div>
 				</div>
-			</div>
-			<div class="mt-5 flex flex-col items-center justify-center">
-				<div class="progress">
-					<div id="progress${i}" class="progressFill" />
+				<div class="mt-5 flex flex-col items-center justify-center">
+					<div class="progress">
+						<div id="progress${i}" class="progressFill" />
+					</div>
 				</div>
-			</div>
-			<div class="mb-5 mt-5 flex items-center justify-center">
-				<button id="button${i}" class="button w-[140px] py-3 px-5">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-					</svg>
-					Copy
-				</button>
-		    </div>`
+				<p tabindex="0" class="text-2xl transparent-900 py-3 px-5 rounded-2xl select-all mt-5" id="description${i}">Description</p>
+				<div class="mb-5 mt-5 flex items-center justify-center">
+					<button id="button${i}" class="button w-[140px] py-3 px-5">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+						</svg>
+						Copy
+					</button>
+				</div>`
+			}
 
 			// add div
 			element.classList.add("code")
@@ -70,6 +100,11 @@ export const generateCodeElements = (data: LibImportFile) => {
 			// blur codes
 			if (settings.settings.blurCodes === true) {
 				code.classList.add("blurCodes")
+			}
+
+			// description
+			if (settings.settings.codesDescription === true) {
+				description.textContent = names[i]
 			}
 
 			// add to query
@@ -128,6 +163,16 @@ export const generateCodeElements = (data: LibImportFile) => {
 			console.error("Error refreshing codes")
 		}
 	}, 500)
+
+	// latest search from history
+	const latestSearch = settings.searchHistory.latest
+
+	if (latestSearch !== null && latestSearch.trim() !== "" && settings.settings.searchHistory === true) {
+		const searchBar: HTMLInputElement = document.querySelector(".search")
+		searchBar.value = settings.searchHistory.latest
+
+		search()
+	}
 }
 
 const refreshCodes = (secrets: string[]) => {
@@ -162,6 +207,13 @@ export const search = () => {
 	const searchBar: HTMLInputElement = document.querySelector(".search")
 	const input = searchBar.value.toLowerCase()
 	let noResults = 0
+
+	// save results
+	if (settings.settings.searchHistory === true) {
+		settings.searchHistory.latest = input
+
+		setSettings(settings)
+	}
 
 	// restart
 	for (let i = 0; i < searchQuery.length; i++) {
@@ -209,8 +261,6 @@ export const chooseImportFile = async () => {
 }
 
 const saveCodes = async () => {
-	const settings = getSettings()
-
 	const password = Buffer.from(settings.security.password, "base64")
 	const key = Buffer.from(settings.security.key, "base64")
 
@@ -237,7 +287,6 @@ const saveCodes = async () => {
 }
 
 export const loadCodes = async () => {
-	const settings = getSettings()
 	const state = getState()
 	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
 
@@ -265,15 +314,17 @@ export const loadCodes = async () => {
 		if (state.importData !== null) {
 			savedCodes = false
 
-			generateCodeElements(textConverter(state.importData + decrypted, 0))
+			generateCodeElements(textConverter(state.importData + decrypted, settings.settings.sortCodes))
 
 			saveText = state.importData + decrypted
 		} else {
-			generateCodeElements(textConverter(decrypted, 0))
+			generateCodeElements(textConverter(decrypted, settings.settings.sortCodes))
 		}
+
+		document.querySelector<HTMLInputElement>(".search").focus()
 	} else {
 		if (state.importData !== null) {
-			generateCodeElements(textConverter(state.importData, 0))
+			generateCodeElements(textConverter(state.importData, settings.settings.sortCodes))
 
 			saveText = state.importData
 		}

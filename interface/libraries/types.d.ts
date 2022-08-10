@@ -53,6 +53,10 @@ declare global {
 			searchHistory: boolean
 			sortCodes: null | number
 		}
+
+		searchHistory: {
+			latest: string
+		}
 	}
 
 	/** Query selector element types */

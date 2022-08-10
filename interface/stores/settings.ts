@@ -21,7 +21,11 @@ const defaultSettings: LibSettings = {
 		codesDescription: false,
 		blurCodes: false,
 		searchHistory: true,
-		sortCodes: null,
+		sortCodes: 0,
+	},
+
+	searchHistory: {
+		latest: null,
 	},
 }
 
