@@ -1,14 +1,23 @@
 import { navigate } from "../../libraries/navigate"
 import { getSettings } from "../../stores/settings"
 import { dialog, invoke } from "@tauri-apps/api"
+import { getState, setState } from "../../stores/state"
 
 export const confirmPassword = async () => {
 	const settings = getSettings()
 	const input = document.querySelector(".passwordInput").value
 
-	const result = await invoke("verify_password", { password: input, hash: settings.security.password })
+	const result = await invoke("verify_password", { password: input, hash: Buffer.from(settings.security.password, "base64").toString() })
 
-    console.log(result)
+	if (result === true) {
+		const state = getState()
+		state.authenticated = true
+		setState(state)
+
+		navigate("codes")
+	} else {
+		dialog.message("Passwords don't match! \n\nPlease try again!", { type: "error" })
+	}
 }
 
 export const showPassword = () => {

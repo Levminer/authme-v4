@@ -1,4 +1,4 @@
-<div class="transparent-900 m-auto mt-40 mb-60 w-3/5 rounded-2xl p-10 text-center">
+<div class="transparent-900 landing m-auto mt-40 mb-60 w-3/5 rounded-2xl p-10 text-center">
 	<h1>Welcome to Authme!</h1>
 
 	<div class="mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
@@ -12,7 +12,7 @@
 				<h4 data-loc class="mb-3">Require password</h4>
 				<h5 data-loc class="mb-3">You have to type in a password every time you launch Authme.</h5>
 
-				<button class="button requirePassword">
+				<button class="button" on:click={requirePassword}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
@@ -31,26 +31,10 @@
 				</button>
 			</div>
 		</div>
-		<Details>
-			<div class="flex justify-between">
-				<div>
-					<h4>Looking for more methods?</h4>
-					<h5>Check out Authme Pro.</h5>
-				</div>
-				<div>
-					<button class="smallButton">
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-						</svg>
-						More information
-					</button>
-				</div>
-			</div>
-		</Details>
 	</div>
 </div>
 
-<div class="transparent-900 m-auto mt-40 mb-60 hidden w-3/5 rounded-2xl p-10 text-center">
+<div class="transparent-900 requirePassword m-auto mt-40 mb-60 hidden w-3/5 rounded-2xl p-10 text-center">
 	<h1>Require password</h1>
 
 	<div class="mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
@@ -130,7 +114,7 @@
 				</div>
 			</div>
 
-			<button class="button mx-auto mt-10">
+			<button class="button mx-auto mt-10" on:click={createPassword}>
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 				</svg>
@@ -145,7 +129,12 @@
 					<h5>Go back to the previous page and choose a different login method.</h5>
 				</div>
 				<div class="ml-20">
-					<button class="smallButton">
+					<button
+						class="smallButton"
+						on:click={() => {
+							location.reload()
+						}}
+					>
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
 						</svg>
@@ -158,23 +147,11 @@
 </div>
 
 <script lang="ts">
-	import { noPassword } from "./index"
-
+	import { appController, createPassword, noPassword, requirePassword, showPassword } from "./index"
 	import Details from "../../components/details.svelte"
+	import { onMount } from "svelte"
 
-	const showPassword = (id: number) => {
-		const inputState = document.querySelector(`.passwordInput${id}`).getAttribute("type")
-
-		if (inputState === "password") {
-			document.querySelector(`.showPassword${id}`).style.display = "none"
-			document.querySelector(`.hidePassword${id}`).style.display = "block"
-
-			document.querySelector(`.passwordInput${id}`).setAttribute("type", "text")
-		} else {
-			document.querySelector(`.showPassword${id}`).style.display = "block"
-			document.querySelector(`.hidePassword${id}`).style.display = "none"
-
-			document.querySelector(`.passwordInput${id}`).setAttribute("type", "password")
-		}
-	}
+	onMount(() => {
+		appController()
+	})
 </script>
