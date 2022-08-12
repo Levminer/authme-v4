@@ -23,6 +23,7 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
         if id.as_str() == "exit" {
             std::process::exit(0);
         }
+
         if id.as_str() == "toggle" {
             let window = app.get_window("main").unwrap();
             let menu_item = app.tray_handle().get_item("toggle");
@@ -31,10 +32,6 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
                 window.hide().unwrap();
                 menu_item.set_title("Show Authme").unwrap();
             } else {
-                #[cfg(target_os = "windows")]
-                apply_mica(&window)
-                    .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
-
                 window.show().unwrap();
                 menu_item.set_title("Hide Authme").unwrap();
             }
@@ -50,7 +47,8 @@ fn main() {
             // auto_launch::auto_launch,
             system_info::system_info,
             encrypt_password::encrypt_password,
-            encrypt_password::verify_password
+            encrypt_password::verify_password,
+            encrypt_password::request_password
         ])
         .system_tray(make_tray())
         .on_system_tray_event(handle_tray_event)
@@ -72,6 +70,14 @@ fn main() {
             window.set_decorations(true).unwrap();
 
             Ok(())
+        })
+        .on_window_event(|event| match event.event() {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                api.prevent_close();
+
+                event.window().hide().unwrap();
+            }
+            _ => {}
         })
         .run(context)
         .expect("error while running tauri application");

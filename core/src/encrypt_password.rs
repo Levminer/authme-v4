@@ -3,6 +3,8 @@ use argon2::{
     Argon2,
 };
 
+static mut storedPassword: String = String::new();
+
 #[tauri::command]
 pub fn encrypt_password(password: String) -> String {
     let salt = SaltString::generate(&mut OsRng);
@@ -27,13 +29,25 @@ pub fn encrypt_password(password: String) -> String {
 
 #[tauri::command]
 pub fn verify_password(password: String, hash: String) -> bool {
-    let password = password.as_bytes();
 
     let parsed_hash = PasswordHash::new(&hash).unwrap();
 
     let result = Argon2::default()
-        .verify_password(password, &parsed_hash)
+        .verify_password(password.as_bytes(), &parsed_hash)
         .is_ok();
 
+    if result {
+        unsafe {
+            storedPassword = password;
+        }
+    }
+
     result.into()
+}
+
+#[tauri::command]
+pub fn request_password() -> String {
+    unsafe {
+        storedPassword.as_str().into()
+    }
 }
