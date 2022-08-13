@@ -81,7 +81,7 @@
 		<Details>
 			<div class="flex justify-between">
 				<div>
-					<h4>Webcam</h4>
+					<h4 class="text-white">Webcam</h4>
 					<h5>Use your webcam to scan a 2FA QR code.</h5>
 				</div>
 				<div>
@@ -98,11 +98,11 @@
 			</div>
 			<div class="mt-5 flex justify-between">
 				<div>
-					<h4>Screen capture</h4>
+					<h4 class="text-white">Screen capture</h4>
 					<h5>Capture a 2FA QR code from your screen.</h5>
 				</div>
 				<div>
-					<button class="smallButton">
+					<button class="smallButton" on:click={captureScreen}>
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 							<rect x="3" y="4" width="18" height="12" rx="1" />
@@ -114,9 +114,26 @@
 					</button>
 				</div>
 			</div>
+			<div class="mt-5 flex justify-between">
+				<div>
+					<h4 class="text-white">Authme file</h4>
+					<h5>Import all codes from an Authme import file.</h5>
+				</div>
+				<div>
+					<button class="smallButton" on:click={chooseFile}>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+						</svg>
+						Choose file
+					</button>
+				</div>
+			</div>
 		</Details>
 	</div>
 </div>
+
+<!-- svelte-ignore a11y-media-has-caption -->
+<video class="video" autoplay />
 
 <dialog class="dialog dialog0 w-2/3">
 	<h2>Manual entry</h2>
@@ -137,7 +154,7 @@
 		</div>
 	</div>
 
-	<div class="mt-10 flex justify-end space-x-5">
+	<div class="mt-10 flex space-x-5">
 		<button class="button dialog0Close">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -154,7 +171,7 @@
 </dialog>
 
 <script>
-	import { chooseImages, manualEntry } from "./index"
+	import { captureScreen, chooseFile, chooseImages, manualEntry } from "./index"
 	import Details from "../../components/details.svelte"
 
 	const showManualEntry = () => {

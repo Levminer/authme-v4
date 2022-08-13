@@ -89,3 +89,34 @@ export const manualEntry = () => {
 	document.querySelector(".secret").value = ""
 	document.querySelector(".description").value = ""
 }
+
+export const chooseFile = async () => {
+	const state = getState()
+	const filePath = await dialog.open({ filters: [{ name: "Authme file", extensions: ["authme"] }] })
+
+	if (filePath !== null) {
+		const loadedFile = await fs.readTextFile(filePath.toString())
+		const file: LibAuthmeFile = JSON.parse(loadedFile)
+		const text = Buffer.from(file.codes, "base64").toString()
+
+		state.importData = text
+		setState(state)
+
+		navigate("codes")
+	}
+}
+
+export const captureScreen = async () => {
+	const videoElement: HTMLVideoElement = document.querySelector(".video")
+
+	try {
+		// @ts-ignore
+		videoElement.srcObject = await navigator.mediaDevices.getDisplayMedia({ audio: false })
+
+		let tracks = videoElement.srcObject.getTracks()
+
+		console.log(tracks)
+	} catch (err) {
+		console.error(`Error: ${err}`)
+	}
+}
