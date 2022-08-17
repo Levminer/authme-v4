@@ -249,14 +249,16 @@ export const chooseImportFile = async () => {
 	if (filePath !== null) {
 		const loadedFile = await fs.readTextFile(filePath.toString())
 		const file: LibAuthmeFile = JSON.parse(loadedFile)
-		const text = Buffer.from(file.codes, "base64").toString()
+		const importString = Buffer.from(file.codes, "base64").toString()
 
-		saveText = text
+		saveText = importString
 
-		state.importData = text
+		dialog.message("Codes imported. \n\nYou can edit your codes on the edit page.")
+
+		state.importData = importString
 		setState(state)
 
-		generateCodeElements(textConverter(text, 0))
+		generateCodeElements(textConverter(importString, 0))
 	}
 }
 

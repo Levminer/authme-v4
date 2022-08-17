@@ -132,10 +132,26 @@
 	</div>
 </div>
 
-<!-- svelte-ignore a11y-media-has-caption -->
-<video class="video" autoplay />
+<dialog class="dialog dialog1 overflow-hidden">
+	<h2>Capture screen</h2>
+	<h3>Waiting for a QR code...</h3>
 
-<dialog class="dialog dialog0 w-2/3">
+	<div class="mt-10 flex aspect-video h-60 flex-row space-x-5">
+		<!-- svelte-ignore a11y-media-has-caption -->
+		<video class="video rounded-xl bg-white p-1" autoplay />
+	</div>
+
+	<div class="mt-10">
+		<button class="button stopVideo">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+			Stop
+		</button>
+	</div>
+</dialog>
+
+<dialog class="dialog dialog0">
 	<h2>Manual entry</h2>
 	<h3>Please enter the 2FA secret and name!</h3>
 
@@ -171,17 +187,6 @@
 </dialog>
 
 <script>
-	import { captureScreen, chooseFile, chooseImages, manualEntry } from "./index"
+	import { captureScreen, chooseFile, chooseImages, manualEntry, showManualEntry } from "./index"
 	import Details from "../../components/details.svelte"
-
-	const showManualEntry = () => {
-		const /** @type{LibDialogElement} */ dialog = document.querySelector(".dialog0")
-		const closeDialog = document.querySelector(".dialog0Close")
-
-		closeDialog.addEventListener("click", () => {
-			dialog.close()
-		})
-
-		dialog.showModal()
-	}
 </script>
