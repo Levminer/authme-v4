@@ -31,6 +31,11 @@ declare global {
 		importData: null | string
 	}
 
+	interface LibSearchQuery {
+		name: string
+		description: string
+	}
+
 	interface LibSettings {
 		info: {
 			version: string
@@ -56,6 +61,11 @@ declare global {
 
 		searchHistory: {
 			latest: string
+		}
+
+		searchFilter: {
+			name: boolean
+			description: boolean
 		}
 	}
 

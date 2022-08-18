@@ -8,7 +8,7 @@ import { getState, setState } from "../../stores/state"
 
 const settings = getSettings()
 let codesRefresher: NodeJS.Timer
-let searchQuery: string[] = []
+let searchQuery: LibSearchQuery[] = []
 let saveText: string = ""
 let savedCodes = false
 
@@ -108,7 +108,10 @@ export const generateCodeElements = (data: LibImportFile) => {
 			}
 
 			// add to query
-			searchQuery.push(`${issuers[i].toLowerCase().trim()}`)
+			searchQuery.push({
+				name: `${issuers[i].toLowerCase().trim()}`,
+				description: `${names[i].toLowerCase().trim()}`,
+			})
 
 			// generate token
 			const token = new TOTP({
@@ -225,7 +228,17 @@ export const search = () => {
 
 	// search algorithm
 	for (let i = 0; i < searchQuery.length; i++) {
-		if (!searchQuery[i].startsWith(input)) {
+		let searchParameter: boolean
+
+		if (settings.searchFilter.name === true && settings.searchFilter.description === false) {
+			searchParameter = searchQuery[i].name.startsWith(input)
+		} else if (settings.searchFilter.description === true && settings.searchFilter.name === false) {
+			searchParameter = searchQuery[i].description.startsWith(input)
+		} else {
+			searchParameter = `${searchQuery[i].name} ${searchQuery[i].description}`.includes(input)
+		}
+
+		if (!searchParameter) {
 			const div = document.querySelector(`#codes${[i]}`)
 			div.style.display = "none"
 

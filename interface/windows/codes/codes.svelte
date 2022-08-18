@@ -8,9 +8,9 @@
 
 			<input on:keyup={search} class="search input w-96 pl-12 pr-12" type="text" />
 
-			<svg xmlns="http://www.w3.org/2000/svg" class="relative right-9 h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-			</svg>
+			<div class="relative right-9 top-0.5">
+				<SearchFilter />
+			</div>
 		</div>
 	</div>
 	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
@@ -88,6 +88,7 @@
 	import { onMount, onDestroy } from "svelte"
 	import { stopCodesRefresher, search, chooseImportFile, loadCodes } from "./index"
 	import { navigate, open } from "../../libraries/navigate"
+	import SearchFilter from "../../components/searchFilter.svelte"
 
 	onMount(() => {
 		loadCodes()

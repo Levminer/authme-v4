@@ -27,6 +27,11 @@ const defaultSettings: LibSettings = {
 	searchHistory: {
 		latest: null,
 	},
+
+	searchFilter: {
+		name: true,
+		description: false,
+	},
 }
 
 export const settings: Writable<LibSettings> = writable(localStorage.settings ? JSON.parse(localStorage.settings) : defaultSettings)
