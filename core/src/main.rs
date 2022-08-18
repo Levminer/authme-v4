@@ -10,6 +10,12 @@ mod auto_launch;
 mod encrypt_password;
 mod system_info;
 
+// the payload type must implement `Serialize` and `Clone`.
+#[derive(Clone, serde::Serialize)]
+struct Payload {
+    message: String,
+}
+
 fn make_tray() -> SystemTray {
     let menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("toggle".to_string(), "Hide Authme"))
@@ -19,22 +25,44 @@ fn make_tray() -> SystemTray {
 }
 
 fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
+    let toggle_window = |app: AppHandle| -> () {
+        let window = app.get_window("main").unwrap();
+        let menu_item = app.tray_handle().get_item("toggle");
+
+        if window.is_visible().unwrap() {
+            window.hide().unwrap();
+            menu_item.set_title("Show Authme").unwrap();
+        } else {
+            window.show().unwrap();
+            menu_item.set_title("Hide Authme").unwrap();
+        }
+    };
+
+    if let SystemTrayEvent::LeftClick { position, size, .. } = event {
+        toggle_window(app.clone())
+    }
+
     if let SystemTrayEvent::MenuItemClick { id, .. } = event {
         if id.as_str() == "exit" {
             std::process::exit(0);
         }
 
-        if id.as_str() == "toggle" {
+        if id.as_str() == "settings" {
             let window = app.get_window("main").unwrap();
-            let menu_item = app.tray_handle().get_item("toggle");
 
-            if window.is_visible().unwrap() {
-                window.hide().unwrap();
-                menu_item.set_title("Show Authme").unwrap();
-            } else {
-                window.show().unwrap();
-                menu_item.set_title("Hide Authme").unwrap();
-            }
+            window.show().unwrap();
+
+            app.emit_all(
+                "openSettings",
+                Payload {
+                    message: "Open settings page".into(),
+                },
+            )
+            .unwrap()
+        }
+
+        if id.as_str() == "toggle" {
+            toggle_window(app.clone())
         }
     }
 }
