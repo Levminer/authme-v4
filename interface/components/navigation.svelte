@@ -41,8 +41,6 @@
 			</svg>
 			Settings
 		</a>
-
-		<a href="/" class="menuButton mx-3 mt-0"> Landing </a>
 	</div>
 </div>
 

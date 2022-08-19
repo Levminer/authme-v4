@@ -1,7 +1,3 @@
-<svelte:head>
-	<title>hi</title>
-</svelte:head>
-
 <div class="flex h-screen">
 	{#if $state.authenticated}
 		<Navigation />
@@ -11,14 +7,16 @@
 		<BuildNumber />
 		<div class="top" />
 
-		<Route path="/"><Landing /></Route>
-		<Route path="/confirm"><Confirm /></Route>
+		<RouteTransition>
+			<Route path="/"><Landing /></Route>
+			<Route path="/confirm"><Confirm /></Route>
 
-		<Route path="/codes"><Codes /></Route>
-		<Route path="/import"><Import /></Route>
-		<Route path="/export"><Export /></Route>
-		<Route path="/edit"><Edit /></Route>
-		<Route path="/settings"><Settings /></Route>
+			<Route path="/codes"><Codes /></Route>
+			<Route path="/import"><Import /></Route>
+			<Route path="/export"><Export /></Route>
+			<Route path="/edit"><Edit /></Route>
+			<Route path="/settings"><Settings /></Route>
+		</RouteTransition>
 	</div>
 </div>
 
@@ -29,6 +27,7 @@
 
 	// import UpdateAlert from "../components/updateAlert.svelte"
 	import BuildNumber from "../components/buildNumber.svelte"
+	import RouteTransition from "../components/routeTransition.svelte"
 
 	import Landing from "../windows/landing/landing.svelte"
 	import Codes from "../windows/codes/codes.svelte"
