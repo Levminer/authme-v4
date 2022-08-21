@@ -1,6 +1,7 @@
 import App from "./app.svelte"
 import "../styles/index.css"
-import { fs, path, os } from "@tauri-apps/api"
+import { fs, path, os, event } from "@tauri-apps/api"
+import { navigate } from "../libraries/navigate"
 
 const getSettingsPath = async () => {
 	const folderPath = await path.join(await path.configDir(), "Levminer", "Authme 4")
@@ -30,6 +31,21 @@ const setBackground = async () => {
 
 setBackground()
 
+// Tray event handler
+event.listen("openSettings", () => {
+	navigate("settings")
+})
+
+// Tray event handler
+event.listen("focusSearch", () => {
+	const path = location.pathname
+
+	if (path === "/codes") {
+		document.querySelector<HTMLInputElement>(".search").focus()
+	}
+})
+
+// Create svelte app
 const app = new App({
 	target: document.body,
 })

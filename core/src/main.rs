@@ -105,6 +105,20 @@ fn main() {
 
                 event.window().hide().unwrap();
             }
+
+            tauri::WindowEvent::Focused(focused) => {
+                let app = event.window().app_handle();
+
+                if *focused {
+                    app.emit_all(
+                        "focusSearch",
+                        Payload {
+                            message: "Focus search bar".into(),
+                        },
+                    )
+                    .unwrap()
+                }
+            }
             _ => {}
         })
         .run(context)

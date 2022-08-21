@@ -6,5 +6,5 @@
 
 <script>
 	import { router } from "tinro"
-	import { fade, fly } from "svelte/transition"
+	import { fade } from "svelte/transition"
 </script>
