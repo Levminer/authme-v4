@@ -2,6 +2,7 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+#![allow(dead_code, unused_imports, unused_variables)]
 
 use tauri::*;
 use window_vibrancy::{apply_mica, apply_vibrancy, NSVisualEffectMaterial};
@@ -10,7 +11,6 @@ mod auto_launch;
 mod encrypt_password;
 mod system_info;
 
-// the payload type must implement `Serialize` and `Clone`.
 #[derive(Clone, serde::Serialize)]
 struct Payload {
     message: String,
@@ -72,7 +72,7 @@ fn main() {
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            // auto_launch::auto_launch,
+            auto_launch::auto_launch,
             system_info::system_info,
             encrypt_password::encrypt_password,
             encrypt_password::verify_password,
@@ -100,12 +100,6 @@ fn main() {
             Ok(())
         })
         .on_window_event(|event| match event.event() {
-            tauri::WindowEvent::CloseRequested { api, .. } => {
-                api.prevent_close();
-
-                event.window().hide().unwrap();
-            }
-
             tauri::WindowEvent::Focused(focused) => {
                 let app = event.window().app_handle();
 

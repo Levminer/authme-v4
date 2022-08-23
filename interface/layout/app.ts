@@ -1,7 +1,10 @@
 import App from "./app.svelte"
 import "../styles/index.css"
-import { fs, path, os, event } from "@tauri-apps/api"
+import { fs, path, os, event, window } from "@tauri-apps/api"
+import { getSettings } from "../stores/settings"
 import { navigate } from "../libraries/navigate"
+
+const settings = getSettings()
 
 const getSettingsPath = async () => {
 	const folderPath = await path.join(await path.configDir(), "Levminer", "Authme 4")
@@ -42,6 +45,15 @@ event.listen("focusSearch", () => {
 
 	if (path === "/codes") {
 		document.querySelector<HTMLInputElement>(".search").focus()
+	}
+})
+
+// Listen for close request
+window.appWindow.onCloseRequested((event) => {
+	if (settings.settings.minimizeToTray === true) {
+		event.preventDefault()
+
+		window.appWindow.hide()
 	}
 })
 

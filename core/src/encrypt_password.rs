@@ -3,7 +3,7 @@ use argon2::{
     Argon2,
 };
 
-static mut storedPassword: String = String::new();
+static mut STORED_PASSWORD: String = String::new();
 
 #[tauri::command]
 pub fn encrypt_password(password: String) -> String {
@@ -38,7 +38,7 @@ pub fn verify_password(password: String, hash: String) -> bool {
 
     if result {
         unsafe {
-            storedPassword = password;
+            STORED_PASSWORD = password;
         }
     }
 
@@ -48,6 +48,6 @@ pub fn verify_password(password: String, hash: String) -> bool {
 #[tauri::command]
 pub fn request_password() -> String {
     unsafe {
-        storedPassword.as_str().into()
+        STORED_PASSWORD.as_str().into()
     }
 }
