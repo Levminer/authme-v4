@@ -33,7 +33,7 @@
 	}
 
 	.dialog {
-		@apply mx-auto rounded-2xl bg-gray-700 p-10 text-white;
+		@apply mx-auto w-2/4 select-none rounded-2xl bg-gray-700 p-10 text-white;
 	}
 
 	/* edit element */
@@ -47,6 +47,10 @@
 
 	.focusRing {
 		@apply outline-none focus-visible:ring-4 focus-visible:ring-popup-magenta;
+	}
+
+	.checkbox {
+		@apply focusRing form-checkbox relative -top-0.5 transform cursor-pointer rounded-full border-2 text-black outline-none duration-200 ease-in focus:ring-transparent motion-reduce:transform-none motion-reduce:transition-none;
 	}
 }
 
@@ -168,11 +172,29 @@ h5 {
 
 /* dialog */
 .dialog::backdrop {
-	background: rgb(0 0 0 / 0.9);
+	background: rgb(0 0 0 / 0.95);
 }
 
 dialog[open] {
-	animation: fadeEffect 0.5s;
+	animation: show 0.5s ease normal;
+}
+
+dialog.hide {
+	animation: hide 1s ease normal;
+}
+
+@keyframes show {
+	from {
+		transform: translateY(-50%);
+	}
+	to {
+		transform: translateY(0%);
+	}
+}
+@keyframes hide {
+	to {
+		transform: translateY(-110%);
+	}
 }
 
 /* input */
