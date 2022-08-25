@@ -3,7 +3,7 @@ import { resetSettings } from "../../stores/settings"
 import build from "../../../build.json"
 import { fs, path, invoke, os, dialog, app } from "@tauri-apps/api"
 import { UAParser } from "ua-parser-js"
-import { navigate } from "../../libraries/navigate"
+import { navigate, open } from "../../libraries/navigate"
 
 export const about = async () => {
 	const appVersion = await app.getVersion()
@@ -11,20 +11,23 @@ export const about = async () => {
 	const osType = await os.type()
 	const osArch = await os.arch()
 	const osVersion = await os.version()
-	const chromeVersion = new UAParser().getBrowser().version
+	const browser = new UAParser().getBrowser()
 
-	let hardware: any = await invoke("system_info")
+	const browserName = browser.name.replace("Edge", "Chromium").replace("Safari", "WebKit")
+	const browserVersion = browser.version
 
-	hardware = hardware.split("+")
+	const systemInfo: string = await invoke("system_info")
+	const hardware = systemInfo.split("+")
 
 	const cpu = hardware[0]
 		.split("@")[0]
 		.replaceAll("(R)", "")
 		.replaceAll("(TM)", "")
 		.replace(/ +(?= )/g, "")
-	const memory = `${Math.round(hardware[1] / 1024 / 1024)}GB`
 
-	dialog.message(`Authme: ${appVersion} \n\nTauri: ${tauriVersion}\nChrome: ${chromeVersion}\n\nOS version: ${osType} ${osArch.replace("x86_64", "x64")} ${osVersion}\nHardware info: ${cpu}${memory} RAM\n\nRelease date: ${build.date}\nBuild number: ${build.number}\n\nCreated by: Lőrik Levente`)
+	const memory = `${Math.round(parseInt(hardware[1]) / 1024 / 1024)}GB`
+
+	dialog.message(`Authme: ${appVersion} \n\nTauri: ${tauriVersion}\n${browserName}: ${browserVersion}\n\nOS version: ${osType} ${osArch.replace("x86_64", "x64")} ${osVersion}\nHardware info: ${cpu}${memory} RAM\n\nRelease date: ${build.date}\nBuild number: ${build.number}\n\nCreated by: Lőrik Levente`)
 }
 
 export const clearData = async () => {

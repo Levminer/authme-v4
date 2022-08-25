@@ -3,7 +3,7 @@
 	on:change={(event) => {
 		active = event.detail
 
-		sendEvent()
+		$settings.settings.sortCodes = options.indexOf(active)
 	}}
 >
 	<div class="relative">
@@ -16,7 +16,7 @@
 		<Transition enter="transition duration-100 ease-out" enterFrom="transform scale-95 opacity-0" enterTo="transform scale-100 opacity-100" leave="transition duration-75 ease-out" leaveFrom="transform scale-100 opacity-100" leaveTo="transform scale-95 opacity-0">
 			<div class="absolute mt-1 w-full rounded-xl bg-white shadow-lg ">
 				<ListboxOptions class="max-h-60 overflow-auto p-2 text-base leading-6 shadow-xl focus:outline-none sm:text-sm sm:leading-5">
-					{#each people as name (name)}
+					{#each options as name (name)}
 						<ListboxOption
 							value={name}
 							class={({ active }) => {
@@ -45,22 +45,17 @@
 
 <script lang="ts">
 	import { Listbox, ListboxButton, ListboxOption, ListboxOptions, Transition } from "@rgossiaux/svelte-headlessui"
-	import { createEventDispatcher } from "svelte"
+	import { settings } from "../stores/settings"
 
 	const classNames = (...classes: (string | false | null | undefined)[]) => {
 		return classes.filter(Boolean).join(" ")
 	}
-	const people = ["Default", "A-Z", "Z-A"]
+
+	const options = ["Default", "A-Z", "Z-A"]
+
 	let active: string | undefined
+
 	if (active === undefined) {
-		active = people[Math.floor(Math.random() * people.length)]
-	}
-
-	const dispatch = createEventDispatcher()
-
-	const sendEvent = () => {
-		dispatch("message", {
-			value: active,
-		})
+		active = options[$settings.settings.sortCodes]
 	}
 </script>

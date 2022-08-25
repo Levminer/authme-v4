@@ -89,7 +89,7 @@
 				<h3>You can choose how to sort the codes. By default codes are sorted by importing order.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Dropdown />
+				<SortCodes />
 			</div>
 		</div>
 	</div>
@@ -105,7 +105,12 @@
 				<h3>Authme is an open source software. You can view the licenses.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<button class="button" on:click={about}>
+				<button
+					class="button"
+					on:click={() => {
+						open("https://authme.levminer.com/licenses")
+					}}
+				>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 						<circle cx="12" cy="12" r="9" />
@@ -121,7 +126,7 @@
 				<h3>You can view the logs for debugging. You can view all the logs in the settings folder.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<button class="button" on:click={about}>
+				<button class="button" on:click={showLogs}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
 					</svg>
@@ -148,8 +153,9 @@
 </div>
 
 <script>
-	import Dropdown from "../../components/dropdown.svelte"
+	import SortCodes from "../../components/sortCodes.svelte"
 	import Toggle from "../../components/toggle.svelte"
-	import { about, clearData } from "./index"
+	import { about, clearData, showLogs, launchOnStartup } from "./index"
 	import { settings } from "../../stores/settings"
+	import { open } from "../../libraries/navigate"
 </script>
