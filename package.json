@@ -7,10 +7,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "node scripts/build.cjs alpha && tauri dev",
+		"start": "node scripts/build.cjs alpha true && tauri dev",
 		"dev": "parcel ./interface/layout/index.html --port 3000",
-		"build": "node scripts/build.cjs alpha && tauri build",
-		"build:alpha": "node scripts/build.cjs alpha && tauri build",
+		"build": "node scripts/build.cjs alpha false && tauri build",
+		"build:alpha": "node scripts/build.cjs alpha false && tauri build",
 		"build:bundle": "parcel build ./interface/layout/index.html --no-content-hash --no-source-maps"
 	},
 	"devDependencies": {

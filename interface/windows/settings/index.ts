@@ -40,3 +40,13 @@ export const clearData = async () => {
 	navigate("/")
 	location.reload()
 }
+
+export const showLogs = async () => {
+	const folderPath = await path.join(await path.configDir(), "Levminer", "Authme 4")
+
+	open(folderPath)
+}
+
+export const launchOnStartup = () => {
+	invoke("auto_launch")
+}

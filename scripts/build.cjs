@@ -17,6 +17,7 @@ const file = {
 	date: releaseDate,
 	version: package.version,
 	arch: process.arch,
+	dev: process.argv[3],
 }
 
 if (!existsSync("core/target/release")) {

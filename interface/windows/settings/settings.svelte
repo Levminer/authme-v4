@@ -8,7 +8,7 @@
 				<h3>Start Authme after your computer started. Authme will start on the system tray.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<Toggle bind:checked={$settings.settings.launchOnStartup} />
+				<Toggle bind:checked={$settings.settings.launchOnStartup} on:click={launchOnStartup} />
 			</div>
 		</div>
 

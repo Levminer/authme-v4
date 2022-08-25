@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api"
 import { writable, get, Writable } from "svelte/store"
 import build from "../../build.json"
 
@@ -32,6 +33,12 @@ const defaultSettings: LibSettings = {
 		name: true,
 		description: false,
 	},
+}
+
+const dev = build.dev === "true"
+
+if (dev === false && localStorage.settings === undefined) {
+	invoke("auto_launch")
 }
 
 export const settings: Writable<LibSettings> = writable(localStorage.settings ? JSON.parse(localStorage.settings) : defaultSettings)
