@@ -4,6 +4,7 @@
 )]
 #![allow(dead_code, unused_imports, unused_variables)]
 
+use std::env;
 use tauri::*;
 use window_vibrancy::{apply_mica, apply_vibrancy, NSVisualEffectMaterial};
 
@@ -83,6 +84,7 @@ fn main() {
         .setup(|app| {
             let win = app.get_window("main").unwrap();
 
+            // Transparent effects
             #[cfg(target_os = "macos")]
             apply_vibrancy(&win, NSVisualEffectMaterial::AppearanceBased)
                 .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
@@ -92,9 +94,22 @@ fn main() {
                 .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
 
             let window = win.get_window("main").unwrap();
+            let args: Vec<String> = env::args().collect();
 
-            window.maximize().unwrap();
-            window.set_focus().unwrap();
+            // Show window if auto launch argument not detected
+            if args.len() >= 2 {
+                if args[1] != "--minimized" {
+                    window.maximize().unwrap();
+                    window.show().unwrap();
+                    window.set_focus().unwrap();
+                }
+            } else {
+                window.maximize().unwrap();
+                window.show().unwrap();
+                window.set_focus().unwrap();
+            }
+
+            // Temporary fix for transparency
             window.set_decorations(true).unwrap();
 
             Ok(())
