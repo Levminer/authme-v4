@@ -187,3 +187,80 @@ export const captureScreen = async () => {
 		dialog.message(`Error occurred during the screen capture: \n\n${err}`, { type: "error" })
 	}
 }
+
+/**
+ * Check for an available webcam
+ */
+const webcamAvailable = async () => {
+	const md = navigator.mediaDevices
+
+	if (!md || !md.enumerateDevices) {
+		return false
+	} else {
+		const devices = await md.enumerateDevices()
+
+		for (let i = 0; i < devices.length; i++) {
+			if (devices[i].kind === "videoinput") {
+				return true
+			}
+
+			if (i === devices.length - 1) {
+				return false
+			}
+		}
+	}
+}
+
+export const useWebcam = async () => {
+	const hasWebcam = await webcamAvailable()
+
+	if (hasWebcam === false) {
+		// Not found webcam
+		dialog.message("Not found webcam! \n\nPlease check if your webcam is working correctly or not used by another application.", { type: "error" })
+	} else {
+		const dialogElement: LibDialogElement = document.querySelector(".dialog1")
+		const videoElement: HTMLVideoElement = document.querySelector(".video")
+
+		dialogElement.showModal()
+
+		document.querySelector(".stopVideo").addEventListener("click", () => {
+			reader.stop()
+
+			dialogElement.close()
+		})
+
+		const reader = new QrcodeDecoder()
+
+		try {
+			const res = await reader.decodeFromCamera(videoElement)
+
+			let importString = ""
+
+			if (res.data.startsWith("otpauth://totp/") || res.data.startsWith("otpauth-migration://")) {
+				if (res.data.startsWith("otpauth://totp/")) {
+					importString += totpImageConverter(res.data)
+				} else {
+					importString += migrationImageConverter(res.data)
+				}
+
+				const state = getState()
+				state.importData += importString
+				setState(state)
+
+				reader.stop()
+
+				dialog.message("Codes imported. \n\nYou can edit your codes on the edit page.")
+
+				navigate("codes")
+			} else {
+				// Wrong QR code found
+				dialog.message("Wrong QR code found on the picture! \n\nPlease try again with another picture!", { type: "error" })
+				console.error("Wrong QR code found on the picture:", res)
+			}
+		} catch (err) {
+			// Unknown error
+			dialog.message(`Error occurred while using the webcam: \n\n${err}`, { type: "error" })
+			console.error(`Error during webcam import: ${err}`)
+		}
+	}
+}
