@@ -13,7 +13,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10">
+	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10 sm:w-full">
 		<div class="importCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
 			<h2>Import your codes</h2>
 			<h3>Import your 2FA codes, or if you have an import file choose it.</h3>

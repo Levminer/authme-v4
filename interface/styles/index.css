@@ -38,7 +38,7 @@
 
 	/* edit element */
 	.edit {
-		@apply transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left;
+		@apply transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left sm:flex-col sm:items-start;
 	}
 
 	.blurCodes {

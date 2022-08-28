@@ -21,7 +21,7 @@ const generateEditElements = () => {
 
 		// set div content
 		element.innerHTML = `
-		<div class="flex flex-wrap gap-5">
+		<div class="flex flex-wrap gap-3">
 				<div>
 					<h5>Name</h5>
 					<input id="issuer${i}" class="input mt-1" type="text" value="${issuers[i]}" readonly />
@@ -32,7 +32,7 @@ const generateEditElements = () => {
 					<input id="name${i}" class="input mt-1 w-96" type="text" value="${names[i]}" readonly />
 				</div>
 			</div>
-			<div class="ml-10 flex gap-3">
+			<div class="ml-10 flex gap-3 flex-wrap sm:mt-10 sm:w-full sm:ml-0">
 				<button id="editCode${i}" class="button requirePassword">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
