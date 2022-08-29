@@ -1,5 +1,3 @@
-import WebCrypto from "easy-web-crypto"
-
 const ALGORITHM = {
 	BLOCK_CIPHER: "aes-256-gcm",
 	AUTH_TAG_BYTE_LEN: 16,
