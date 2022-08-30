@@ -9,7 +9,7 @@ use tauri::*;
 use window_vibrancy::{apply_mica, apply_vibrancy, NSVisualEffectMaterial};
 
 mod auto_launch;
-mod encrypt_password;
+mod encryption;
 mod system_info;
 
 #[derive(Clone, serde::Serialize)]
@@ -75,9 +75,12 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             auto_launch::auto_launch,
             system_info::system_info,
-            encrypt_password::encrypt_password,
-            encrypt_password::verify_password,
-            encrypt_password::request_password
+            encryption::encrypt_password,
+            encryption::verify_password,
+            encryption::encrypt_data,
+            encryption::decrypt_data,
+            encryption::set_entry,
+            encryption::get_entry,
         ])
         .system_tray(make_tray())
         .on_system_tray_event(handle_tray_event)

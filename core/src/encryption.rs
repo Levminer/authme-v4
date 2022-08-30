@@ -3,7 +3,9 @@ use argon2::{
     Argon2,
 };
 
-static mut STORED_PASSWORD: String = String::new();
+use magic_crypt::{new_magic_crypt, MagicCryptTrait};
+
+extern crate keyring;
 
 #[tauri::command]
 pub fn encrypt_password(password: String) -> String {
@@ -29,25 +31,47 @@ pub fn encrypt_password(password: String) -> String {
 
 #[tauri::command]
 pub fn verify_password(password: String, hash: String) -> bool {
-
     let parsed_hash = PasswordHash::new(&hash).unwrap();
 
     let result = Argon2::default()
         .verify_password(password.as_bytes(), &parsed_hash)
         .is_ok();
 
-    if result {
-        unsafe {
-            STORED_PASSWORD = password;
-        }
-    }
-
     result.into()
 }
 
 #[tauri::command]
-pub fn request_password() -> String {
-    unsafe {
-        STORED_PASSWORD.as_str().into()
-    }
+pub fn encrypt_data(key: String, data: String) -> String {
+    let mc = new_magic_crypt!(key, 256);
+
+    let encrypted_string = mc.encrypt_str_to_base64(data);
+
+    encrypted_string.into()
+}
+
+#[tauri::command]
+pub fn decrypt_data(key: String, data: String) -> String {
+    let mc = new_magic_crypt!(key, 256);
+
+    let decrypted_string = mc.decrypt_base64_to_string(data).unwrap();
+
+    decrypted_string.into()
+}
+
+#[tauri::command]
+pub fn set_entry(name: String, data: String) {
+    let service = "authme_dev";
+    let entry = keyring::Entry::new(&service, &name);
+
+    entry.set_password(data.as_str());
+}
+
+#[tauri::command]
+pub fn get_entry(name: String) -> String {
+    let service = "authme_dev";
+    let entry = keyring::Entry::new(&service, &name);
+
+    let item = entry.get_password().unwrap();
+
+    item.into()
 }

@@ -1,11 +1,12 @@
 import { writable, get } from "svelte/store"
 
-const defaultState = {
+const defaultState: LibState = {
 	authenticated: false,
 	importData: null,
+	encryptionKey: null,
 }
 
-export const state = writable(sessionStorage.state ? JSON.parse(sessionStorage.state) : defaultState)
+export const state = writable<LibState>(sessionStorage.state ? JSON.parse(sessionStorage.state) : defaultState)
 
 state.subscribe((data) => {
 	console.log("State changed: ", data)

@@ -23,6 +23,8 @@ auto-launch = "0.3.0"
 sysinfo = "0.25.3"
 argon2 = "0.4"
 rand_core = { version = "0.6", features = ["std"] }
+magic-crypt = "3.1.10"
+keyring = "1.2.0"
 
 [features]
 # by default Tauri runs in production mode

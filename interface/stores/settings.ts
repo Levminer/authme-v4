@@ -1,5 +1,5 @@
 import { invoke } from "@tauri-apps/api"
-import { writable, get, Writable } from "svelte/store"
+import { writable, get } from "svelte/store"
 import build from "../../build.json"
 
 const defaultSettings: LibSettings = {
@@ -12,7 +12,6 @@ const defaultSettings: LibSettings = {
 	security: {
 		requireAuthentication: null,
 		password: null,
-		key: null,
 	},
 
 	settings: {
@@ -33,6 +32,10 @@ const defaultSettings: LibSettings = {
 		name: true,
 		description: false,
 	},
+
+	vault: {
+		codes: null,
+	},
 }
 
 const dev = build.dev === "true"
@@ -41,7 +44,7 @@ if (dev === false && localStorage.settings === undefined) {
 	invoke("auto_launch")
 }
 
-export const settings: Writable<LibSettings> = writable(localStorage.settings ? JSON.parse(localStorage.settings) : defaultSettings)
+export const settings = writable<LibSettings>(localStorage.settings ? JSON.parse(localStorage.settings) : defaultSettings)
 
 settings.subscribe((data) => {
 	console.log("Settings changed: ", data)

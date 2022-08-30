@@ -11,6 +11,8 @@ export const confirmPassword = async () => {
 
 	if (result === true) {
 		const state = getState()
+
+		state.encryptionKey = input
 		state.authenticated = true
 		setState(state)
 

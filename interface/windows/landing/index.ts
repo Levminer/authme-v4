@@ -1,20 +1,20 @@
 import { navigate } from "../../libraries/navigate"
-import { generateRandomKey, generateSalt } from "../../libraries/auth"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 import { dialog, invoke } from "@tauri-apps/api"
+import { getEntry, setEntry, generateRandomKey } from "interface/libraries/encryption"
 
 export const noPassword = async () => {
 	const settings = getSettings()
 	const state = getState()
 
-	const key = generateSalt()
-	const password = await generateRandomKey(key)
+	const key = await generateRandomKey()
 
-	settings.security.key = key.toString("base64")
-	settings.security.password = password.toString("base64")
+	await setEntry("encryptionKey", key.toString("base64"))
+
 	settings.security.requireAuthentication = false
 
+	state.encryptionKey = key.toString("base64")
 	state.authenticated = true
 
 	setSettings(settings)
@@ -46,9 +46,6 @@ export const createPassword = async () => {
 
 	const password = Buffer.from(await invoke("encrypt_password", { password: input0.value }))
 
-	const key = generateSalt()
-
-	settings.security.key = key.toString("base64")
 	settings.security.password = password.toString("base64")
 	settings.security.requireAuthentication = true
 
@@ -57,12 +54,13 @@ export const createPassword = async () => {
 	navigate("confirm")
 }
 
-export const appController = () => {
+export const appController = async () => {
 	const settings = getSettings()
 	const state = getState()
 
 	if (settings.security.requireAuthentication === false) {
 		state.authenticated = true
+		state.encryptionKey = await getEntry("encryptionKey")
 
 		setState(state)
 

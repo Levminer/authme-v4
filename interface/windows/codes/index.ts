@@ -1,16 +1,15 @@
 import { textConverter } from "../../libraries/convert"
-import { encrypt, decrypt, generateMasterKey } from "../../libraries/auth"
 import { TOTP } from "otpauth"
-import { dialog, fs, path } from "@tauri-apps/api"
+import { dialog, fs } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
-import { generateTimestamp } from "../../libraries/time"
 import { getState, setState } from "../../stores/state"
+import { decryptData, encryptData } from "interface/libraries/encryption"
 
 const settings = getSettings()
+const state = getState()
 let codesRefresher: NodeJS.Timer
 let searchQuery: LibSearchQuery[] = []
 let saveText: string = ""
-let savedCodes = false
 
 export const generateCodeElements = (data: LibImportFile) => {
 	const names = data.names
@@ -153,8 +152,6 @@ export const generateCodeElements = (data: LibImportFile) => {
 
 	generate()
 
-	const state = getState()
-
 	if (state.importData !== null) {
 		saveCodes()
 	}
@@ -256,7 +253,6 @@ export const search = () => {
 }
 
 export const chooseImportFile = async () => {
-	const state = getState()
 	const filePath = await dialog.open({ filters: [{ name: "Authme file", extensions: ["authme"] }] })
 
 	if (filePath !== null) {
@@ -276,72 +272,52 @@ export const chooseImportFile = async () => {
 }
 
 const saveCodes = async () => {
-	const password = Buffer.from(settings.security.password, "base64")
-	const key = Buffer.from(settings.security.key, "base64")
-
-	const masterKey = await generateMasterKey(password, key)
-
-	const encrypted = await encrypt(saveText, masterKey)
-
-	const state = getState()
+	const encryptionKey = state.encryptionKey
+	const encryptedText = await encryptData(encryptionKey, saveText)
 
 	state.importData = null
+	settings.vault.codes = encryptedText
 
 	setState(state)
-
-	const fileContents: LibAuthmeFile = {
-		codes: encrypted,
-		encrypted: true,
-		version: 3,
-		role: "codes",
-		date: generateTimestamp(),
-	}
-	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
-
-	await fs.writeTextFile(filePath, JSON.stringify(fileContents, null, "\t"))
+	setSettings(settings)
 }
 
 export const loadCodes = async () => {
-	const state = getState()
-	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
-
-	let file: LibAuthmeFile
 	searchQuery = []
+	let savedCodes = false
 
-	try {
-		file = JSON.parse(await fs.readTextFile(filePath))
-
+	if (settings.vault.codes !== null) {
+		// There are saved codes
 		savedCodes = true
-	} catch (error) {
+	} else {
+		// No saved and no imported codes
 		document.querySelector(".importCodes").style.display = "block"
 		document.querySelector(".importingCodes").style.display = "block"
 		document.querySelector(".gettingStarted").style.display = "block"
 	}
 
 	if (savedCodes === true) {
-		const password = Buffer.from(settings.security.password, "base64")
-		const key = Buffer.from(settings.security.key, "base64")
-
-		const masterKey = await generateMasterKey(password, key)
-
-		const decrypted = await decrypt(file.codes, masterKey)
+		const encryptionKey = state.encryptionKey
+		const decryptedText = await decryptData(encryptionKey, settings.vault.codes)
 
 		if (state.importData !== null) {
+			// There are saved and new codes
 			savedCodes = false
+			saveText = state.importData + decryptedText
 
-			generateCodeElements(textConverter(state.importData + decrypted, settings.settings.sortCodes))
-
-			saveText = state.importData + decrypted
+			generateCodeElements(textConverter(state.importData + decryptedText, settings.settings.sortCodes))
 		} else {
-			generateCodeElements(textConverter(decrypted, settings.settings.sortCodes))
+			// There are saved but not new ones
+			generateCodeElements(textConverter(decryptedText, settings.settings.sortCodes))
 		}
 
 		document.querySelector<HTMLInputElement>(".search").focus()
 	} else {
 		if (state.importData !== null) {
-			generateCodeElements(textConverter(state.importData, settings.settings.sortCodes))
-
+			// There are no saved codes, but new codes imported
 			saveText = state.importData
+
+			generateCodeElements(textConverter(state.importData, settings.settings.sortCodes))
 		}
 	}
 }

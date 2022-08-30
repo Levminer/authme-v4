@@ -29,6 +29,7 @@ declare global {
 	interface LibState {
 		authenticated: boolean
 		importData: null | string
+		encryptionKey: null | string
 	}
 
 	interface LibSearchQuery {
@@ -46,7 +47,6 @@ declare global {
 		security: {
 			requireAuthentication: null | boolean
 			password: null | string
-			key: null | string
 		}
 
 		settings: {
@@ -66,6 +66,10 @@ declare global {
 		searchFilter: {
 			name: boolean
 			description: boolean
+		}
+
+		vault: {
+			codes: null | string
 		}
 	}
 
