@@ -1,36 +1,40 @@
-import { fs, path, dialog } from "@tauri-apps/api"
-import { generateMasterKey, decrypt } from "../../libraries/auth"
+import { fs, dialog } from "@tauri-apps/api"
 import { generateTimestamp } from "../../libraries/time"
 import { textConverter } from "../../libraries/convert"
 import { getSettings } from "../../stores/settings"
 import qrcode from "qrcode-generator"
+import { getState } from "interface/stores/state"
+import { decryptData } from "interface/libraries/encryption"
 
 let codesArray: LibImportFile
 let codesText: string
 
+/**
+ * Export the saved codes
+ */
 export const exportCodes = async () => {
 	const settings = getSettings()
-	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
+	const state = getState()
 
-	try {
-		const saveFile: LibAuthmeFile = JSON.parse(await fs.readTextFile(filePath))
+	const codes = settings.vault.codes
+	const encryptionKey = state.encryptionKey
 
+	if (codes !== null) {
 		document.querySelector(".saveExportedCodes").style.display = "block"
 		document.querySelector(".exportCodes").style.display = "none"
 
-		const password = Buffer.from(settings.security.password, "base64")
-		const key = Buffer.from(settings.security.key, "base64")
+		const decryptedText = await decryptData(encryptionKey, codes)
 
-		const masterKey = await generateMasterKey(password, key)
-		const decrypted = await decrypt(saveFile.codes, masterKey)
-
-		codesArray = textConverter(decrypted, 0)
-		codesText = decrypted
-	} catch (error) {
+		codesArray = textConverter(decryptedText, 0)
+		codesText = decryptedText
+	} else {
 		return dialog.message("No save file found. \n\nGo to the codes or the import page and import your codes!", { type: "error" })
 	}
 }
 
+/**
+ * Save the exported codes as an .authme file
+ */
 export const exportAuthmeFile = async () => {
 	const saveFile: LibAuthmeFile = {
 		role: "codes",
@@ -47,6 +51,9 @@ export const exportAuthmeFile = async () => {
 	}
 }
 
+/**
+ * Save the exported codes as an .html file with pictures
+ */
 export const exportHtmlFile = async () => {
 	const names = codesArray.names
 	const secrets = codesArray.secrets

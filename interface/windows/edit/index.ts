@@ -1,15 +1,19 @@
 import { textConverter } from "../../libraries/convert"
-import { encrypt, decrypt, generateMasterKey } from "../../libraries/auth"
 import { dialog, fs, path } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
-import { generateTimestamp } from "../../libraries/time"
-import { getState, setState } from "../../stores/state"
+import { getState } from "../../stores/state"
 import { navigate } from "../../libraries/navigate"
+import { decryptData, encryptData } from "interface/libraries/encryption"
 
+const state = getState()
+const settings = getSettings()
 let names: string[] = []
 let issuers: string[] = []
 let secrets: string[] = []
 
+/**
+ * Generate the edit elements from the saved codes
+ */
 const generateEditElements = () => {
 	document.querySelector(".editSavedCodes").style.display = "block"
 	document.querySelector(".loadedCodes").style.display = "block"
@@ -64,26 +68,19 @@ const generateEditElements = () => {
 	}
 }
 
+/**
+ * Load the saved codes
+ */
 export const loadSavedCodes = async () => {
-	const settings = getSettings()
-	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
+	const codes = settings.vault.codes
+	const encryptionKey = state.encryptionKey
 
-	let file: LibAuthmeFile
-
-	try {
-		file = JSON.parse(await fs.readTextFile(filePath))
-	} catch (error) {
+	if (codes === null) {
 		return dialog.message("No save file found. \n\nGo to the codes or the import page and import your codes!", { type: "error" })
 	}
 
-	const password = Buffer.from(settings.security.password, "base64")
-	const key = Buffer.from(settings.security.key, "base64")
-
-	const masterKey = await generateMasterKey(password, key)
-
-	const decrypted = await decrypt(file.codes, masterKey)
-
-	const data = textConverter(decrypted, 0)
+	const decryptedText = await decryptData(encryptionKey, codes)
+	const data = textConverter(decryptedText, 0)
 
 	names = data.names
 	issuers = data.issuers
@@ -92,14 +89,15 @@ export const loadSavedCodes = async () => {
 	generateEditElements()
 }
 
+/**
+ * Save the current changes
+ */
 export const saveChanges = async () => {
 	const confirm = await dialog.ask("Are you sure you want to save the changes? \n\nThis will overwrite your saved codes!", { type: "warning" })
 
 	if (confirm === false) {
 		return
 	}
-
-	const settings = getSettings()
 
 	let saveText = ""
 
@@ -108,27 +106,18 @@ export const saveChanges = async () => {
 		saveText += string
 	}
 
-	const password = Buffer.from(settings.security.password, "base64")
-	const key = Buffer.from(settings.security.key, "base64")
+	const encryptionKey = state.encryptionKey
+	const encryptedText = await encryptData(encryptionKey, saveText)
 
-	const masterKey = await generateMasterKey(password, key)
-
-	const encrypted = await encrypt(saveText, masterKey)
-
-	const fileContents: LibAuthmeFile = {
-		codes: encrypted,
-		encrypted: true,
-		version: 3,
-		role: "codes",
-		date: generateTimestamp(),
-	}
-	const filePath = await path.join(await path.configDir(), "Levminer", "Authme 4", "codes", "codes.authme")
-
-	await fs.writeTextFile(filePath, JSON.stringify(fileContents, null, "\t"))
+	settings.vault.codes = encryptedText
+	setSettings(settings)
 
 	navigate("codes")
 }
 
+/**
+ * Revert all current changes
+ */
 export const revertChanges = async () => {
 	const confirm = await dialog.ask("Are you sure you want to revert all changes? \n\nYou will lose all current changes!", { type: "warning" })
 
@@ -159,6 +148,9 @@ export const deleteCodes = async () => {
 	}
 }
 
+/**
+ * Edit a specific code
+ */
 export const editCode = (id: number) => {
 	const issuer: HTMLInputElement = document.querySelector(`#issuer${id}`)
 	const name: HTMLInputElement = document.querySelector(`#name${id}`)
@@ -190,6 +182,9 @@ export const editCode = (id: number) => {
 	}
 }
 
+/**
+ * Delete a specific code
+ */
 export const deleteCode = async (id: number) => {
 	const res = await dialog.ask("Are you sure you want to delete this code? \n\nYou can save or revert this change at the top of the page.", { type: "warning" })
 
