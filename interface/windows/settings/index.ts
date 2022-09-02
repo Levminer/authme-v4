@@ -34,9 +34,6 @@ export const clearData = async () => {
 	localStorage.clear()
 	sessionStorage.clear()
 
-	const folderPath = await path.join(await path.configDir(), "Levminer", "Authme 4")
-	await fs.removeDir(folderPath, { recursive: true })
-
 	resetState()
 	resetSettings()
 

@@ -1,11 +1,9 @@
 import { textConverter } from "../../libraries/convert"
 import { dialog, fs, path } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
-import { getState } from "../../stores/state"
 import { navigate } from "../../libraries/navigate"
 import { decryptData, encryptData } from "interface/libraries/encryption"
 
-const state = getState()
 const settings = getSettings()
 let names: string[] = []
 let issuers: string[] = []
@@ -73,13 +71,12 @@ const generateEditElements = () => {
  */
 export const loadSavedCodes = async () => {
 	const codes = settings.vault.codes
-	const encryptionKey = state.encryptionKey
 
 	if (codes === null) {
 		return dialog.message("No save file found. \n\nGo to the codes or the import page and import your codes!", { type: "error" })
 	}
 
-	const decryptedText = await decryptData(encryptionKey, codes)
+	const decryptedText = await decryptData(codes)
 	const data = textConverter(decryptedText, 0)
 
 	names = data.names
@@ -106,8 +103,7 @@ export const saveChanges = async () => {
 		saveText += string
 	}
 
-	const encryptionKey = state.encryptionKey
-	const encryptedText = await encryptData(encryptionKey, saveText)
+	const encryptedText = await encryptData(saveText)
 
 	settings.vault.codes = encryptedText
 	setSettings(settings)

@@ -272,8 +272,7 @@ export const chooseImportFile = async () => {
 }
 
 const saveCodes = async () => {
-	const encryptionKey = state.encryptionKey
-	const encryptedText = await encryptData(encryptionKey, saveText)
+	const encryptedText = await encryptData(saveText)
 
 	state.importData = null
 	settings.vault.codes = encryptedText
@@ -297,8 +296,7 @@ export const loadCodes = async () => {
 	}
 
 	if (savedCodes === true) {
-		const encryptionKey = state.encryptionKey
-		const decryptedText = await decryptData(encryptionKey, settings.vault.codes)
+		const decryptedText = await decryptData(settings.vault.codes)
 
 		if (state.importData !== null) {
 			// There are saved and new codes

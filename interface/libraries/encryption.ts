@@ -24,13 +24,27 @@ export const getEntry = async (name: string): Promise<string> => {
 /**
  * Encrypts a string with the encryption key
  */
-export const encryptData = async (key: string, data: string): Promise<string> => {
-	return await invoke("encrypt_data", { key, data })
+export const encryptData = async (data: string): Promise<string> => {
+	return await invoke("encrypt_data", { data })
 }
 
 /**
  * Decrypts a string with the encryption key
  */
-export const decryptData = async (key: string, data: string): Promise<string> => {
-	return await invoke("decrypt_data", { key, data })
+export const decryptData = async (data: string): Promise<string> => {
+	return await invoke("decrypt_data", { data })
+}
+
+/**
+ * Set the encryption key on the backend
+ */
+export const setEncryptionKey = async () => {
+	return await invoke("set_encryption_key")
+}
+
+/**
+ * Set the encryption key on the backend
+ */
+export const sendEncryptionKey = async (key: string) => {
+	return await invoke("receive_encryption_key", { key })
 }

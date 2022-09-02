@@ -1,23 +1,10 @@
 import App from "./app.svelte"
 import "../styles/index.css"
-import { fs, path, os, event, window } from "@tauri-apps/api"
+import { os, event, window } from "@tauri-apps/api"
 import { getSettings } from "../stores/settings"
 import { navigate } from "../libraries/navigate"
 
 const settings = getSettings()
-
-const getSettingsPath = async () => {
-	const folderPath = await path.join(await path.configDir(), "Levminer", "Authme 4")
-	fs.createDir(folderPath, { recursive: true })
-
-	const settingsPath = await path.join(folderPath, "settings")
-	fs.createDir(settingsPath, { recursive: true })
-
-	const codesPath = await path.join(folderPath, "codes")
-	fs.createDir(codesPath, { recursive: true })
-}
-
-getSettingsPath()
 
 const setBackground = async () => {
 	const system = await os.type()

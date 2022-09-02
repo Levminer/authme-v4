@@ -29,7 +29,6 @@ declare global {
 	interface LibState {
 		authenticated: boolean
 		importData: null | string
-		encryptionKey: null | string
 	}
 
 	interface LibSearchQuery {

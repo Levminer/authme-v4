@@ -2,6 +2,7 @@ import { navigate } from "../../libraries/navigate"
 import { getSettings } from "../../stores/settings"
 import { dialog, invoke } from "@tauri-apps/api"
 import { getState, setState } from "../../stores/state"
+import { sendEncryptionKey } from "interface/libraries/encryption"
 
 export const confirmPassword = async () => {
 	const settings = getSettings()
@@ -12,7 +13,8 @@ export const confirmPassword = async () => {
 	if (result === true) {
 		const state = getState()
 
-		state.encryptionKey = input
+		await sendEncryptionKey(input)
+
 		state.authenticated = true
 		setState(state)
 

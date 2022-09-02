@@ -81,6 +81,8 @@ fn main() {
             encryption::decrypt_data,
             encryption::set_entry,
             encryption::get_entry,
+            encryption::receive_encryption_key,
+            encryption::set_encryption_key,
         ])
         .system_tray(make_tray())
         .on_system_tray_event(handle_tray_event)
@@ -118,6 +120,22 @@ fn main() {
             Ok(())
         })
         .on_window_event(|event| match event.event() {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                api.prevent_close();
+                let app = event.window().app_handle();
+
+                let window = app.get_window("main").unwrap();
+                let menu_item = app.tray_handle().get_item("toggle");
+
+                if window.is_visible().unwrap() {
+                    window.hide().unwrap();
+                    menu_item.set_title("Show Authme").unwrap();
+                } else {
+                    window.show().unwrap();
+                    menu_item.set_title("Hide Authme").unwrap();
+                }
+            }
+
             tauri::WindowEvent::Focused(focused) => {
                 let app = event.window().app_handle();
 

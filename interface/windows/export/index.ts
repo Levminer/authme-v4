@@ -14,16 +14,14 @@ let codesText: string
  */
 export const exportCodes = async () => {
 	const settings = getSettings()
-	const state = getState()
 
 	const codes = settings.vault.codes
-	const encryptionKey = state.encryptionKey
 
 	if (codes !== null) {
 		document.querySelector(".saveExportedCodes").style.display = "block"
 		document.querySelector(".exportCodes").style.display = "none"
 
-		const decryptedText = await decryptData(encryptionKey, codes)
+		const decryptedText = await decryptData(codes)
 
 		codesArray = textConverter(decryptedText, 0)
 		codesText = decryptedText
