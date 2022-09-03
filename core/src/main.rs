@@ -35,6 +35,7 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             menu_item.set_title("Show Authme").unwrap();
         } else {
             window.show().unwrap();
+            window.unminimize().unwrap();
             menu_item.set_title("Hide Authme").unwrap();
         }
     };
@@ -52,6 +53,8 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             let window = app.get_window("main").unwrap();
 
             window.show().unwrap();
+            window.unminimize().unwrap();
+            window.set_focus().unwrap();
 
             app.emit_all(
                 "openSettings",
@@ -84,6 +87,15 @@ fn main() {
             encryption::receive_encryption_key,
             encryption::set_encryption_key,
         ])
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+            println!("{}, {argv:?}, {cwd}", app.package_info().name);
+
+            let window = app.get_window("main").unwrap();
+
+            window.show().unwrap();
+            window.unminimize().unwrap();
+            window.set_focus().unwrap();
+        }))
         .system_tray(make_tray())
         .on_system_tray_event(handle_tray_event)
         .setup(|app| {
@@ -131,6 +143,7 @@ fn main() {
                     window.hide().unwrap();
                     menu_item.set_title("Show Authme").unwrap();
                 } else {
+                    window.unminimize().unwrap();
                     window.show().unwrap();
                     menu_item.set_title("Hide Authme").unwrap();
                 }
