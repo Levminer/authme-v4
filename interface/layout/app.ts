@@ -6,6 +6,7 @@ import { navigate } from "../libraries/navigate"
 
 const settings = getSettings()
 
+// Set background color if vibrancy not supported
 const setBackground = async () => {
 	const system = await os.type()
 	const build = await os.version()
@@ -21,17 +22,19 @@ const setBackground = async () => {
 
 setBackground()
 
-// Tray event handler
+// Tray settings open handler
 event.listen("openSettings", () => {
 	navigate("settings")
 })
 
-// Tray event handler
-event.listen("focusSearch", () => {
+// Listen for focus changes
+window.appWindow.onFocusChanged((focused) => {
 	const path = location.pathname
 
-	if (path === "/codes") {
-		document.querySelector<HTMLInputElement>(".search").focus()
+	if (focused.payload === true) {
+		if (path === "/codes") {
+			document.querySelector<HTMLInputElement>(".search").focus()
+		}
 	}
 })
 
