@@ -40,7 +40,7 @@ jobs:
         run: |
           rm -rf core/target/release/build
           rm -rf core/target/release/deps
-          rm -rf /core/target/release/bundle/appimage/authme.AppDir
+          rm -rf core/target/release/bundle/appimage/authme.AppDir
         shell: bash
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
