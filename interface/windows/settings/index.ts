@@ -1,7 +1,7 @@
 import { resetState } from "../../stores/state"
 import { resetSettings } from "../../stores/settings"
 import build from "../../../build.json"
-import { fs, path, invoke, os, dialog, app } from "@tauri-apps/api"
+import { path, invoke, os, dialog, app } from "@tauri-apps/api"
 import { UAParser } from "ua-parser-js"
 import { navigate, open } from "../../libraries/navigate"
 
@@ -31,14 +31,23 @@ export const about = async () => {
 }
 
 export const clearData = async () => {
-	localStorage.clear()
-	sessionStorage.clear()
+	const confirm0 = await dialog.ask("Are you sure you want to clear all data? \n\nThis cannot be undone!", { type: "warning" })
 
-	resetState()
-	resetSettings()
+	if (confirm0 === false) {
+		return
+	}
 
-	navigate("/")
-	location.reload()
+	const confirm1 = await dialog.ask("Are you absolutely sure? \n\nThere is no way back!", { type: "warning" })
+
+	if (confirm1 === true) {
+		localStorage.clear()
+		sessionStorage.clear()
+
+		navigate("/")
+		location.reload()
+
+		navigate("codes")
+	}
 }
 
 export const showLogs = async () => {

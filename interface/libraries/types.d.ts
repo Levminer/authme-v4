@@ -55,7 +55,8 @@ declare global {
 			codesDescription: boolean
 			blurCodes: boolean
 			searchHistory: boolean
-			sortCodes: null | number
+			sortCodes: number
+			codesLayout: number
 		}
 
 		searchHistory: {

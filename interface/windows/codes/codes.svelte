@@ -1,4 +1,4 @@
-<div class="transparent-900 m-auto my-20 w-3/5 rounded-2xl p-10 text-center sm:w-4/5">
+<div class="transparent-900 main m-auto my-20 w-3/5 rounded-2xl p-10 text-center sm:w-4/5">
 	<h1>Authme</h1>
 	<div class="searchContainer mx-auto mt-10 mb-5 hidden justify-center px-10">
 		<div class="mx-auto flex items-center justify-center">
@@ -13,8 +13,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="content mx-auto flex w-4/5 flex-col items-center justify-center rounded-2xl p-10 sm:w-full">
-		<div class="importCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
+
+	<div class="content mx-auto flex flex-col flex-wrap items-center justify-center gap-10 rounded-2xl p-10 sm:w-full">
+		<div class="importCodes transparent-800 hidden w-full max-w-2xl rounded-2xl p-5">
 			<h2>Import your codes</h2>
 			<h3>Import your 2FA codes, or if you have an import file choose it.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -33,30 +34,7 @@
 			</div>
 		</div>
 
-		<div class="importingCodes transparent-800 mb-10 hidden w-full rounded-2xl p-5">
-			<h2>Importing codes</h2>
-			<h3>Need help importing codes? Read the short tutorial or download a sample file.</h3>
-			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
-				<button class="button">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-						<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-						<rect x="3" y="4" width="18" height="12" rx="1" />
-						<line x1="7" y1="20" x2="17" y2="20" />
-						<line x1="9" y1="16" x2="9" y2="20" />
-						<line x1="15" y1="16" x2="15" y2="20" />
-					</svg>
-					Show tutorial
-				</button>
-				<button class="button">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-					</svg>
-					Sample file
-				</button>
-			</div>
-		</div>
-
-		<div class="gettingStarted transparent-800 mb-10 hidden w-full rounded-2xl p-5">
+		<div class="gettingStarted transparent-800 hidden w-full max-w-2xl rounded-2xl p-5">
 			<h2>Getting started</h2>
 			<h3>In the mean time you can check out the settings or visit the GitHub page.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
@@ -77,7 +55,7 @@
 			</div>
 		</div>
 
-		<div class="noSearchResults transparent-800 mb-10 hidden w-full rounded-2xl p-5">
+		<div class="noSearchResults transparent-800 hidden w-full max-w-2xl rounded-2xl p-5">
 			<h2>No search results found.</h2>
 			<h3>Not found search results for "<span class="searchResult" />".</h3>
 		</div>

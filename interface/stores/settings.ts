@@ -22,6 +22,7 @@ const defaultSettings: LibSettings = {
 		blurCodes: false,
 		searchHistory: true,
 		sortCodes: 0,
+		codesLayout: 0,
 	},
 
 	searchHistory: {

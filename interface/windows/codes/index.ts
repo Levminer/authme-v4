@@ -17,7 +17,6 @@ export const generateCodeElements = (data: LibImportFile) => {
 	const issuers = data.issuers
 
 	document.querySelector(".importCodes").style.display = "none"
-	document.querySelector(".importingCodes").style.display = "none"
 	document.querySelector(".gettingStarted").style.display = "none"
 	document.querySelector(".searchContainer").style.display = "flex"
 
@@ -31,9 +30,9 @@ export const generateCodeElements = (data: LibImportFile) => {
 				element.innerHTML = `
 				<div class="mt-5 flex flex-row px-5">
 					<div class="flex flex-1 justify-start">
-						<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+						<h3 id="name${i}" tabindex="0" class="whitespace-nowrap mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
 					</div>
-					<div class="flex flex-1 justify-center">
+					<div class="flex flex-1 justify-center px-3">
 						<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
 					</div>
 					<div class="flex flex-1 justify-end">
@@ -57,9 +56,9 @@ export const generateCodeElements = (data: LibImportFile) => {
 				element.innerHTML = `
 				<div class="mt-5 flex flex-row px-5">
 					<div class="flex flex-1 justify-start">
-						<h3 id="name${i}" tabindex="0" class="mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
+						<h3 id="name${i}" tabindex="0" class="whitespace-nowrap mt-3 text-3xl font-normal focusRing rounded-2xl">-</h3>
 					</div>
-					<div class="flex flex-1 justify-center">
+					<div class="flex flex-1 justify-center px-3">
 						<p id="code${i}" tabindex="0" class="transparent-900 relative mt-1.5 w-[140px] select-all rounded-2xl py-3 px-5 text-2xl focusRing">-</p>
 					</div>
 					<div class="flex flex-1 justify-end">
@@ -172,6 +171,17 @@ export const generateCodeElements = (data: LibImportFile) => {
 		searchBar.value = settings.searchHistory.latest
 
 		search()
+	}
+
+	if (settings.settings.codesLayout === 0) {
+		const main = document.querySelector(".main")
+		const content = document.querySelector(".content")
+
+		main.classList.remove("w-3/5")
+		main.classList.add("w-4/5")
+
+		content.classList.remove("flex-col")
+		content.classList.add("flex-row")
 	}
 }
 
@@ -291,7 +301,6 @@ export const loadCodes = async () => {
 	} else {
 		// No saved and no imported codes
 		document.querySelector(".importCodes").style.display = "block"
-		document.querySelector(".importingCodes").style.display = "block"
 		document.querySelector(".gettingStarted").style.display = "block"
 	}
 

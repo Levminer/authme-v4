@@ -14,8 +14,8 @@
 
 		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
 			<div>
-				<h2>Mimimize to tray</h2>
-				<h3>When closeing the app Authme will not quit. You can open Authme from the system tray.</h3>
+				<h2>Minimize to tray</h2>
+				<h3>When closing the app Authme will not quit. You can open Authme from the system tray.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
 				<Toggle bind:checked={$settings.settings.minimizeToTray} />
@@ -85,11 +85,21 @@
 
 		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
 			<div>
+				<h2>Codes layout</h2>
+				<h3>You can choose your preferred layout. Grid displays more items and adapts to the screen size.</h3>
+			</div>
+			<div class="ml-20 flex gap-3">
+				<Select options={["Grid", "List"]} setting={"codesLayout"} />
+			</div>
+		</div>
+
+		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
+			<div>
 				<h2>Sort codes</h2>
 				<h3>You can choose how to sort the codes. By default codes are sorted by importing order.</h3>
 			</div>
 			<div class="ml-20 flex gap-3">
-				<SortCodes />
+				<Select options={["Default", "A-Z", "Z-A"]} setting={"sortCodes"} />
 			</div>
 		</div>
 	</div>
@@ -153,7 +163,7 @@
 </div>
 
 <script>
-	import SortCodes from "../../components/sortCodes.svelte"
+	import Select from "../../components/select.svelte"
 	import Toggle from "../../components/toggle.svelte"
 	import { about, clearData, showLogs, launchOnStartup } from "./index"
 	import { settings } from "../../stores/settings"
