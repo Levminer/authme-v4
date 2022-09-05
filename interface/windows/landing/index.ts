@@ -3,6 +3,7 @@ import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 import { dialog, invoke } from "@tauri-apps/api"
 import { setEntry, generateRandomKey, setEncryptionKey } from "interface/libraries/encryption"
+import { search } from "interface/libraries/password"
 
 export const noPassword = async () => {
 	const settings = getSettings()
@@ -41,6 +42,10 @@ export const createPassword = async () => {
 		return dialog.message("Minimum password length is 8 characters. \n\nPlease try again!", { type: "error" })
 	} else if (input0.value.length > 64) {
 		return dialog.message("Maximum password length is 64 characters. \n\nPlease try again!", { type: "error" })
+	}
+
+	if (search(input0.value)) {
+		return dialog.message("This password is on the list of the top 1000 most common passwords. Please choose a more secure password!", { type: "error" })
 	}
 
 	const password = Buffer.from(await invoke("encrypt_password", { password: input0.value }))

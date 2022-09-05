@@ -15,13 +15,6 @@ export const setEntry = async (name: string, data: string) => {
 }
 
 /**
- * Gets an entry on the system keychain
- */
-export const getEntry = async (name: string): Promise<string> => {
-	return await invoke("get_entry", { name })
-}
-
-/**
  * Encrypts a string with the encryption key
  */
 export const encryptData = async (data: string): Promise<string> => {
@@ -47,4 +40,11 @@ export const setEncryptionKey = async () => {
  */
 export const sendEncryptionKey = async (key: string) => {
 	return await invoke("receive_encryption_key", { key })
+}
+
+/**
+ * Delete encryption key
+ */
+export const deleteEncryptionKey = async (name: string) => {
+	return await invoke("delete_entry", { name })
 }

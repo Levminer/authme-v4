@@ -22,12 +22,6 @@ pub fn encrypt_password(password: String) -> String {
         .unwrap()
         .to_string();
 
-    let parsed_hash = PasswordHash::new(&password_hash).unwrap();
-
-    assert!(Argon2::default()
-        .verify_password(password.as_bytes(), &parsed_hash)
-        .is_ok());
-
     password_hash.into()
 }
 
@@ -77,9 +71,17 @@ pub fn get_entry(name: String) -> String {
     let service = "authme_dev";
     let entry = keyring::Entry::new(&service, &name);
 
-    let item = entry.get_password().unwrap();
+    let item = entry.get_password().unwrap_or_else(|error| "error".into());
 
     item.into()
+}
+
+#[tauri::command]
+pub fn delete_entry(name: String) {
+    let service = "authme_dev";
+    let entry = keyring::Entry::new(&service, &name);
+
+    let item = entry.delete_password();
 }
 
 #[tauri::command]

@@ -4,6 +4,7 @@ import build from "../../../build.json"
 import { path, invoke, os, dialog, app } from "@tauri-apps/api"
 import { UAParser } from "ua-parser-js"
 import { navigate, open } from "../../libraries/navigate"
+import { deleteEncryptionKey } from "interface/libraries/encryption"
 
 export const about = async () => {
 	const appVersion = await app.getVersion()
@@ -42,6 +43,8 @@ export const clearData = async () => {
 	if (confirm1 === true) {
 		localStorage.clear()
 		sessionStorage.clear()
+
+		await deleteEncryptionKey("encryptionKey")
 
 		navigate("/")
 		location.reload()
