@@ -47,6 +47,11 @@ window.appWindow.onCloseRequested((event) => {
 	}
 })
 
+// Disable right click
+document.addEventListener("contextmenu", (event) => {
+	event.preventDefault()
+})
+
 // Create svelte app
 const app = new App({
 	target: document.body,
