@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api"
+import { invoke, dialog } from "@tauri-apps/api"
 
 /**
  * Generates random key
@@ -11,14 +11,24 @@ export const generateRandomKey = async (): Promise<Buffer> => {
  * Sets an entry on the system keychain
  */
 export const setEntry = async (name: string, data: string) => {
-	await invoke("set_entry", { name, data })
+	const res = await invoke("set_entry", { name, data })
+
+	if (res === "error") {
+		dialog.message("Failed to set an entry on your systems keychain!\n\n Please try again or choose the password method!", { type: "error" })
+	}
 }
 
 /**
  * Encrypts a string with the encryption key
  */
 export const encryptData = async (data: string): Promise<string> => {
-	return await invoke("encrypt_data", { data })
+	const res: string = await invoke("encrypt_data", { data })
+
+	if (res === "error") {
+		dialog.message("Failed to decrypt your codes!\n\n Please restart the app and try again!", { type: "error" })
+	}
+
+	return res
 }
 
 /**
@@ -32,7 +42,13 @@ export const decryptData = async (data: string): Promise<string> => {
  * Set the encryption key on the backend
  */
 export const setEncryptionKey = async () => {
-	return await invoke("set_encryption_key")
+	const res: string = await invoke("set_encryption_key")
+
+	if (res === "error") {
+		dialog.message("Failed to set the encryption key on your systems keychain!\n\n Please restart the app and try again!", { type: "error" })
+	}
+
+	return res
 }
 
 /**

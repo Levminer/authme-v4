@@ -17,7 +17,7 @@
 	<div class="content mx-auto flex flex-col flex-wrap items-center justify-center gap-10 rounded-2xl p-10 sm:w-full">
 		<div class="importCodes transparent-800 hidden w-full max-w-2xl rounded-2xl p-5">
 			<h2>Import your codes</h2>
-			<h3>Import your 2FA codes, or if you have an import file choose it.</h3>
+			<h3>Import your existing 2FA codes, or choose your import file if you already have one.</h3>
 			<div class="mx-auto mt-6 flex flex-row items-center justify-center gap-3 sm:flex-wrap">
 				<button class="button" on:click={() => navigate("import")}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

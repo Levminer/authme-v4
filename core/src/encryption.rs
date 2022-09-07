@@ -63,7 +63,7 @@ pub fn set_entry(name: String, data: String) {
     let service = "authme_dev";
     let entry = keyring::Entry::new(&service, &name);
 
-    entry.set_password(data.as_str()).unwrap();
+    entry.set_password(data.as_str()).unwrap_or_else(|error| error.into());
 }
 
 #[tauri::command]

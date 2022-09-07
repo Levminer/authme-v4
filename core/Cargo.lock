@@ -3524,7 +3524,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-single-instance"
 version = "0.0.0"
-source = "git+https://github.com/tauri-apps/tauri-plugin-single-instance#ca63208b6babc777301a5ad6c3cdedfe9c122016"
+source = "git+https://github.com/tauri-apps/tauri-plugin-single-instance#aaf66b2afa75ec39a962067ac581358a63606aa1"
 dependencies = [
  "tauri",
  "windows-sys",
