@@ -11,11 +11,7 @@ export const generateRandomKey = async (): Promise<Buffer> => {
  * Sets an entry on the system keychain
  */
 export const setEntry = async (name: string, data: string) => {
-	const res = await invoke("set_entry", { name, data })
-
-	if (res === "error") {
-		dialog.message("Failed to set an entry on your systems keychain!\n\n Please try again or choose the password method!", { type: "error" })
-	}
+	await invoke("set_entry", { name, data })
 }
 
 /**
