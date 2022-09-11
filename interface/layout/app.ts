@@ -38,6 +38,11 @@ event.listen("openSettings", () => {
 	navigate("settings")
 })
 
+// Tray navigate to codes handler
+event.listen("openCodes", () => {
+	navigate("codes")
+})
+
 // Listen for focus changes
 window.appWindow.onFocusChanged((focused) => {
 	const path = location.pathname
@@ -64,5 +69,14 @@ document.addEventListener("contextmenu", (event) => {
 	event.preventDefault()
 })
 
+// Handle launch options
+const launchOptions = async () => {
+	const args: string[] = await invoke("get_args")
 
-export default app
+	if (args[1] === "--minimized" && state.authenticated === true) {
+		navigate("idle")
+	}
+}
+
+launchOptions()
+

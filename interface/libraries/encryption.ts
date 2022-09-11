@@ -8,17 +8,17 @@ export const generateRandomKey = async (): Promise<Buffer> => {
 }
 
 /**
- * Sets an entry on the system keychain
- */
-export const setEntry = async (name: string, data: string) => {
-	await invoke("set_entry", { name, data })
-}
-
-/**
  * Encrypts a string with the encryption key
  */
 export const encryptData = async (data: string): Promise<string> => {
-	const res: string = await invoke("encrypt_data", { data })
+	return await invoke("encrypt_data", { data })
+}
+
+/**
+ * Decrypts a string with the encryption key
+ */
+export const decryptData = async (data: string): Promise<string> => {
+	const res: string = await invoke("decrypt_data", { data })
 
 	if (res === "error") {
 		dialog.message("Failed to decrypt your codes!\n\n Please restart the app and try again!", { type: "error" })
@@ -28,10 +28,10 @@ export const encryptData = async (data: string): Promise<string> => {
 }
 
 /**
- * Decrypts a string with the encryption key
+ * Sets an entry on the system keychain
  */
-export const decryptData = async (data: string): Promise<string> => {
-	return await invoke("decrypt_data", { data })
+export const setEntry = async (name: string, data: string) => {
+	await invoke("set_entry", { name, data })
 }
 
 /**
