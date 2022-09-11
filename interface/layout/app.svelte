@@ -16,6 +16,8 @@
 			<Route path="/export"><Export /></Route>
 			<Route path="/edit"><Edit /></Route>
 			<Route path="/settings"><Settings /></Route>
+
+			<Route path="/idle"><div /></Route>
 		</RouteTransition>
 	</div>
 </div>

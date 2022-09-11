@@ -1,10 +1,21 @@
 import App from "./app.svelte"
 import "../styles/index.css"
-import { os, event, window } from "@tauri-apps/api"
+import { os, event, window, invoke } from "@tauri-apps/api"
 import { getSettings } from "../stores/settings"
 import { navigate } from "../libraries/navigate"
+import { checkUpdate, installUpdate } from "@tauri-apps/api/updater"
+import { relaunch } from "@tauri-apps/api/process"
+import { getState } from "interface/stores/state"
 
 const settings = getSettings()
+const state = getState()
+
+// Create the svelte app
+const app = new App({
+	target: document.body,
+})
+
+export default app
 
 // Set background color if vibrancy not supported
 const setBackground = async () => {
@@ -42,8 +53,9 @@ window.appWindow.onFocusChanged((focused) => {
 window.appWindow.onCloseRequested((event) => {
 	if (settings.settings.minimizeToTray === true) {
 		event.preventDefault()
-
 		window.appWindow.hide()
+
+		navigate("idle")
 	}
 })
 
@@ -52,9 +64,5 @@ document.addEventListener("contextmenu", (event) => {
 	event.preventDefault()
 })
 
-// Create svelte app
-const app = new App({
-	target: document.body,
-})
 
 export default app
