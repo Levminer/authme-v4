@@ -6,6 +6,8 @@ import { navigate } from "../libraries/navigate"
 import { checkUpdate, installUpdate } from "@tauri-apps/api/updater"
 import { relaunch } from "@tauri-apps/api/process"
 import { getState } from "interface/stores/state"
+import { dev } from "../../build.json"
+import { optionalAnalyticsPayload } from "interface/libraries/analytics"
 
 const settings = getSettings()
 const state = getState()
@@ -80,3 +82,22 @@ const launchOptions = async () => {
 
 launchOptions()
 
+// Optional analytics
+const optionalAnalytics = async () => {
+	if (settings.settings.optionalAnalytics === true && dev === false) {
+		const payload = JSON.stringify(await optionalAnalyticsPayload())
+
+		console.log(payload)
+
+		fetch("https://analytics.levminer.com/api/v1/authme/analytics/post", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			body: payload,
+		})
+	}
+}
+
+optionalAnalytics()
