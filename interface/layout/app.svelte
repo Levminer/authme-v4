@@ -5,6 +5,11 @@
 
 	<div class="w-full overflow-hidden overflow-y-scroll">
 		<BuildNumber />
+
+		{#if $state.updateAvailable}
+			<UpdateAlert />
+		{/if}
+
 		<div class="top" />
 
 		<RouteTransition>
@@ -27,7 +32,7 @@
 	import { onMount } from "svelte"
 	import { state } from "../stores/state"
 
-	// import UpdateAlert from "../components/updateAlert.svelte"
+	import UpdateAlert from "../components/updateAlert.svelte"
 	import BuildNumber from "../components/buildNumber.svelte"
 	import RouteTransition from "../components/routeTransition.svelte"
 

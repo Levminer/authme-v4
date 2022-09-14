@@ -3,11 +3,10 @@ import "../styles/index.css"
 import { os, event, window, invoke } from "@tauri-apps/api"
 import { getSettings } from "../stores/settings"
 import { navigate } from "../libraries/navigate"
-import { checkUpdate, installUpdate } from "@tauri-apps/api/updater"
-import { relaunch } from "@tauri-apps/api/process"
 import { getState } from "interface/stores/state"
 import { dev } from "../../build.json"
 import { optionalAnalyticsPayload } from "interface/libraries/analytics"
+import { checkForUpdate } from "interface/libraries/update"
 
 const settings = getSettings()
 const state = getState()
@@ -87,8 +86,6 @@ const optionalAnalytics = async () => {
 	if (settings.settings.optionalAnalytics === true && dev === false) {
 		const payload = JSON.stringify(await optionalAnalyticsPayload())
 
-		console.log(payload)
-
 		fetch("https://analytics.levminer.com/api/v1/authme/analytics/post", {
 			method: "POST",
 			headers: {
@@ -101,3 +98,4 @@ const optionalAnalytics = async () => {
 }
 
 optionalAnalytics()
+checkForUpdate()

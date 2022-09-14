@@ -50,7 +50,10 @@
 			"csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
 		},
 		"updater": {
-			"active": false
+			"active": true,
+			"endpoints": ["https://gist.github.com/Levminer/5a11ff3014b63bf4760ec378fe3c9441/raw/b25f2adde007f7ae4ea5986f43649941c92c5885/update.json"],
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDU1MzQyQUNFQTRDNkYwMjMKUldRajhNYWt6aW8wVlJWOUFvanRGSGhoUGZMeFJFS2VkYUNvVkFBMXRBUGN3T2p1aHlsSEtQUTkK",
+			"dialog": false
 		},
 		"windows": [
 			{
