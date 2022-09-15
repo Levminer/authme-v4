@@ -39,9 +39,7 @@ const defaultSettings: LibSettings = {
 	},
 }
 
-const dev = build.dev
-
-if (dev === false && localStorage.settings === undefined) {
+if (build.dev === false && localStorage.settings === undefined) {
 	invoke("auto_launch")
 }
 
