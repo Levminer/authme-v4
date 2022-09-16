@@ -72,6 +72,12 @@ declare global {
 		vault: {
 			codes: null | string
 		}
+
+		shortcuts: {
+			show: string
+			settings: string
+			exit: string
+		}
 	}
 
 	/** Query selector element types */

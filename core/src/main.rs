@@ -45,6 +45,8 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
 
             window.show().unwrap();
             window.unminimize().unwrap();
+            window.set_focus().unwrap();
+
             menu_item.set_title("Hide Authme").unwrap();
         }
     };
@@ -97,6 +99,7 @@ fn main() {
             encryption::set_encryption_key,
             encryption::delete_entry,
             libraries::get_args,
+            libraries::update_tray,
         ])
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
@@ -159,8 +162,10 @@ fn main() {
                     window.hide().unwrap();
                     menu_item.set_title("Show Authme").unwrap();
                 } else {
-                    window.unminimize().unwrap();
                     window.show().unwrap();
+                    window.unminimize().unwrap();
+                    window.set_focus().unwrap();
+
                     menu_item.set_title("Hide Authme").unwrap();
                 }
             }

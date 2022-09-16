@@ -37,6 +37,12 @@ const defaultSettings: LibSettings = {
 	vault: {
 		codes: null,
 	},
+
+	shortcuts: {
+		show: "CmdOrCtrl+Shift+a",
+		settings: "CmdOrCtrl+Shift+s",
+		exit: "CmdOrCtrl+Shift+d",
+	},
 }
 
 if (build.dev === false && localStorage.settings === undefined) {
