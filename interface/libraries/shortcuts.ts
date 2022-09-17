@@ -129,35 +129,41 @@ export const editShortcut = (id: number) => {
 export const registerShortcuts = () => {
 	globalShortcut.unregisterAll()
 
-	globalShortcut.register(settings.shortcuts.show, async () => {
-		await invoke("update_tray")
+	if (settings.shortcuts.show !== "None") {
+		globalShortcut.register(settings.shortcuts.show, async () => {
+			await invoke("update_tray")
 
-		const windowShown = await window.appWindow.isVisible()
+			const windowShown = await window.appWindow.isVisible()
 
-		if (windowShown === true) {
-			window.appWindow.hide()
-		} else {
-			await window.appWindow.show()
-			await window.appWindow.unminimize()
-			await window.appWindow.setFocus()
-		}
-	})
+			if (windowShown === true) {
+				window.appWindow.hide()
+			} else {
+				await window.appWindow.show()
+				await window.appWindow.unminimize()
+				await window.appWindow.setFocus()
+			}
+		})
+	}
 
-	globalShortcut.register(settings.shortcuts.settings, async () => {
-		const windowShown = await window.appWindow.isVisible()
+	if (settings.shortcuts.settings !== "None") {
+		globalShortcut.register(settings.shortcuts.settings, async () => {
+			const windowShown = await window.appWindow.isVisible()
 
-		if (windowShown === true) {
+			if (windowShown === true) {
+				navigate("settings")
+			} else {
+				window.appWindow.show()
+			}
+
 			navigate("settings")
-		} else {
-			window.appWindow.show()
-		}
+		})
+	}
 
-		navigate("settings")
-	})
-
-	globalShortcut.register(settings.shortcuts.exit, async () => {
-		exit()
-	})
+	if (settings.shortcuts.exit) {
+		globalShortcut.register(settings.shortcuts.exit, async () => {
+			exit()
+		})
+	}
 }
 
 registerShortcuts()
