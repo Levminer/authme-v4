@@ -59,16 +59,21 @@ pub fn decrypt_data(data: String) -> String {
 }
 
 #[tauri::command]
-pub fn set_entry(name: String, data: String) {
-    let service = "authme_dev";
+pub fn set_entry(name: String, data: String) -> String {
+    let service = "authme";
     let entry = keyring::Entry::new(&service, &name);
 
-    entry.set_password(data.as_str()).unwrap();
+    let res = entry.set_password(data.as_str());
+
+    match res {
+        Ok(_) => "ok".into(),
+        Err(_) => "error".into(),
+    }
 }
 
 #[tauri::command]
 pub fn get_entry(name: String) -> String {
-    let service = "authme_dev";
+    let service = "authme";
     let entry = keyring::Entry::new(&service, &name);
 
     let item = entry.get_password().unwrap_or_else(|error| "error".into());
@@ -78,7 +83,7 @@ pub fn get_entry(name: String) -> String {
 
 #[tauri::command]
 pub fn delete_entry(name: String) {
-    let service = "authme_dev";
+    let service = "authme";
     let entry = keyring::Entry::new(&service, &name);
 
     let item = entry.delete_password();

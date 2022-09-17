@@ -31,7 +31,13 @@ export const decryptData = async (data: string): Promise<string> => {
  * Sets an entry on the system keychain
  */
 export const setEntry = async (name: string, data: string) => {
-	await invoke("set_entry", { name, data })
+	const res = await invoke("set_entry", { name, data })
+
+	if (res === "error") {
+		dialog.message("Failed to set the encryption key on your systems keychain!\n\n You can use the password method.", { type: "error" })
+	}
+
+	return res
 }
 
 /**

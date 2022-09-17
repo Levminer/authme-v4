@@ -133,7 +133,7 @@
 </div>
 
 <dialog class="dialog dialog1 overflow-hidden">
-	<h2>Capture screen</h2>
+	<h2 class="dialog1Title">Capture screen import</h2>
 	<h3>Waiting for a QR code...</h3>
 
 	<div class="mt-10 flex aspect-video h-60 flex-row space-x-5">

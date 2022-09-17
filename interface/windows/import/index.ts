@@ -139,6 +139,8 @@ export const captureScreen = async () => {
 	const dialogElement: LibDialogElement = document.querySelector(".dialog1")
 	const videoElement: HTMLVideoElement = document.querySelector(".video")
 
+	document.querySelector(".dialog1Title").textContent = "Capture screen import"
+
 	try {
 		videoElement.srcObject = await navigator.mediaDevices.getDisplayMedia({ audio: false })
 
@@ -213,6 +215,8 @@ const webcamAvailable = async () => {
 
 export const useWebcam = async () => {
 	const hasWebcam = await webcamAvailable()
+
+	document.querySelector(".dialog1Title").textContent = "Webcam import"
 
 	if (hasWebcam === false) {
 		// Not found webcam
