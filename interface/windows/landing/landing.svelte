@@ -7,8 +7,8 @@
 			<h3>Choose how you want to use Authme.</h3>
 		</div>
 
-		<div class="mb-10 flex w-full flex-row justify-center gap-2 sm:flex-wrap">
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
+		<div class="flex w-full flex-row justify-center gap-5 sm:flex-wrap">
+			<div class="transparent-800 my-5 flex w-1/2 flex-col flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
 				<h4 data-loc class="mb-3">Require password</h4>
 				<h5 data-loc class="mb-3">You have to type in a password every time you launch Authme.</h5>
 
@@ -19,7 +19,7 @@
 					<span data-loc>Continue</span>
 				</button>
 			</div>
-			<div class="transparent-800 my-5 flex w-1/2 flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
+			<div class="transparent-800 my-5 flex w-1/2 flex-col flex-wrap items-center justify-center rounded-2xl p-5 sm:w-full">
 				<h4 data-loc class="mb-3">No password</h4>
 				<h5 data-loc class="mb-3">If you don't want to type in your password every time you launch Authme.</h5>
 
@@ -30,6 +30,20 @@
 					<span data-loc>Confirm</span>
 				</button>
 			</div>
+		</div>
+
+		<div class="transparent-800 flex w-full flex-col flex-wrap items-center justify-center rounded-2xl p-5">
+			<h4 data-loc class="mb-3">Hardware key authentication</h4>
+			<h5 data-loc class="mb-3">Login with Windows Hello, Touch ID or any WebAuthn compatible hardware key.</h5>
+
+			<button class="button" on:click={createWebAuthnLogin}>
+				<svg xmlns="http://www.w3.org/200/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+				</svg>
+				<span data-loc>Setup</span>
+			</button>
+
+			<button on:click={getWebAuthnLogin}>test</button>
 		</div>
 	</div>
 </div>
@@ -118,4 +132,59 @@
 	onMount(() => {
 		appController()
 	})
+
+	const createWebAuthnLogin = async () => {
+		try {
+			const res = await navigator.credentials.create({
+				publicKey: {
+					rp: {
+						name: "Authme Windows Hello",
+					},
+
+					user: {
+						id: new Uint8Array(16),
+						name: "Authme",
+						displayName: "Authme",
+					},
+
+					pubKeyCredParams: [
+						{
+							type: "public-key",
+							alg: -257,
+						},
+						{
+							type: "public-key",
+							alg: -7,
+						},
+					],
+
+					attestation: "none",
+
+					timeout: 60000,
+
+					challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+				},
+			})
+
+			console.log(res)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const getWebAuthnLogin = async () => {
+		try {
+			const res = await navigator.credentials.get({
+				publicKey: {
+					timeout: 60000,
+					challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+					userVerification: "discouraged",
+				},
+			})
+
+			console.log(res)
+		} catch (error) {
+			console.log(error)
+		}
+	}
 </script>
