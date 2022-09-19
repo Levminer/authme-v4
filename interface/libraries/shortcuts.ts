@@ -159,7 +159,7 @@ export const registerShortcuts = () => {
 		})
 	}
 
-	if (settings.shortcuts.exit) {
+	if (settings.shortcuts.exit !== "None") {
 		globalShortcut.register(settings.shortcuts.exit, async () => {
 			exit()
 		})
