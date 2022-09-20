@@ -1,5 +1,3 @@
-import { resetState } from "../../stores/state"
-import { resetSettings } from "../../stores/settings"
 import build from "../../../build.json"
 import { path, invoke, os, dialog, app } from "@tauri-apps/api"
 import { UAParser } from "ua-parser-js"

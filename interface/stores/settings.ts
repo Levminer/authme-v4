@@ -11,6 +11,7 @@ const defaultSettings: LibSettings = {
 
 	security: {
 		requireAuthentication: null,
+		hardwareAuthentication: false,
 		password: null,
 	},
 
@@ -45,12 +46,15 @@ const defaultSettings: LibSettings = {
 	},
 }
 
+// Setup auto launch on first start
 if (build.dev === false && localStorage.settings === undefined) {
 	invoke("auto_launch")
 }
 
+// Create store
 export const settings = writable<LibSettings>(localStorage.settings ? JSON.parse(localStorage.settings) : defaultSettings)
 
+// Listen for store events
 settings.subscribe((data) => {
 	console.log("Settings changed: ", data)
 
@@ -63,8 +67,4 @@ export const getSettings = (): LibSettings => {
 
 export const setSettings = (newSettings: LibSettings) => {
 	settings.set(newSettings)
-}
-
-export const resetSettings = () => {
-	settings.set(defaultSettings)
 }

@@ -46,6 +46,7 @@ declare global {
 
 		security: {
 			requireAuthentication: null | boolean
+			hardwareAuthentication: boolean
 			password: null | string
 		}
 

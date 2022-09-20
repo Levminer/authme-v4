@@ -21,7 +21,3 @@ export const getState = (): LibState => {
 export const setState = (newState: LibState) => {
 	state.set(newState)
 }
-
-export const resetState = () => {
-	state.set(defaultState)
-}

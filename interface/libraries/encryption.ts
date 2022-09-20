@@ -1,4 +1,7 @@
 import { invoke, dialog } from "@tauri-apps/api"
+import { getSettings, setSettings } from "interface/stores/settings"
+
+const settings = getSettings()
 
 /**
  * Generates random key
@@ -65,4 +68,68 @@ export const sendEncryptionKey = async (key: string) => {
  */
 export const deleteEncryptionKey = async (name: string) => {
 	return await invoke("delete_entry", { name })
+}
+
+/**
+ * Create a new WebAuthn credential
+ */
+export const createWebAuthnLogin = async () => {
+	try {
+		const res = await navigator.credentials.create({
+			publicKey: {
+				rp: {
+					name: "Authme Windows Hello",
+				},
+
+				user: {
+					id: new Uint8Array(16),
+					name: "Authme",
+					displayName: "Authme",
+				},
+
+				pubKeyCredParams: [
+					{
+						type: "public-key",
+						alg: -257,
+					},
+					{
+						type: "public-key",
+						alg: -7,
+					},
+				],
+
+				attestation: "none",
+
+				timeout: 60000,
+
+				challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+			},
+		})
+
+		settings.security.hardwareAuthentication = true
+		setSettings(settings)
+
+		console.log(res)
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+/**
+ * Get an existing WebAuthn credential
+ */
+export const getWebAuthnLogin = async () => {
+	try {
+		const res = await navigator.credentials.get({
+			publicKey: {
+				timeout: 60000,
+				challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+				userVerification: "discouraged",
+			},
+		})
+
+		console.log(res)
+	} catch (error) {
+		console.log(error)
+	}
 }
