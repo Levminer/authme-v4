@@ -36,19 +36,23 @@ setBackground()
 
 // Tray settings open handler
 event.listen("openSettings", () => {
-	navigate("settings")
+	if (state.authenticated === true) {
+		navigate("settings")
+	}
 })
 
 // Tray navigate to codes handler
 event.listen("openCodes", () => {
-	navigate("codes")
+	if (state.authenticated === true) {
+		navigate("codes")
+	}
 })
 
 // Listen for focus changes
 window.appWindow.onFocusChanged((focused) => {
 	const path = location.pathname
 
-	if (focused.payload === true) {
+	if (focused.payload === true && state.authenticated === true) {
 		if (path === "/codes") {
 			document.querySelector<HTMLInputElement>(".search").focus()
 		}
@@ -61,7 +65,9 @@ window.appWindow.onCloseRequested((event) => {
 		event.preventDefault()
 		window.appWindow.hide()
 
-		navigate("idle")
+		if (state.authenticated === true) {
+			navigate("idle")
+		}
 	}
 })
 

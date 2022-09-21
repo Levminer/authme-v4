@@ -78,13 +78,13 @@ export const createWebAuthnLogin = async () => {
 		const res = await navigator.credentials.create({
 			publicKey: {
 				rp: {
-					name: "Authme Windows Hello",
+					name: "Authme Hardware Authentication",
 				},
 
 				user: {
 					id: new Uint8Array(16),
 					name: "Authme",
-					displayName: "Authme",
+					displayName: "Authme User",
 				},
 
 				pubKeyCredParams: [
@@ -110,8 +110,14 @@ export const createWebAuthnLogin = async () => {
 		setSettings(settings)
 
 		console.log(res)
+
+		return "ok"
 	} catch (error) {
+		dialog.message(`Failed to register your authenticator! This feature might not be supported on your machine. \n\n${error}`, { type: "error" })
+
 		console.log(error)
+
+		return "error"
 	}
 }
 
@@ -129,7 +135,13 @@ export const getWebAuthnLogin = async () => {
 		})
 
 		console.log(res)
+
+		return "ok"
 	} catch (error) {
+		dialog.message(`Failed to login with your authenticator. Please try again! \n\n${error}`, { type: "error" })
+
 		console.log(error)
+
+		return "error"
 	}
 }
