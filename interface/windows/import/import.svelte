@@ -7,11 +7,11 @@
 				<h3>A TOTP QR code is that you find mostly everywhere, if you want to setup 2FA. Consist of 6 digits which are changing every 30 seconds.</h3>
 			</div>
 			<div class="ml-20 flex gap-3 sm:ml-0 sm:mt-5">
-				<button class="button">
+				<button class="button" on:click={showTOTPDialog}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
-					More information
+					Instructions
 				</button>
 			</div>
 		</div>
@@ -19,14 +19,14 @@
 		<div class="transparent-800 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left sm:flex-wrap">
 			<div>
 				<h2>Google Authenticator QR code</h2>
-				<h3>A Google Authenticator code is what you can export, and contains all of your already imported codes.</h3>
+				<h3>If you are using Google Authenticator you can export all of your exiting codes and import them to Authme.</h3>
 			</div>
 			<div class="ml-20 flex gap-3 sm:ml-0 sm:mt-5">
-				<button class="button">
+				<button class="button" on:click={showGADialog}>
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
-					More information
+					Instructions
 				</button>
 			</div>
 		</div>
@@ -186,7 +186,57 @@
 	</div>
 </dialog>
 
+<dialog class="dialog dialog2">
+	<h2>Google Authenticator QR code</h2>
+	<h3>Short tutorial on how to import your codes to Authme from Google Authenticator.</h3>
+
+	<div class="mt-10 flex flex-row space-x-5">
+		<ol>
+			<li>Export the QR codes from the Google Authenticator app: Tap on the three dots on the top right of the screen > Transfer Accounts > Export Accounts</li>
+			<li>Save the two or more QR code with a screenshot or take a picture of them from another phone. Then transfer the pictures to your computer</li>
+			<li>Back to Authme, go to the Import page: Sidebar > Import</li>
+			<li>Click the Choose images button</li>
+			<li>A popup windows will open, just select the picture(s)</li>
+			<li>That's it you are done!</li>
+		</ol>
+	</div>
+
+	<div class="mt-10 flex space-x-5">
+		<button class="button dialog2Close">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+			Close
+		</button>
+	</div>
+</dialog>
+
+<dialog class="dialog dialog3">
+	<h2>TOTP 2FA QR code</h2>
+	<h3>Short tutorial on how to import your codes to Authme from any TOTP 2FA QR code.</h3>
+
+	<div class="mt-10 flex flex-row space-x-5">
+		<ol>
+			<li>Go to the website(s) you want to get the QR codes from</li>
+			<li>Take screenshots (Windows key + Shift + S key combination on Windows) of the QR codes, and save the pictures</li>
+			<li>Back to Authme, go to the Import page: Sidebar > Import</li>
+			<li>Click the Choose images button</li>
+			<li>A popup windows will open, just select the picture(s)</li>
+			<li>That's it you are done!</li>
+		</ol>
+	</div>
+
+	<div class="mt-10 flex space-x-5">
+		<button class="button dialog3Close">
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+			Close
+		</button>
+	</div>
+</dialog>
+
 <script>
-	import { captureScreen, chooseFile, chooseImages, manualEntry, showManualEntry, useWebcam } from "./index"
+	import { captureScreen, chooseFile, chooseImages, manualEntry, showGADialog, showManualEntry, showTOTPDialog, useWebcam } from "./index"
 	import Details from "../../components/details.svelte"
 </script>

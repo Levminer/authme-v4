@@ -83,6 +83,34 @@ export const showManualEntry = () => {
 }
 
 /**
+ * Show Google Authenticator tutorial dialog
+ */
+export const showGADialog = () => {
+	const dialog: LibDialogElement = document.querySelector(".dialog2")
+	const closeDialog = document.querySelector(".dialog2Close")
+
+	closeDialog.addEventListener("click", () => {
+		dialog.close()
+	})
+
+	dialog.showModal()
+}
+
+/**
+ * Show TOTP tutorial dialog
+ */
+export const showTOTPDialog = () => {
+	const dialog: LibDialogElement = document.querySelector(".dialog3")
+	const closeDialog = document.querySelector(".dialog3Close")
+
+	closeDialog.addEventListener("click", () => {
+		dialog.close()
+	})
+
+	dialog.showModal()
+}
+
+/**
  * Enter a TOTP code manually
  */
 export const manualEntry = () => {

@@ -21,7 +21,6 @@ const defaultSettings: LibSettings = {
 		optionalAnalytics: true,
 		codesDescription: false,
 		blurCodes: false,
-		searchHistory: true,
 		sortCodes: 0,
 		codesLayout: 0,
 	},

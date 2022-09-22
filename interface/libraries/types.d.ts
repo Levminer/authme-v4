@@ -56,7 +56,6 @@ declare global {
 			optionalAnalytics: boolean
 			codesDescription: boolean
 			blurCodes: boolean
-			searchHistory: boolean
 			sortCodes: number
 			codesLayout: number
 		}

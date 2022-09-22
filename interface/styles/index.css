@@ -177,7 +177,7 @@ h5 {
 }
 
 dialog[open] {
-	animation: show 0.5s ease normal;
+	animation: show 0.3s ease normal;
 }
 
 dialog.hide {
@@ -186,12 +186,13 @@ dialog.hide {
 
 @keyframes show {
 	from {
-		transform: translateY(-50%);
+		transform: scale(0.8);
 	}
 	to {
-		transform: translateY(0%);
+		transform: scale(1);
 	}
 }
+
 @keyframes hide {
 	to {
 		transform: translateY(-110%);
@@ -207,4 +208,14 @@ dialog.hide {
 .input:read-only {
 	background-color: hsla(0, 0%, 100%, 5.12%);
 	cursor: default;
+}
+
+ol {
+	list-style-type: decimal;
+}
+
+li {
+	padding: 0.3rem;
+	font-size: 18px;
+	margin-left: 20px;
 }
