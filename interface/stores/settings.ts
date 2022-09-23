@@ -13,6 +13,7 @@ const defaultSettings: LibSettings = {
 		requireAuthentication: null,
 		hardwareAuthentication: false,
 		password: null,
+		hardwareKey: null,
 	},
 
 	settings: {

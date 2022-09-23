@@ -75,16 +75,6 @@
 
 		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
 			<div>
-				<h2>Search history</h2>
-				<h3>Save the latest code you searched for. Works even after restart.</h3>
-			</div>
-			<div class="ml-20 flex gap-3">
-				<Toggle bind:checked={$settings.settings.searchHistory} />
-			</div>
-		</div>
-
-		<div class="transparent-800 mb-5 flex w-full flex-row items-center justify-between rounded-xl p-5 text-left">
-			<div>
 				<h2>Codes layout</h2>
 				<h3>You can choose your preferred layout. Grid displays more items and adapts to the screen size.</h3>
 			</div>

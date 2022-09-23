@@ -191,7 +191,7 @@
 	<h3>Short tutorial on how to import your codes to Authme from Google Authenticator.</h3>
 
 	<div class="mt-10 flex flex-row space-x-5">
-		<ol>
+		<ol class="instructions">
 			<li>Export the QR codes from the Google Authenticator app: Tap on the three dots on the top right of the screen > Transfer Accounts > Export Accounts</li>
 			<li>Save the two or more QR code with a screenshot or take a picture of them from another phone. Then transfer the pictures to your computer</li>
 			<li>Back to Authme, go to the Import page: Sidebar > Import</li>
@@ -216,7 +216,7 @@
 	<h3>Short tutorial on how to import your codes to Authme from any TOTP 2FA QR code.</h3>
 
 	<div class="mt-10 flex flex-row space-x-5">
-		<ol>
+		<ol class="instructions">
 			<li>Go to the website(s) you want to get the QR codes from</li>
 			<li>Take screenshots (Windows key + Shift + S key combination on Windows) of the QR codes, and save the pictures</li>
 			<li>Back to Authme, go to the Import page: Sidebar > Import</li>

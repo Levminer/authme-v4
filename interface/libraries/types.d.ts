@@ -48,6 +48,7 @@ declare global {
 			requireAuthentication: null | boolean
 			hardwareAuthentication: boolean
 			password: null | string
+			hardwareKey: null | string
 		}
 
 		settings: {

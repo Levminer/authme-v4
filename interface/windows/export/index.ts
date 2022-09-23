@@ -3,8 +3,7 @@ import { generateTimestamp } from "../../libraries/time"
 import { textConverter } from "../../libraries/convert"
 import { getSettings } from "../../stores/settings"
 import qrcode from "qrcode-generator"
-import { getState } from "interface/stores/state"
-import { decryptData } from "interface/libraries/encryption"
+import { decryptData, verifyWebAuthnLogin } from "interface/libraries/encryption"
 
 let codesArray: LibImportFile
 let codesText: string
@@ -18,6 +17,14 @@ export const exportCodes = async () => {
 	const codes = settings.vault.codes
 
 	if (codes !== null) {
+		if (settings.security.hardwareAuthentication === true) {
+			const res = await verifyWebAuthnLogin()
+
+			if (res === "error") {
+				return
+			}
+		}
+
 		document.querySelector(".saveExportedCodes").style.display = "block"
 		document.querySelector(".exportCodes").style.display = "none"
 

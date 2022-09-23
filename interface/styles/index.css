@@ -210,11 +210,11 @@ dialog.hide {
 	cursor: default;
 }
 
-ol {
+.instructions {
 	list-style-type: decimal;
 }
 
-li {
+.instructions > li {
 	padding: 0.3rem;
 	font-size: 18px;
 	margin-left: 20px;

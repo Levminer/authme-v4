@@ -2,12 +2,26 @@ import { navigate } from "../../libraries/navigate"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 import { dialog, invoke } from "@tauri-apps/api"
-import { setEntry, generateRandomKey, setEncryptionKey } from "interface/libraries/encryption"
+import { setEntry, generateRandomKey, setEncryptionKey, createWebAuthnLogin, verifyWebAuthnLogin } from "interface/libraries/encryption"
 import { search } from "interface/libraries/password"
 
 export const noPassword = async () => {
 	const settings = getSettings()
 	const state = getState()
+
+	if (settings.security.hardwareAuthentication === true) {
+		const createRes = await createWebAuthnLogin()
+
+		if (createRes === "error") {
+			return
+		}
+
+		const loginRes = await verifyWebAuthnLogin()
+
+		if (loginRes === "error") {
+			return
+		}
+	}
 
 	const key = await generateRandomKey()
 
@@ -46,6 +60,20 @@ export const createPassword = async () => {
 
 	if (search(input0.value)) {
 		return dialog.message("This password is on the list of the top 1000 most common passwords. Please choose a more secure password!", { type: "error" })
+	}
+
+	if (settings.security.hardwareAuthentication === true) {
+		const createRes = await createWebAuthnLogin()
+
+		if (createRes === "error") {
+			return
+		}
+
+		const loginRes = await verifyWebAuthnLogin()
+
+		if (loginRes === "error") {
+			return
+		}
 	}
 
 	const password = Buffer.from(await invoke("encrypt_password", { password: input0.value }))

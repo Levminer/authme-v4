@@ -107,11 +107,8 @@ export const createWebAuthnLogin = async () => {
 		})
 
 		settings.security.hardwareAuthentication = true
+		settings.security.hardwareKey = res.id
 		setSettings(settings)
-
-		console.log(res)
-
-		return "ok"
 	} catch (error) {
 		dialog.message(`Failed to register your authenticator! This feature might not be supported on your machine. \n\n${error}`, { type: "error" })
 
@@ -124,7 +121,7 @@ export const createWebAuthnLogin = async () => {
 /**
  * Get an existing WebAuthn credential
  */
-export const getWebAuthnLogin = async () => {
+export const verifyWebAuthnLogin = async () => {
 	try {
 		const res = await navigator.credentials.get({
 			publicKey: {
@@ -134,9 +131,11 @@ export const getWebAuthnLogin = async () => {
 			},
 		})
 
-		console.log(res)
+		if (res.id !== settings.security.hardwareKey) {
+			dialog.message("Failed to login with your authenticator. The selected hardware key ID does not match the saved key ID.", { type: "error" })
 
-		return "ok"
+			return "error"
+		}
 	} catch (error) {
 		dialog.message(`Failed to login with your authenticator. Please try again! \n\n${error}`, { type: "error" })
 
