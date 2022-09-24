@@ -194,6 +194,6 @@
 	import Toggle from "../../components/toggle.svelte"
 	import { about, clearData, showLogs, launchOnStartup } from "./index"
 	import { settings } from "../../stores/settings"
-	import { open } from "../../libraries/navigate"
-	import { deleteShortcut, editShortcut, resetShortcut, shortcuts } from "../../libraries/shortcuts"
+	import { open } from "../../utils/navigate"
+	import { deleteShortcut, editShortcut, resetShortcut, shortcuts } from "../../utils/shortcuts"
 </script>

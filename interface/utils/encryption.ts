@@ -6,8 +6,8 @@ const settings = getSettings()
 /**
  * Generates random key
  */
-export const generateRandomKey = async (): Promise<Buffer> => {
-	return Buffer.from(window.crypto.getRandomValues(new Uint8Array(32)))
+export const generateRandomKey = async (length: number): Promise<Buffer> => {
+	return Buffer.from(await invoke("random_values", { length }))
 }
 
 /**
@@ -102,7 +102,7 @@ export const createWebAuthnLogin = async () => {
 
 				timeout: 60000,
 
-				challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+				challenge: await generateRandomKey(64),
 			},
 		})
 
@@ -126,7 +126,7 @@ export const verifyWebAuthnLogin = async () => {
 		const res = await navigator.credentials.get({
 			publicKey: {
 				timeout: 60000,
-				challenge: window.crypto.getRandomValues(new Uint8Array(64)),
+				challenge: await generateRandomKey(64),
 				userVerification: "discouraged",
 			},
 		})

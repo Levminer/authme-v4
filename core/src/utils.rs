@@ -1,3 +1,5 @@
+use rand::distributions::Alphanumeric;
+use rand::{thread_rng, Rng};
 use std::env;
 use tauri::{GlobalShortcutManager, Manager};
 
@@ -18,4 +20,15 @@ pub fn update_tray(app: tauri::AppHandle) {
     } else {
         menu_item.set_title("Hide Authme").unwrap();
     }
+}
+
+#[tauri::command]
+pub fn random_values(length: usize) -> String {
+    let rand_string: String = thread_rng()
+        .sample_iter(&Alphanumeric)
+        .take(length)
+        .map(char::from)
+        .collect();
+
+    rand_string.into()
 }

@@ -1,8 +1,8 @@
 import build from "../../../build.json"
 import { path, invoke, os, dialog, app } from "@tauri-apps/api"
 import { UAParser } from "ua-parser-js"
-import { navigate, open } from "../../libraries/navigate"
-import { deleteEncryptionKey } from "interface/libraries/encryption"
+import { navigate, open } from "../../utils/navigate"
+import { deleteEncryptionKey } from "interface/utils/encryption"
 
 export const about = async () => {
 	const appVersion = await app.getVersion()

@@ -1,8 +1,8 @@
 import QrcodeDecoder from "qrcode-decoder"
 import { fs, dialog } from "@tauri-apps/api"
 import { getState, setState } from "../../stores/state"
-import { totpImageConverter, migrationImageConverter } from "../../libraries/convert"
-import { navigate } from "../../libraries/navigate"
+import { totpImageConverter, migrationImageConverter } from "../../utils/convert"
+import { navigate } from "../../utils/navigate"
 
 /**
  * Choose images, then read QR codes

@@ -65,7 +65,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from "svelte"
 	import { stopCodesRefresher, search, chooseImportFile, loadCodes } from "./index"
-	import { navigate, open } from "../../libraries/navigate"
+	import { navigate, open } from "../../utils/navigate"
 	import SearchFilter from "../../components/searchFilter.svelte"
 
 	onMount(() => {

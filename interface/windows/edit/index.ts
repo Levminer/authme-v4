@@ -1,8 +1,8 @@
-import { textConverter } from "../../libraries/convert"
+import { textConverter } from "../../utils/convert"
 import { dialog, fs, path } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
-import { navigate } from "../../libraries/navigate"
-import { decryptData, encryptData } from "interface/libraries/encryption"
+import { navigate } from "../../utils/navigate"
+import { decryptData, encryptData } from "interface/utils/encryption"
 
 const settings = getSettings()
 let names: string[] = []

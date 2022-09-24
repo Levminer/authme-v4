@@ -1,9 +1,9 @@
 import { fs, dialog } from "@tauri-apps/api"
-import { generateTimestamp } from "../../libraries/time"
-import { textConverter } from "../../libraries/convert"
+import { generateTimestamp } from "../../utils/time"
+import { textConverter } from "../../utils/convert"
 import { getSettings } from "../../stores/settings"
 import qrcode from "qrcode-generator"
-import { decryptData, verifyWebAuthnLogin } from "interface/libraries/encryption"
+import { decryptData, verifyWebAuthnLogin } from "interface/utils/encryption"
 
 let codesArray: LibImportFile
 let codesText: string

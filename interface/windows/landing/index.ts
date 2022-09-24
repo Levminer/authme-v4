@@ -1,9 +1,9 @@
-import { navigate } from "../../libraries/navigate"
+import { navigate } from "../../utils/navigate"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 import { dialog, invoke } from "@tauri-apps/api"
-import { setEntry, generateRandomKey, setEncryptionKey, createWebAuthnLogin, verifyWebAuthnLogin } from "interface/libraries/encryption"
-import { search } from "interface/libraries/password"
+import { setEntry, generateRandomKey, setEncryptionKey, createWebAuthnLogin, verifyWebAuthnLogin } from "interface/utils/encryption"
+import { search } from "interface/utils/password"
 
 export const noPassword = async () => {
 	const settings = getSettings()
@@ -23,7 +23,7 @@ export const noPassword = async () => {
 		}
 	}
 
-	const key = await generateRandomKey()
+	const key = await generateRandomKey(32)
 
 	await setEntry("encryptionKey", key.toString("base64"))
 	await setEncryptionKey()

@@ -2,11 +2,11 @@ import App from "./app.svelte"
 import "../styles/index.css"
 import { os, event, window, invoke } from "@tauri-apps/api"
 import { getSettings } from "../stores/settings"
-import { navigate } from "../libraries/navigate"
+import { navigate } from "../utils/navigate"
 import { getState } from "interface/stores/state"
 import { dev } from "../../build.json"
-import { optionalAnalyticsPayload } from "interface/libraries/analytics"
-import { checkForUpdate } from "interface/libraries/update"
+import { optionalAnalyticsPayload } from "interface/utils/analytics"
+import { checkForUpdate } from "interface/utils/update"
 
 const settings = getSettings()
 const state = getState()

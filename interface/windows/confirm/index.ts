@@ -1,8 +1,8 @@
-import { navigate } from "../../libraries/navigate"
+import { navigate } from "../../utils/navigate"
 import { getSettings } from "../../stores/settings"
 import { dialog, invoke } from "@tauri-apps/api"
 import { getState, setState } from "../../stores/state"
-import { sendEncryptionKey, verifyWebAuthnLogin } from "interface/libraries/encryption"
+import { sendEncryptionKey, verifyWebAuthnLogin } from "interface/utils/encryption"
 
 export const confirmPassword = async () => {
 	const settings = getSettings()

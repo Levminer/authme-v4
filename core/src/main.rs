@@ -10,7 +10,7 @@ use window_vibrancy::{apply_mica, apply_vibrancy, NSVisualEffectMaterial};
 
 mod auto_launch;
 mod encryption;
-mod libraries;
+mod utils;
 mod system_info;
 
 #[derive(Clone, serde::Serialize)]
@@ -98,8 +98,9 @@ fn main() {
             encryption::receive_encryption_key,
             encryption::set_encryption_key,
             encryption::delete_entry,
-            libraries::get_args,
-            libraries::update_tray,
+            utils::get_args,
+            utils::update_tray,
+            utils::random_values,
         ])
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);

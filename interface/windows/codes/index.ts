@@ -1,9 +1,9 @@
-import { textConverter } from "../../libraries/convert"
+import { textConverter } from "../../utils/convert"
 import { TOTP } from "otpauth"
 import { dialog, fs } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
-import { decryptData, encryptData } from "interface/libraries/encryption"
+import { decryptData, encryptData } from "interface/utils/encryption"
 
 const settings = getSettings()
 const state = getState()

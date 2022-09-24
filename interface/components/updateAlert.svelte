@@ -31,7 +31,7 @@
 </div>
 
 <script>
-	import { installUpdate, showReleaseNotes } from "interface/libraries/update"
+	import { installUpdate, showReleaseNotes } from "interface/utils/update"
 
 	const hidePopup = () => {
 		document.querySelector(".updateAlert").style.display = "none"
