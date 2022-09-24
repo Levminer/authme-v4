@@ -166,7 +166,7 @@ export const generateCodeElements = (data: LibImportFile) => {
 	// latest search from history
 	const latestSearch = settings.searchHistory.latest
 
-	if (latestSearch !== null && latestSearch.trim() !== "" && settings.settings.searchHistory === true) {
+	if (latestSearch !== null && latestSearch.trim() !== "") {
 		const searchBar: HTMLInputElement = document.querySelector(".search")
 		searchBar.value = settings.searchHistory.latest
 
@@ -218,13 +218,6 @@ export const search = () => {
 	const input = searchBar.value.toLowerCase()
 	let noResults = 0
 
-	// save results
-	if (settings.settings.searchHistory === true) {
-		settings.searchHistory.latest = input
-
-		setSettings(settings)
-	}
-
 	// restart
 	for (let i = 0; i < searchQuery.length; i++) {
 		const div = document.querySelector(`#codes${[i]}`)
@@ -259,6 +252,10 @@ export const search = () => {
 	if (searchQuery.length === noResults) {
 		document.querySelector(".noSearchResults").style.display = "block"
 		document.querySelector(".searchResult").textContent = input
+	} else {
+		// save results
+		settings.searchHistory.latest = input
+		setSettings(settings)
 	}
 }
 
