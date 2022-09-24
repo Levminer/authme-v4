@@ -46,8 +46,6 @@ export const clearData = async () => {
 
 		navigate("/")
 		location.reload()
-
-		navigate("codes")
 	}
 }
 

@@ -106,6 +106,14 @@ fn main() {
 
             let window = app.get_window("main").unwrap();
 
+            app.emit_all(
+                "openCodes",
+                Payload {
+                    message: "Open codes page".into(),
+                },
+            )
+            .unwrap();
+
             window.show().unwrap();
             window.unminimize().unwrap();
             window.set_focus().unwrap();

@@ -1,9 +1,11 @@
 import { globalShortcut, invoke, window } from "@tauri-apps/api"
 import { exit } from "@tauri-apps/api/process"
 import { getSettings, setSettings } from "interface/stores/settings"
+import { getState } from "interface/stores/state"
 import { navigate } from "./navigate"
 
 const settings = getSettings()
+const state = getState()
 let modify = true
 let inputName: HTMLInputElement
 
@@ -142,6 +144,10 @@ export const registerShortcuts = () => {
 				await window.appWindow.unminimize()
 				await window.appWindow.setFocus()
 			}
+
+			if (state.authenticated === true) {
+				navigate("codes")
+			}
 		})
 	}
 
@@ -149,13 +155,13 @@ export const registerShortcuts = () => {
 		globalShortcut.register(settings.shortcuts.settings, async () => {
 			const windowShown = await window.appWindow.isVisible()
 
-			if (windowShown === true) {
-				navigate("settings")
-			} else {
+			if (windowShown === false) {
 				window.appWindow.show()
 			}
 
-			navigate("settings")
+			if (state.authenticated === true) {
+				navigate("settings")
+			}
 		})
 	}
 
