@@ -19,7 +19,6 @@ export const checkForUpdate = async () => {
 				console.log(manifest)
 
 				state.updateAvailable = true
-
 				setState(state)
 			}
 		} catch (error) {
@@ -29,6 +28,8 @@ export const checkForUpdate = async () => {
 }
 
 export const installUpdate = async () => {
+	document.querySelector(".updateText").textContent = "Downloading update... Please wait!"
+
 	await updater.installUpdate()
 	await relaunch()
 }
