@@ -1,5 +1,6 @@
 import { invoke, dialog } from "@tauri-apps/api"
 import { getSettings, setSettings } from "interface/stores/settings"
+import logger from "./logger"
 
 const settings = getSettings()
 
@@ -112,7 +113,7 @@ export const createWebAuthnLogin = async () => {
 	} catch (error) {
 		dialog.message(`Failed to register your authenticator! This feature might not be supported on your machine. \n\n${error}`, { type: "error" })
 
-		console.log(error)
+		logger.error(`Failed to register hardware key: ${error}`)
 
 		return "error"
 	}
@@ -139,7 +140,7 @@ export const verifyWebAuthnLogin = async () => {
 	} catch (error) {
 		dialog.message(`Failed to login with your authenticator. Please try again! \n\n${error}`, { type: "error" })
 
-		console.log(error)
+		logger.error(`Failed to login with hardware key: ${error}`)
 
 		return "error"
 	}

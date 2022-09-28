@@ -101,6 +101,7 @@ fn main() {
             utils::get_args,
             utils::update_tray,
             utils::random_values,
+            utils::logger,
         ])
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);

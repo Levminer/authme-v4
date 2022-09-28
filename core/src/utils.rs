@@ -32,3 +32,25 @@ pub fn random_values(length: usize) -> String {
 
     rand_string.into()
 }
+
+#[tauri::command]
+pub fn logger(message: String, time: String, kind: &str) {
+    match kind {
+        "log" => println!(
+            "\x1b[32m[AUTHME LOG] \x1b[34m({}) \x1b[37m{}",
+            time, message
+        ),
+        "warn" => println!(
+            "\x1b[33m[AUTHME WARN] \x1b[34m({}) \x1b[37m{}",
+            time, message
+        ),
+        "error" => println!(
+            "\x1b[31m[AUTHME ERROR] \x1b[34m({}) \x1b[37m{}",
+            time, message
+        ),
+        &_ => println!(
+            "\x1b[31m[AUTHME LOG] \x1b[34m({}) \x1b[37m{}",
+            time, message
+        ),
+    }
+}

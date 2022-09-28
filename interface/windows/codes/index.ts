@@ -4,6 +4,7 @@ import { dialog, fs } from "@tauri-apps/api"
 import { getSettings, setSettings } from "../../stores/settings"
 import { getState, setState } from "../../stores/state"
 import { decryptData, encryptData } from "interface/utils/encryption"
+import logger from "interface/utils/logger"
 
 const settings = getSettings()
 const state = getState()
@@ -159,7 +160,7 @@ export const generateCodeElements = (data: LibImportFile) => {
 		try {
 			refreshCodes(secrets)
 		} catch (error) {
-			console.error("Error refreshing codes")
+			logger.error("Error refreshing codes")
 		}
 	}, 500)
 
