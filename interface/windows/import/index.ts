@@ -3,6 +3,7 @@ import { fs, dialog } from "@tauri-apps/api"
 import { getState, setState } from "../../stores/state"
 import { totpImageConverter, migrationImageConverter } from "../../utils/convert"
 import { navigate } from "../../utils/navigate"
+import logger from "interface/utils/logger"
 
 /**
  * Choose images, then read QR codes
@@ -209,12 +210,17 @@ export const captureScreen = async () => {
 		} else {
 			// Wrong QR code found
 			dialog.message("Wrong QR code found on the picture! \n\nPlease try again with another picture!", { type: "error" })
-			console.error("Wrong QR code found on the picture:", res)
+			logger.error(`Wrong QR code found on the picture: ${JSON.stringify(res)}`)
+
+			dialogElement.close()
+			reader.stop()
+			track.stop()
 		}
 	} catch (err) {
-		console.error(`Error: ${err}`)
-
+		logger.error(`Error during screen capture: ${err}`)
 		dialog.message(`Error occurred during the screen capture: \n\n${err}`, { type: "error" })
+
+		dialogElement.close()
 	}
 }
 
@@ -287,12 +293,18 @@ export const useWebcam = async () => {
 			} else {
 				// Wrong QR code found
 				dialog.message("Wrong QR code found on the picture! \n\nPlease try again with another picture!", { type: "error" })
-				console.error("Wrong QR code found on the picture:", res)
+				logger.error(`Wrong QR code found on the picture: ${JSON.stringify(res)}`)
+
+				dialogElement.close()
+				reader.stop()
 			}
 		} catch (err) {
 			// Unknown error
 			dialog.message(`Error occurred while using the webcam: \n\n${err}`, { type: "error" })
-			console.error(`Error during webcam import: ${err}`)
+			logger.error(`Error during webcam import: ${err}`)
+
+			dialogElement.close()
+			reader.stop()
 		}
 	}
 }
