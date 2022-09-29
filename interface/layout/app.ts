@@ -43,17 +43,15 @@ event.listen("openSettings", () => {
 
 // Tray navigate to codes handler
 event.listen("openCodes", () => {
-	if (state.authenticated === true) {
+	if (state.authenticated === true && location.pathname === "/idle") {
 		navigate("codes")
 	}
 })
 
 // Listen for focus changes
 window.appWindow.onFocusChanged((focused) => {
-	const path = location.pathname
-
 	if (focused.payload === true && state.authenticated === true) {
-		if (path === "/codes") {
+		if (location.pathname === "/codes") {
 			document.querySelector<HTMLInputElement>(".search").focus()
 		}
 	}

@@ -145,7 +145,7 @@ export const registerShortcuts = () => {
 				await window.appWindow.setFocus()
 			}
 
-			if (state.authenticated === true) {
+			if (state.authenticated === true && location.pathname === "idle") {
 				navigate("codes")
 			}
 		})
