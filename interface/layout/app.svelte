@@ -46,7 +46,9 @@
 	import Edit from "../windows/edit/edit.svelte"
 
 	onMount(() => {
-		router.subscribe(() => {
+		router.subscribe((data) => {
+			console.log("Path changed:", data)
+
 			document.querySelector(".top").scrollIntoView()
 		})
 	})

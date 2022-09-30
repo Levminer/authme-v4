@@ -6,7 +6,6 @@
 
 use std::env;
 use tauri::*;
-use window_vibrancy::{apply_mica, apply_vibrancy, NSVisualEffectMaterial};
 
 mod auto_launch;
 mod encryption;
@@ -15,7 +14,7 @@ mod utils;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
-    message: String,
+    event: bool,
 }
 
 fn make_tray() -> SystemTray {
@@ -30,18 +29,15 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
     let toggle_window = |app: AppHandle| -> () {
         let window = app.get_window("main").unwrap();
         let menu_item = app.tray_handle().get_item("toggle");
+        let window_visible = window.is_visible().unwrap();
 
-        if window.is_visible().unwrap() {
+        if window_visible {
+            app.emit_all("openCodes", Payload { event: false }).unwrap();
+
             window.hide().unwrap();
             menu_item.set_title("Show Authme").unwrap();
         } else {
-            app.emit_all(
-                "openCodes",
-                Payload {
-                    message: "Open codes page".into(),
-                },
-            )
-            .unwrap();
+            app.emit_all("openCodes", Payload { event: true }).unwrap();
 
             window.show().unwrap();
             window.unminimize().unwrap();
@@ -62,18 +58,18 @@ fn handle_tray_event(app: &AppHandle, event: SystemTrayEvent) {
 
         if id.as_str() == "settings" {
             let window = app.get_window("main").unwrap();
+            let window_visible = window.is_visible().unwrap();
 
-            window.show().unwrap();
-            window.unminimize().unwrap();
-            window.set_focus().unwrap();
+            if window_visible {
+                window.hide().unwrap();
+            } else {
+                window.show().unwrap();
+                window.unminimize().unwrap();
+                window.set_focus().unwrap();
+            }
 
-            app.emit_all(
-                "openSettings",
-                Payload {
-                    message: "Open settings page".into(),
-                },
-            )
-            .unwrap()
+            app.emit_all("openSettings", Payload { event: true })
+                .unwrap()
         }
 
         if id.as_str() == "toggle" {
@@ -108,13 +104,8 @@ fn main() {
 
             let window = app.get_window("main").unwrap();
 
-            app.emit_all(
-                "openCodes",
-                Payload {
-                    message: "Open codes page".into(),
-                },
-            )
-            .unwrap();
+            app.emit_all("openCodes", Payload { event: true.into() })
+                .unwrap();
 
             window.show().unwrap();
             window.unminimize().unwrap();
@@ -124,15 +115,6 @@ fn main() {
         .on_system_tray_event(handle_tray_event)
         .setup(|app| {
             let window = app.get_window("main").unwrap();
-
-            // Transparent effects
-            #[cfg(target_os = "macos")]
-            apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
-                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
-
-            #[cfg(target_os = "windows")]
-            apply_mica(&window)
-                .expect("Unsupported platform! 'apply_blur' is only supported on Windows");
 
             // Launch args
             let args: Vec<String> = env::args().collect();
@@ -154,9 +136,6 @@ fn main() {
                 window.show().unwrap();
                 window.set_focus().unwrap();
             }
-
-            // Temporary fix for transparency
-            window.set_decorations(true).unwrap();
 
             Ok(())
         })

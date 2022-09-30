@@ -65,8 +65,6 @@
 				"minWidth": 1000,
 				"minHeight": 600,
 				"maximized": true,
-				"transparent": true,
-				"decorations": false,
 				"visible": false
 			}
 		]

@@ -35,16 +35,20 @@ const setBackground = async () => {
 setBackground()
 
 // Tray settings open handler
-event.listen("openSettings", () => {
+event.listen("openSettings", (data: any) => {
 	if (state.authenticated === true) {
 		navigate("settings")
 	}
 })
 
 // Tray navigate to codes handler
-event.listen("openCodes", () => {
+event.listen("openCodes", (data: any) => {
+	const event: boolean = data.payload.event
+
 	if (state.authenticated === true && location.pathname === "/idle") {
 		navigate("codes")
+	} else if (state.authenticated === true && location.pathname === "/codes" && event === false) {
+		navigate("idle")
 	}
 })
 

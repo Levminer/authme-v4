@@ -139,14 +139,18 @@ export const registerShortcuts = () => {
 
 			if (windowShown === true) {
 				window.appWindow.hide()
+
+				if (state.authenticated === true && location.pathname === "/codes") {
+					navigate("idle")
+				}
 			} else {
 				await window.appWindow.show()
 				await window.appWindow.unminimize()
 				await window.appWindow.setFocus()
-			}
 
-			if (state.authenticated === true && location.pathname === "idle") {
-				navigate("codes")
+				if (state.authenticated === true && location.pathname === "/idle") {
+					navigate("codes")
+				}
 			}
 		})
 	}
@@ -156,7 +160,11 @@ export const registerShortcuts = () => {
 			const windowShown = await window.appWindow.isVisible()
 
 			if (windowShown === false) {
-				window.appWindow.show()
+				await window.appWindow.show()
+				await window.appWindow.unminimize()
+				await window.appWindow.setFocus()
+			} else {
+				window.appWindow.hide()
 			}
 
 			if (state.authenticated === true) {
