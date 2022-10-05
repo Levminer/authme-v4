@@ -30,6 +30,7 @@ declare global {
 		authenticated: boolean
 		importData: null | string
 		updateAvailable: boolean
+		searchHistory: string
 	}
 
 	interface LibSearchQuery {
@@ -59,10 +60,6 @@ declare global {
 			blurCodes: boolean
 			sortCodes: number
 			codesLayout: number
-		}
-
-		searchHistory: {
-			latest: string
 		}
 
 		searchFilter: {

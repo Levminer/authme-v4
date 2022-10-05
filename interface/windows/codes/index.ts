@@ -165,11 +165,11 @@ export const generateCodeElements = (data: LibImportFile) => {
 	}, 500)
 
 	// latest search from history
-	const latestSearch = settings.searchHistory.latest
+	const latestSearch = state.searchHistory
 
 	if (latestSearch !== null && latestSearch.trim() !== "") {
 		const searchBar: HTMLInputElement = document.querySelector(".search")
-		searchBar.value = settings.searchHistory.latest
+		searchBar.value = state.searchHistory
 
 		search()
 	}
@@ -255,7 +255,7 @@ export const search = () => {
 		document.querySelector(".searchResult").textContent = input
 	} else {
 		// save results
-		settings.searchHistory.latest = input
+		state.searchHistory = input
 		setSettings(settings)
 	}
 }

@@ -26,10 +26,6 @@ const defaultSettings: LibSettings = {
 		codesLayout: 0,
 	},
 
-	searchHistory: {
-		latest: null,
-	},
-
 	searchFilter: {
 		name: true,
 		description: false,

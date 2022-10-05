@@ -4,6 +4,7 @@ const defaultState: LibState = {
 	authenticated: false,
 	importData: null,
 	updateAvailable: false,
+	searchHistory: "",
 }
 
 export const state = writable<LibState>(sessionStorage.state ? JSON.parse(sessionStorage.state) : defaultState)
